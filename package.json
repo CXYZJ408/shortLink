@@ -11,11 +11,22 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "axios": "^0.18.0",
     "cross-env": "^5.2.0",
+    "crypto-js": "^3.1.9-1",
+    "echarts": "^4.2.1",
+    "element-ui": "^2.6.3",
+    "js-cookie": "^2.2.0",
+    "js-md5": "^0.7.3",
+    "lodash": "^4.17.11",
+    "mockjs": "^1.0.1-beta3",
     "nuxt": "^2.4.0",
+    "qs": "^6.7.0",
+    "vue-echarts": "^4.0.1",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",
-    "@nuxtjs/axios": "^5.3.6"
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
