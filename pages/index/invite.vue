@@ -1,5 +1,6 @@
 <template>
   <v-layout row wrap justify-center id="invite">
+    <input type="text" v-model="url" id="urlPath">
     <v-flex md10 class="mt-2">
       <div class="my-title text-md-center color-dark">邀请好友</div>
     </v-flex>
@@ -9,12 +10,12 @@
           <div class="invite text-md-right">邀请链接：</div>
         </v-flex>
         <v-flex md7>
-          <el-input readonly placeholder="请输入要转换的链接" v-model="url" :clearable="true">
+          <el-input readonly v-model="url">
             <template slot="prepend">Http://</template>
           </el-input>
         </v-flex>
         <v-flex md2 class="ml-3">
-          <v-btn depressed color="green" flat round>
+          <v-btn depressed color="green" flat round @click="copy">
             <v-icon>iconfont icon-share_link</v-icon>
             <span>一键复制</span></v-btn>
         </v-flex>
@@ -34,16 +35,35 @@
 <script>
   export default {
     name: "invite",
+    computed:{
+      url:function () {
+        return `www.short_link/invert/${this.$store.state.user.userId}`
+      }
+    },
     data: function () {
       return {
-        url: "www.short_link/invert/userId",
-        people: 8
+        people: 8,
+      }
+    },
+    methods:{
+      copy() {
+        let url = document.getElementById('urlPath')
+        url.select()
+        document.execCommand('Copy')
+        this.$message.success("链接复制成功！")
       }
     }
   }
 </script>
 
 <style scoped>
+
+  #urlPath {
+    opacity: 0;
+    position: absolute;
+    top: -100px;
+  }
+
   .invite {
     font-size: 30px;
     color: #3D3D60;

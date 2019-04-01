@@ -6,19 +6,45 @@ const Link = '/feature'
 export class LinkApi extends Api {
 
   //转换链接
-  transfer(userName, password, send = true) {
+  transfer(links, send = true) {
     let url = Link + '/toshortlink'
     let params = {
-      userName: userName,
-      password: password
+      data: links,
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.login, params)
+    super.pushRequest = new Request(requestMethods.POST, url, this.transfer, params)
     return super.judgeSend(send)
   }
 
-  //用户注册
-  register() {
+  //修改短链
+  editLink(id, longLink, note, send = true) {
+    let url = Link + '/urls/change'
+    let params = {
+      id: id,
+      longurl: longLink,
+      note: note
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.editLink, params)
+    return super.judgeSend(send)
+  }
 
+  //获取链接列表数据
+  getLinkList(page, num = 8, send = true) {
+    let url = Link + '/urls'
+    let params = {
+      page: page,
+      num: num
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.getLinkList, params)
+    return super.judgeSend(send)
+  }
+  //删除链接
+  deleteLink(linkId, send = true) {
+    let url = Link + '/urls/delete'
+    let params = {
+      id:linkId
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.deleteLink, params)
+    return super.judgeSend(send)
   }
 
 }

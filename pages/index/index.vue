@@ -1,5 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-layout row wrap mt-2 justify-center id="index">
+    <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
+    <input type="text" v-model="path" id="urlPath">
     <v-dialog
       v-model="showDeleteLink"
       max-width="400">
@@ -95,9 +97,9 @@
                     <v-list-tile-title class="ml-2" @click="changeLink(index)">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link.link}}</div>
+                          <div class="link" v-on="on">{{link.url}}</div>
                         </template>
-                        <span>{{link.link}}</span>
+                        <span>{{link.url}}</span>
                       </v-tooltip>
                     </v-list-tile-title>
                     <v-list-tile-content>
@@ -135,22 +137,23 @@
                 <div v-for="(link,index) in shortLinks">
                   <v-list-tile @click="">
                     <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
-                    <v-list-tile-title class="ml-2" style="width: 70%">
+                    <v-list-tile-title class="ml-2" style="width: 70%" @click="edit(index)">
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link}}</div>
+                          <div class="link" v-on="on">{{link.shortLink}}</div>
                         </template>
-                        <span>{{link}}</span>
+                        <span>{{link.shortLink}}</span>
                       </v-tooltip>
                     </v-list-tile-title>
-                    <v-list-tile-content>
+                    <v-list-tile-content @click="edit(index)">
                       <v-text-field
                         disabled
+                        v-model="link.note"
                         placeholder="备注"
                       ></v-text-field>
                     </v-list-tile-content>
                     <v-list-tile-action class="pr-3">
-                      <v-btn small icon depressed color="white">
+                      <v-btn small icon depressed color="grey" flat @click="copy(index)">
                         <v-icon size="15" color="gery">iconfont icon-copy</v-icon>
                       </v-btn>
                     </v-list-tile-action>
@@ -173,6 +176,9 @@
           <el-upload
             class="d-inline-block"
             action="#"
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+            :http-request="handleUpload"
             :multiple="false">
             <v-btn depressed round color="#40A1FA" dark>
               <v-icon size="18">iconfont icon-wenjian</v-icon>
@@ -180,23 +186,31 @@
             </v-btn>
           </el-upload>
           &nbsp;
-          <v-btn depressed round color="#F5B041" dark>
+          <v-btn depressed round color="#F5B041" dark @click="transfer">
             <v-icon size="18">iconfont icon-shuaxin</v-icon>
             <span class="font ml-2">一键转换</span>
           </v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
-    <div class="grey--text ps">注：文件导入仅支持txt格式，在导入的时候请注意链接格式，不同链接请使用“,”隔开</div>
+    <div class="grey--text ps">注：文件导入仅支持txt格式，在导入的时候请注意链接格式，不同链接请使用“;”隔开</div>
   </v-layout>
 </template>
 
 <script>
+  import {LinkApi} from "../../api/LinkApi";
+  import linkEdit from '~/components/linkEeditDialog.vue'
+
   let _ = require('lodash')
+  let $linkApi
   export default {
     name: "index",
+    components: {
+      linkEdit
+    },
     data: function () {
       return {
+        path: "",
         modifyMode: false,//是否编辑已添加的长链接
         url: "",//输入框的url链接
         //已添加的长链接
@@ -206,7 +220,13 @@
         modifyIndex: 0,
         showDeleteLink: false,
         showCleanLink: false,
+        showEdit: false,
+        editLink: {id: "abc", longLink: "https://www.bilibili.com/", shortLink: "www.abc.com", note: "B站"},
+        editIndex: 0
       }
+    },
+    created() {
+      $linkApi = new LinkApi()
     },
     methods: {
       modify() {
@@ -214,9 +234,10 @@
           //如果在修改模式下，清空了文本框，则询问是否删除该链接
           this.showDeleteLink = true
         } else {
-          let url = `http://${this.url}`
+          //将修改后的值保存
+          let url = this.addHttp()
           if (this.checkURL(url)) {
-            this.links[this.modifyIndex].link = url
+            this.links[this.modifyIndex].url = url
             this.url = ""
             this.$message.success("修改成功！")
             this.modifyMode = false
@@ -224,7 +245,6 @@
             this.$message.warning("您输入的地址有误！")
           }
         }
-
       },
       checkURL(URL) {
         //判断url地址是否正确
@@ -237,13 +257,36 @@
         //修改长链接
         this.modifyMode = true
         this.modifyIndex = index
-        this.url = this.links[index].link.substring(7)
+        let indexOf = 7
+        if (this.links[index].url.indexOf("http://") === -1) {
+          //不是以http://开头
+          indexOf = 8
+        }
+        this.url = this.links[index].url.substring(indexOf)
+      },
+      addHttp() {
+        let url
+        if (this.url.indexOf("http://") === -1 && this.url.indexOf("https://") === -1) {
+          //没有http前缀则加上
+          url = `http://${this.url}`
+        } else {
+          //否则不加
+          url = this.url
+        }
+        return url
       },
       addLink() {
         //添加长链接
-        let url = `http://${this.url}`
+        let url = this.addHttp()
+        if (this.url.indexOf("http://") === -1 && this.url.indexOf("https://") === -1) {
+          //没有http前缀则加上
+          url = `http://${this.url}`
+        } else {
+          //否则不加
+          url = this.url
+        }
         if (this.checkURL(url)) {
-          let newLink = {link: url, note: ""}
+          let newLink = {url: url, note: ""}
           this.links.push(newLink)
           this.url = ""
           this.$message.success("添加成功！")
@@ -263,30 +306,134 @@
         }
       },
       handleClean() {
+        //清空长链接前的准备工作
         if (this.links.length > 0) {
           this.showCleanLink = true
         } else {
           this.$message.success("当前没有链接哦！")
         }
       },
+      initOption() {
+        //将所有配置置为初始配置
+        this.links = []
+        this.modifyIndex = 0
+        this.modifyMode = false
+      },
       cleanLinks() {
         //清空链接
         try {
-          this.links = []
           this.$message.success("删除成功！")
           this.showCleanLink = false
-          this.modifyIndex = 0
-          this.modifyMode = false
+          this.initOption()
         } catch (e) {
           this.$message.error("抱歉，出错啦！")
           this.showCleanLink = false
         }
+      },
+      beforeUpload(file) {
+        //判断文件类型是否符合要求
+        let fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
+        if (fileType !== 'txt') {
+          this.$message.error(`只能上传TXT格式的文件！`)
+          return false
+        } else {
+          return Promise.resolve(true)
+        }
+      },
+      handleUpload(option) {
+        //处理上传的文件
+        let file = option.file//获取上传的文件
+        let fileRead = new FileReader()
+        fileRead.readAsText(file)//将数据作为text类型读取
+        let failure = 0//失败数
+        let total = 0//总的链接数
+        fileRead.onload = () => {//加载数据
+          let links = fileRead.result.split(";")
+          _.forEach(links, url => {
+            if (url.length > 0) {
+              total++
+              if (this.checkURL(url)) {
+                //是url链接
+                let newLink = {url: url, note: ""}
+                this.links.push(newLink)
+              } else {
+                failure++
+              }
+            }
+          })
+          this.handleUploadResult(total, failure)
+        }
+      },
+      handleUploadResult(total, failure) {
+        //处理上传结果
+        if (failure === 0) {
+          this.$message.success(`成功导入${total}个链接！`)
+        } else if (failure < total) {
+          this.$message.warning(`成功导入${total - failure}个链接，有${failure}个链接导入失败！`)
+        } else {
+          this.$message.error(`导入失败，请检查链接格式！`)
+        }
+      },
+      transfer() {
+        //链接转换操作
+        if (this.links.length > 0) {
+          $linkApi.transfer(this.links).then(res => {
+            let links = []
+            if (res.code === this.$code.SUCCESS) {
+              _.forEach(res.data, (item => {
+                links.push({
+                  id: item.id,
+                  longLink: item.longurl,
+                  shortLink: item.shorturl,
+                  note: item.note
+                })
+              }))
+              this.shortLinks = _.clone(links)
+              this.initOption()
+              this.$message.success("转换成功！")
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        } else {
+          this.$message.warning("请添加要转换的链接")
+        }
+      },
+      copy(index) {
+        console.log("index", index)
+        this.path = this.shortLinks[index].shortLink
+        setTimeout(() => {
+          let url = document.getElementById('urlPath')
+          url.select()
+          document.execCommand('Copy')
+          this.$message.success("链接复制成功！")
+        }, 100)
+      },
+      edit(index) {
+        this.editLink = this.shortLinks[index]
+        this.editIndex = index
+        this.showEdit = true
+      },
+      editShortLink(newLink) {
+        this.shortLinks[this.editIndex] = {
+          id: newLink.id,
+          longLink: newLink.longurl,
+          shortLink: newLink.shorturl,
+          note: newLink.note
+        }
+        this.showEdit = false
       }
     }
   }
 </script>
 
 <style scoped>
+
+  #urlPath {
+    opacity: 0;
+    position: absolute;
+    top: -100px;
+  }
 
   .font {
     font-size: 16px;
@@ -319,6 +466,7 @@
 
   .link {
     width: 100%;
+    max-width: 30vh;
     color: #3D3D60;
     white-space: nowrap;
     overflow: hidden;
@@ -384,6 +532,13 @@
     height: 55vh;
   }
 
+  .v-dialog {
+    border-radius: 10px;
+  }
+
+  .v-dialog__content {
+    padding-left: 200px !important;
+  }
 
   #index .v-btn {
     margin: 0 !important;
@@ -407,4 +562,6 @@
     font-family: 微软雅黑, serif;
     font-size: 18px;
   }
+
+
 </style>

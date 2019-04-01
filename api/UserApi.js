@@ -56,11 +56,4 @@ export class UserApi extends Api {
     super.pushRequest = new Request(requestMethods.POST, url, this.resetPassword, params)
     return super.judgeSend(send)
   }
-
-  //用户VIP过期时间
-  expireTime(send = true) {
-    let url = User + '/expire'
-    super.pushRequest = new Request(requestMethods.GET, url, this.expireTime)
-    return super.judgeSend(send)
-  }
 }

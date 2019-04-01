@@ -92,7 +92,7 @@
           //调用登录API接口
           $userApi.login(this.user.userName, password).then((res) => {
             this.handleLoginResult(res)
-          }).catch(e=>{
+          }).catch(e => {
             this.$message.error("抱歉，出错啦！！")
           })
         }
@@ -117,8 +117,8 @@
           //将用户信息加密后存入cookie中
           let userName = encrypt(this.user.userName)
           let password = encrypt(this.user.password)
-          $cookie.set('userName', userName)
-          $cookie.set('password', password)
+          $cookie.set('userName', userName, {expires: 7})
+          $cookie.set('password', password, {expires: 7})
         } else {
           $cookie.remove('userName')
           $cookie.remove('password')

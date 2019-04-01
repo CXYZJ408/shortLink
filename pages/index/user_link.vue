@@ -1,9 +1,36 @@
 <template>
   <v-layout row wrap justify-center>
-    <v-flex md10 class="text-md-center mt-2">
+    <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
+    <input type="text" v-model="path" id="urlPath">
+    <v-dialog
+      v-model="showDeleteLink"
+      max-width="400">
+      <v-card flat>
+        <v-card-title class="headline">是否删除链接?</v-card-title>
+        <v-card-text>
+          您是否想要删除该链接？
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            flat="flat"
+            @click="showDeleteLink = false">
+            取消
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            flat="flat"
+            @click="deleteLink">
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-flex md10 class="text-md-center mt-2" style="position:absolute;">
       <div class="my-title">个人短链</div>
     </v-flex>
-    <v-flex md10>
+    <v-flex md10 mt-4 pt-3>
       <v-layout>
         <v-flex md5>
           <div class="msg-card">
@@ -15,10 +42,10 @@
         </v-flex>
         <v-spacer></v-spacer>
         <v-flex md3 class="text-md-right">
-          <v-btn icon color="red" flat>
+          <v-btn icon color="red" flat @click="handleDeleteLinks">
             <v-icon>iconfont icon-shanchu</v-icon>
           </v-btn>
-          <v-btn icon color="grey" flat>
+          <v-btn icon color="grey" flat @click="refresh">
             <v-icon size="20">iconfont icon-refresh</v-icon>
           </v-btn>
         </v-flex>
@@ -29,127 +56,210 @@
         <el-table
           height="60vh"
           stripe
-          cell-class-name="cell"
+          :lazy="true"
           ref="multipleTable"
+          :cell-class-name="pointer"
           :data="tableData"
           tooltip-effect="dark"
+          @cell-click="handleCopy"
           style="width: 100%"
           @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
-            width="55">
+            width="70">
           </el-table-column>
           <el-table-column
             fixed
-            class-name="table-column"
             label="原始链接"
-            width="220"
+            prop="longLink"
+            width="350"
             show-overflow-tooltip>
-            <template slot-scope="scope">{{ scope.row.date }}</template>
           </el-table-column>
           <el-table-column
-            class-name="table-column"
-            prop="name"
+            prop="shortLink"
+            show-overflow-tooltip
             label="短链接"
-            width="220">
+            width="200">
           </el-table-column>
           <el-table-column
-            prop="address"
-            class-name="table-column"
+            prop="note"
             label="备注"
+            header-align="center"
+            align="center"
             show-overflow-tooltip>
           </el-table-column>
           <el-table-column
-            prop="address"
-            class-name="table-column"
+            type="index"
+            header-align="center"
+            align="center"
+            width="200"
             label="操作">
             <template slot-scope="scope">
-              <!--编辑提示框-->
-              <v-btn icon flat color="#8E44AD" @click="" >
+              <v-btn icon flat color="#8E44AD" @click="edit(scope.$index)">
                 <v-icon size="15">iconfont icon-bianji</v-icon>
               </v-btn>
-              <v-btn icon flat color="grey" >
-                <v-icon size="15">iconfont icon-copy</v-icon>
-              </v-btn>
-              <v-btn icon flat color="red" >
+              <v-btn icon flat color="red" @click="handleDeleteSingle(scope.$index)">
                 <v-icon size="18">iconfont icon-shanchu</v-icon>
               </v-btn>
             </template>
           </el-table-column>
         </el-table>
-
       </v-card>
     </v-flex>
-    <v-flex md10 class="text-md-center mt-3 pt-1">
-      <el-pagination
-        :page-size="20"
-        :pager-count="11"
-        layout="total, prev, pager, next,jumper"
-        :total="100">
-      </el-pagination>
+    <v-flex md10 class="text-md-center page">
+      <v-pagination
+        v-model="page.page"
+        :length="page.total"
+        @input="changePage"
+        :total-visible="7"
+      ></v-pagination>
     </v-flex>
+    <div class="grey--text ps">注：请单击链接进行复制</div>
   </v-layout>
 </template>
 
 <script>
+  import linkEdit from '~/components/linkEeditDialog.vue'
+  import {LinkApi} from "../../api/LinkApi";
+
+  let $linkApi
+  let _ = require('lodash')
   export default {
     name: "user_link",
+    created() {
+      $linkApi = new LinkApi()
+      this.getLinkList(1).catch(e => {
+        this.$message.error(e)
+      })
+    },
+    components: {
+      linkEdit
+    },
     data: function () {
       return {
-        page: 1,
-        tableData: [{
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        }, {
-          date: 'https://htmlcolorcodes.com/zh/',
-          name: 'https://url/123/11',
-          address: '知乎短链'
-        },],
-        multipleSelection: [],
-        selected: 0,
-        total: 10
+        path: "",//复制的地址信息
+        page: {},//页面信息
+        showEdit: false,//是否显示编辑窗口
+        editLink: {},//要编辑的link
+        editIndex: 0,//编辑中的index
+        tableData: [],//表格数据
+        multipleSelection: [],//选择框
+        selected: 0,//已选择数
+        showDeleteLink: false,
+        deleteLinkIds: []//待删除链接的id列表
+      }
+    },
+    computed: {
+      total: function () {
+        return this.tableData.length
       }
     },
     methods: {
-      show() {
-        console.log("show")
+      pointer({columnIndex}) {//设置表格class
+        if (columnIndex <= 2 && columnIndex >= 1) {
+          return "pointer"
+        }
+      },
+      handleCopy(row, column) {//复制链接
+        let rowColumn = column.property
+        if (rowColumn === 'longLink' || rowColumn === 'shortLink'){
+          this.path = row[rowColumn]
+          setTimeout(() => {
+            let url = document.getElementById('urlPath')
+            url.select()
+            document.execCommand('Copy')
+            this.$message.success("链接复制成功！")
+          }, 100)
+        }
+      },
+      changePage() {//页面切换
+        this.getLinkList(this.page.page).catch(e => {
+          this.$message.error(e)
+        })
+      },
+      getLinkList(page) {//获取指定页面的数据
+        return new Promise((resolve, reject) => {
+          $linkApi.getLinkList(page).then(res => {
+            if (res.code === this.$code.SUCCESS) {
+              //成功获取数据
+              //进行数据的转换
+              this.handleResult(res.data.page, res.data.links)
+              resolve(true)
+            } else {
+              reject(res.msg)
+            }
+          })
+        })
+
+      },
+      handleResult(page, links) {
+        //处理列表数据结果
+        this.page = page
+        let data = []
+        _.forEach(links, link => {
+          data.push({
+            id: link.id,
+            longLink: link.longurl,
+            shortLink: link.shorturl,
+            note: link.note
+          })
+        })
+        this.tableData = _.clone(data)
+      },
+      editShortLink(newLink) {
+        //更新编辑后的数据
+        this.tableData[this.editIndex] = {
+          id: newLink.id,
+          longLink: newLink.longurl,
+          shortLink: newLink.shorturl,
+          note: newLink.note
+        }
+        this.showEdit = false
+      },
+      edit(index) {
+        //显示编辑窗口
+        this.editLink = this.tableData[index]
+        this.editIndex = index
+        this.showEdit = true
+      },
+      handleDeleteSingle(index) {
+        //处理单个链接删除
+        this.showDeleteLink = true
+        this.deleteLinkIds = [this.tableData[index].id]
+      },
+      handleDeleteLinks() {
+        //处理多个链接删除
+        this.showDeleteLink = true
+        this.deleteLinkIds = []
+        _.forEach(this.multipleSelection, selection => {
+          this.deleteLinkIds.push(parseInt(selection.id))
+        })
+      },
+      deleteLink() {
+        //删除链接操作
+        $linkApi.deleteLink(this.deleteLinkIds).then(res => {
+          if (res.code === this.$code.SUCCESS) {
+            //删除链接后重新获取列表数据
+            this.getLinkList(this.page.page).then(() => {
+              this.$message.success("删除链接成功！")
+              this.deleteLinkIds = []
+              this.showDeleteLink = false
+            }).catch(e => {
+              this.$message.error(e)
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       },
       handleSelectionChange(val) {
+        //选择框
         this.multipleSelection = val;
         this.selected = val.length
+      },
+      refresh() {
+        //刷新操作
+        this.getLinkList(this.page.page)
       }
     }
   }
@@ -181,11 +291,39 @@
     box-shadow: 0 0 2px 1px #E7EEF6;
     border-radius: 10px;
   }
+
+  .page {
+    position: absolute;
+    bottom: 4vh;
+
+  }
+
+  .ps {
+    position: absolute;
+    bottom: 4vh;
+    font-size: 2vh;
+    font-family: 微软雅黑, serif;
+    left: 13.8vh;
+  }
+
+  #urlPath {
+    opacity: 0;
+    position: absolute;
+    top: -100px;
+  }
+
 </style>
 
 <style>
+  .pointer {
+    cursor: pointer;
+  }
+
   .cell {
     font-family: 微软雅黑, serif;
-    text-align: center;
+  }
+
+  .header {
+    font-family: 微软雅黑, serif;
   }
 </style>
