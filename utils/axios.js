@@ -3,9 +3,9 @@ import axios from 'axios'
 
 let _ = require('lodash')
 //todo 去掉注释则可以取消mock服务器的拦截
-// axios.defaults.baseURL = 'http://localhost:8080'//请求地址
+axios.defaults.baseURL = 'http://47.103.45.133'//请求地址
 axios.defaults.withCredentials = true // 允许携带cookie
-
+axios.defaults.changeOrigin = true
 axios.interceptors.response.use(response => {
   return response
 }, error => {

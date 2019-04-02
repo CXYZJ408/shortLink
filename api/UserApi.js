@@ -7,7 +7,7 @@ const User = '/account'
 export class UserApi extends Api {
   //用户登录
   login(userName, password, send = true) {
-    let url = User + '/login'
+    let url = '/'
     let params = {
       username: userName,
       password: password
@@ -15,6 +15,7 @@ export class UserApi extends Api {
     super.pushRequest = new Request(requestMethods.POST, url, this.login, params)
     return super.judgeSend(send)
   }
+
   loginAgain(cookie, send = true) {
     let url = User + '/loginAgain'
     let params = {
@@ -23,6 +24,7 @@ export class UserApi extends Api {
     super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, params)
     return super.judgeSend(send)
   }
+
   //用户注册
   register(userName, password, email, phone, invite, send = true) {
     let url = User + '/register'
@@ -55,5 +57,16 @@ export class UserApi extends Api {
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.resetPassword, params)
     return super.judgeSend(send)
+  }
+
+  test(user, send = true) {
+    let url = "/"
+    let params = {
+      user: user
+    }
+    console.log("发送", user)
+    super.pushRequest = new Request(requestMethods.POST, url, this.test, params)
+    return super.judgeSend(send)
+
   }
 }

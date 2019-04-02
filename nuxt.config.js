@@ -24,6 +24,17 @@ export default {
       }
     ]
   },
+  proxy: {
+    '/api': {
+      target: 'http://47.103.45.133',
+      pathRewrite: {
+        '^/api': '/'
+      }
+    },
+  },
+  axios: {
+    proxy: true
+  },
 
   /*
   ** Customize the progress-bar color
@@ -45,7 +56,7 @@ export default {
   plugins: [
     {src: '~/plugins/element.js'},//UI框架
     '@/plugins/vuetify',
-    {src: '~/mockServer/MockData.js'},//mock数据服务器
+    // {src: '~/mockServer/MockData.js'},//mock数据服务器
     {src: '~/plugins/utils.js', ssr: false},//自定义工具箱
   ],
   router: {
@@ -57,6 +68,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
 
   /*
