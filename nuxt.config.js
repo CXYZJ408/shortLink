@@ -3,7 +3,10 @@ import pkg from './package'
 
 export default {
   mode: 'universal',
-
+  server: {
+    host: "0.0.0.0",
+    port: 3000
+  },
   /*
   ** Headers of the page
   */
@@ -23,17 +26,6 @@ export default {
           'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       }
     ]
-  },
-  proxy: {
-    '/api': {
-      target: 'http://47.103.45.133',
-      pathRewrite: {
-        '^/api': '/'
-      }
-    },
-  },
-  axios: {
-    proxy: true
   },
 
   /*

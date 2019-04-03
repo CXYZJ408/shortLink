@@ -3,7 +3,7 @@ import axios from 'axios'
 
 let _ = require('lodash')
 //todo 去掉注释则可以取消mock服务器的拦截
-axios.defaults.baseURL = 'http://47.103.45.133'//请求地址
+axios.defaults.baseURL = '/api'//请求地址
 axios.defaults.withCredentials = true // 允许携带cookie
 axios.defaults.changeOrigin = true
 axios.interceptors.response.use(response => {
@@ -14,15 +14,14 @@ axios.interceptors.response.use(response => {
 
   return Promise.reject(error)
 })
-
 //axios封装
 export default {
   get(url, params = {}, headers = {}) {
     return axios.get(url, {params}, {headers: headers})
   },
-  post(url, params, headers = {'Content-Type': 'application/x-www-form-urlencoded'}) {
-    if (headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-      params = qs.stringify(params)
+  post(url, params, headers = {'Content-Type': 'application/json'}) {
+    if (headers['Content-Type'] === 'application/json') {
+      params = JSON.stringify(params)
     }
     return axios.post(url, params, {headers: headers})
   },

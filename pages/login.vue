@@ -89,13 +89,12 @@
         if (this.$refs.form.validate()) {
           let $md5 = require('js-md5')
           let password = $md5(this.user.password.split('').reverse().join(''))//将密码逆序同时进行md5处理
-          //调用登录API接口
-          $userApi.test(this.user.userName)
-          /* $userApi.login(this.user.userName, password).then((res) => {
-             this.handleLoginResult(res)
-           }).catch(e => {
-             this.$message.error("抱歉，出错啦！！")
-           })*/
+
+          $userApi.login(this.user.userName, password).then((res) => {
+            this.handleLoginResult(res)
+          }).catch(e => {
+            this.$message.error("抱歉，出错啦！！")
+          })
         }
       },
       handleLoginResult(res) {

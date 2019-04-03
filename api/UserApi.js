@@ -7,7 +7,7 @@ const User = '/account'
 export class UserApi extends Api {
   //用户登录
   login(userName, password, send = true) {
-    let url = '/'
+    let url = User + '/login'
     let params = {
       username: userName,
       password: password
@@ -65,7 +65,7 @@ export class UserApi extends Api {
       user: user
     }
     console.log("发送", user)
-    super.pushRequest = new Request(requestMethods.POST, url, this.test, params)
+    super.pushRequest = new Request(requestMethods.GET, url, this.test, params)
     return super.judgeSend(send)
 
   }
