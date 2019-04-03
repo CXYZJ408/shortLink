@@ -3,6 +3,7 @@ import {Request, requestMethods} from './Request'
 //user的Api实现层
 const User = '/account'
 
+let _ = require("lodash")
 
 export class UserApi extends Api {
   //用户登录
@@ -27,6 +28,7 @@ export class UserApi extends Api {
 
   //用户注册
   register(userName, password, email, phone, invite, send = true) {
+    console.log("register", userName, password, email, phone, invite)
     let url = User + '/register'
     let params = {
       username: userName,
@@ -34,9 +36,10 @@ export class UserApi extends Api {
       email: email,
       phone: phone
     }
-    if (invite.length !== 0) {
+    if (!_.isUndefined(invite)) {
       params.invite = invite
     }
+    console.log(params)
     super.pushRequest = new Request(requestMethods.POST, url, this.register, params)
     return super.judgeSend(send)
   }
@@ -52,21 +55,16 @@ export class UserApi extends Api {
   resetPassword(oldPassword, newPassword, send = true) {
     let url = User + '/reset'
     let params = {
-      password1: oldPassword,
-      password2: newPassword
+      oldPassword: oldPassword,
+      newPassword: newPassword
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.resetPassword, params)
     return super.judgeSend(send)
   }
 
-  test(user, send = true) {
-    let url = "/"
-    let params = {
-      user: user
-    }
-    console.log("发送", user)
-    super.pushRequest = new Request(requestMethods.GET, url, this.test, params)
+  inviteNum(send = true) {
+    let url = User + "/invite"
+    super.pushRequest = new Request(requestMethods.GET, url, this.inviteNum)
     return super.judgeSend(send)
-
   }
 }

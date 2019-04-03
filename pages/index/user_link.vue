@@ -162,7 +162,7 @@
       },
       handleCopy(row, column) {//复制链接
         let rowColumn = column.property
-        if (rowColumn === 'longLink' || rowColumn === 'shortLink'){
+        if (rowColumn === 'longLink' || rowColumn === 'shortLink') {
           this.path = row[rowColumn]
           setTimeout(() => {
             let url = document.getElementById('urlPath')
@@ -178,6 +178,7 @@
         })
       },
       getLinkList(page) {//获取指定页面的数据
+        console.log(page)
         return new Promise((resolve, reject) => {
           $linkApi.getLinkList(page).then(res => {
             if (res.code === this.$code.SUCCESS) {
@@ -238,6 +239,8 @@
       deleteLink() {
         //删除链接操作
         $linkApi.deleteLink(this.deleteLinkIds).then(res => {
+          console.log(res)
+
           if (res.code === this.$code.SUCCESS) {
             //删除链接后重新获取列表数据
             this.getLinkList(this.page.page).then(() => {

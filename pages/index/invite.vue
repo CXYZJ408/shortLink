@@ -33,19 +33,33 @@
 </template>
 
 <script>
+  import {UserApi} from "../../api/UserApi";
+
+  let $UserApi
   export default {
     name: "invite",
-    computed:{
-      url:function () {
-        return `www.short_link/invert/${this.$store.state.user.userId}`
+    computed: {
+      url: function () {
+        return `http://47.103.45.133/register?inviteId=${this.$store.state.user.userId}`
       }
     },
     data: function () {
       return {
-        people: 8,
+        people: 0,
       }
     },
-    methods:{
+    mounted() {
+      $UserApi = new UserApi()
+      $UserApi.inviteNum().then(res => {
+        if (res.code === this.$code.SUCCESS) {
+          console.log(res.data)
+          this.people = res.data
+        }
+      }).catch((e) => {
+
+      })
+    },
+    methods: {
       copy() {
         let url = document.getElementById('urlPath')
         url.select()

@@ -7,7 +7,7 @@ export class LinkApi extends Api {
 
   //转换链接
   transfer(links, send = true) {
-    let url = Link + '/toshortlink'
+    let url = Link + '/toshorturl'
     let params = {
       data: links,
     }
@@ -37,11 +37,13 @@ export class LinkApi extends Api {
     super.pushRequest = new Request(requestMethods.POST, url, this.getLinkList, params)
     return super.judgeSend(send)
   }
+
   //删除链接
   deleteLink(linkId, send = true) {
+    console.log("删除", linkId)
     let url = Link + '/urls/delete'
     let params = {
-      id:linkId
+      id: linkId
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.deleteLink, params)
     return super.judgeSend(send)

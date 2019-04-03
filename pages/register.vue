@@ -151,9 +151,10 @@
             this.$message.warning('密码太简单啦，加强一下吧！')
           } else {//通过验证后
             let password = $md5(this.user.password.split('').reverse().join(''))//将密码逆序同时进行md5处理
+            console.log( this.user)
             $userApi.register(this.user.userName, password, this.user.email, this.user.phone, this.user.invert).then(res => {
               this.handleResult(res)
-            }).catch(e=>{
+            }).catch(e => {
               this.$message.error("抱歉，出错啦！！")
             })
           }
@@ -164,9 +165,8 @@
         if (res.code === this.$code.SUCCESS) {
           this.$message.success("注册成功")
           //将用户的相关信息存放到store中
-          this.$store.commit('login', res.data)
           //页面跳转
-          this.$router.push({path: `/`})
+          this.$router.push({path: `/login`})
         } else {
           this.$message.error(res.msg)
         }

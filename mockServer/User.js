@@ -70,10 +70,5 @@ export default {
   reset: (options) => {
     return {code: 0}
   },
-  expire: (options) => {
-    console.log(options)
-    return "login"
-  },
-
 
 }

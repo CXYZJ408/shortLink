@@ -213,6 +213,8 @@
           } else {//通过验证后
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             let newPassword = $md5(this.newPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
+            console.log(oldPassword, newPassword)
+            //todo 用户名
             $userApi.resetPassword(oldPassword, newPassword).then(res => {
               this.handleResult(res)
             }).catch(e => {

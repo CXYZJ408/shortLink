@@ -377,7 +377,9 @@
       transfer() {
         //链接转换操作
         if (this.links.length > 0) {
+          console.log(this.links)
           $linkApi.transfer(this.links).then(res => {
+            console.log(res)
             let links = []
             if (res.code === this.$code.SUCCESS) {
               _.forEach(res.data, (item => {
