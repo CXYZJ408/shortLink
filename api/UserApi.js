@@ -19,7 +19,7 @@ export class UserApi extends Api {
   loginAgain(cookie, send = true) {
     let url = User + '/loginAgain'
     let params = {
-      cookie: cookie,
+      cookie: cookie
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, params)
     return super.judgeSend(send)

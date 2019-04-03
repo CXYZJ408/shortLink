@@ -63,7 +63,7 @@
             this.$router.push({path: '/login'})//跳转页面
           }
         }).catch(e => {
-          this.$message.error("抱歉，出错啦！！")
+          this.$message.error(`抱歉，出错啦！！${e}`)
         })
       }
     },
