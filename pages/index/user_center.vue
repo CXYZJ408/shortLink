@@ -208,7 +208,7 @@
       },
       resetPassword() {
         if (this.$refs.form.validate() && this.valid) {
-          if (this.strength < 75) {//如果密码强度太低，则进行提示用户加强
+          if (this.strength < 25) {//如果密码强度太低，则进行提示用户加强
             this.$message.warning('密码太简单啦，加强一下吧！')
           } else {//通过验证后
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
@@ -231,7 +231,7 @@
           this.newPassword = ""
           this.oldPassword = ""
           this.strength = 0
-          this.$message.success("密码修改成")
+          this.$message.success("密码修改成功!")
         } else {
           this.$message.error(res.msg)
         }

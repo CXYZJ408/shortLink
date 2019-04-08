@@ -122,8 +122,8 @@
 
 <style scoped>
   .sidebar-theme {
-    background-color: #515075;
-    color: #BFCBD9;
+    background-color: #515075 !important;
+    color: #BFCBD9 !important;
     position: relative;
     padding-top: 0 !important;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
@@ -132,20 +132,20 @@
   .user-card {
     width: 100%;
     height: 85px;
-    background-color: #42426A;
+    background-color: #42426A !important;
     padding-top: 15px;
   }
 
   .user-card span {
     font-size: 35px;
-    color: white;
+    color: white !important;
     padding-left: 22px;
   }
 
   .background {
     width: 200px;
     height: 40px;
-    background-color: #3D3D60;
+    background-color: #3D3D60 !important;
     position: absolute;
   }
 

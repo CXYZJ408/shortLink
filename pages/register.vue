@@ -147,11 +147,11 @@
       //用户注册
       register() {
         if (this.$refs.form.validate() && this.valid) {
-          if (this.strength < 75) {//如果密码强度太低，则进行提示用户加强
+          if (this.strength < 25) {//如果密码强度太低，则进行提示用户加强
             this.$message.warning('密码太简单啦，加强一下吧！')
           } else {//通过验证后
             let password = $md5(this.user.password.split('').reverse().join(''))//将密码逆序同时进行md5处理
-            console.log( this.user)
+            console.log(this.user)
             $userApi.register(this.user.userName, password, this.user.email, this.user.phone, this.user.invert).then(res => {
               this.handleResult(res)
             }).catch(e => {
