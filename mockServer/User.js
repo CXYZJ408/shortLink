@@ -2,25 +2,17 @@ import {param2Obj} from '../utils'
 
 export default {
   login: (options) => {
-    const {username, password} = param2Obj(options.body)
-    if (username === 'Yaser' && password === '6ebe76c9fb411be97b3b0d48b791a7c9') {
-      return {
-        code: 0,
-        data: {
-          user: {
-            username: "Yaser",
-            userId: 1,
-            isVip: true,
-            expireTime: 1557003905000,
-            email: "335767798@qq.com",
-            phone: "17602545735"
-          }
+    return {
+      code: 0,
+      data: {
+        user: {
+          username: "Yaser",
+          userId: 1,
+          isVip: true,
+          expireTime: 1557003905000,
+          email: "335767798@qq.com",
+          phone: "17602545735"
         }
-      }
-    } else {
-      return {
-        code: 1,
-        msg: "登录名或密码错误！"
       }
     }
   },

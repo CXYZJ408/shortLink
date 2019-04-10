@@ -1,13 +1,13 @@
 <template>
-    <v-card flat id="userMonth" class="pt-3" hover style="border-radius: 10px">
-        <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 318px"></v-chart>
-    </v-card>
+  <v-card flat id="userMonth" class="pt-3 my-card" hover>
+    <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 31vh"></v-chart>
+  </v-card>
 </template>
 
 <script>
   export default {
-    name: 'newUserMonth',
-    created () {
+    name: 'LinkForwardMonth',
+    created() {
       let today = new Date()
       this.start = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate())
       this.end = today
@@ -15,10 +15,10 @@
     },
     computed: {},
     methods: {
-      handleData () {
+      handleData() {
         this.newUserMonth.series[0].data = this.getData(this.start, this.end)
       },
-      getData (startDate, endDate) {//到后台获取数据信息
+      getData(startDate, endDate) {//到后台获取数据信息
         // todo 替换成后端数据
         const oneDay = 1000 * 3600 * 24
         endDate = endDate.getTime()//转化为时间戳
@@ -75,9 +75,9 @@
             containLabel: true
           },
           xAxis: {
-            axisTick: { lineStyle: { opacity: 0.3 } },
+            axisTick: {lineStyle: {opacity: 0.3}},
             splitLine: {
-              show:false
+              show: false
             },
             axisLine: {
               lineStyle: {
@@ -97,7 +97,7 @@
             },
           },
           yAxis: {
-            axisTick: { lineStyle: { opacity: 0.3 } },
+            axisTick: {lineStyle: {opacity: 0.3}},
             type: 'value',
             axisLine: {
               lineStyle: {
@@ -133,26 +133,31 @@
 </script>
 
 <style scoped>
-    .date-start {
-        position: relative;
-    }
+  .date-start {
+    position: relative;
+  }
 
-    .date-choose {
-        position: absolute;
-        z-index: 999;
-        right: 5%;
-        width: 400px;
-    }
+  .my-card {
+    border-radius: 10px;
+    /*background-color: rgba(174, 214, 241, .1);*/
+  }
 
-    .label {
-        padding-top: 12px;
-        margin-top: 4px;
-        font-family: KaiTi, serif;
-        font-size: 22px;
-        color: #757575;
-    }
+  .date-choose {
+    position: absolute;
+    z-index: 999;
+    right: 5%;
+    width: 400px;
+  }
 
-    #userMonth {
-        position: relative;
-    }
+  .label {
+    padding-top: 12px;
+    margin-top: 4px;
+    font-family: KaiTi, serif;
+    font-size: 22px;
+    color: #757575;
+  }
+
+  #userMonth {
+    position: relative;
+  }
 </style>

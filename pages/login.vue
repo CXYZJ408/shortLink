@@ -91,7 +91,6 @@
           let password = $md5(this.user.password.split('').reverse().join(''))//将密码逆序同时进行md5处理
 
           $userApi.login(this.user.userName, password).then((res) => {
-            // console.log(res)
             this.handleLoginResult(res)
           }).catch(e => {
             this.$message.error("抱歉，出错啦！！")
@@ -101,12 +100,10 @@
       handleLoginResult(res) {
         if (res.code === this.$code.SUCCESS) {
           this.$message.success('登陆成功！！')
-          console.log(res.data)
           this.handleRemember()
           //将用户的相关信息存放到store中
           this.$store.commit('login', res.data)
           //todo 测试代码，此处模拟后端服务器将cookie写入浏览器中
-          // $cookie.set('user', "abcdefg")//测试用的cookie
           //页面跳转
           this.$router.push({path: `/`})
         } else {

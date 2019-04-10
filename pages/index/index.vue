@@ -459,13 +459,6 @@
 
   }
 
-  .divider {
-    margin-left: 5%;
-    width: 90%;
-    border-color: #EBF0F2 !important;
-    margin-top: -2px;
-  }
-
   .link {
     width: 100%;
     max-width: 30vh;

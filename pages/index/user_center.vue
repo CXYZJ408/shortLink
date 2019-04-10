@@ -39,58 +39,62 @@
     </div>
     <v-flex md6 xl5>
       <v-card flat class="password-card" color="white" height="450px" width="420px">
-        <v-form v-model="valid" ref="form">
-          <v-layout row wrap justify-center>
-            <v-flex md12 class="text-md-center">
-              <div class="card-title color-dark" style="margin-top: 3.5vh">密码重置</div>
-            </v-flex>
-            <v-flex md12 class="text-md-center">
-              <v-text-field
-                label="用户名"
-                disabled
-                value="Yaser"
-                prepend-icon="iconfont icon-yonghu"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12 class="text-md-center">
-              <v-text-field
-                label="旧密码"
-                :type="show?'text':'password'"
-                :append-icon="show?'visibility_off':'visibility'"
-                :rules="passwordRules"
-                @click:append="show=!show"
-                @keyup.enter="resetPassword"
-                required
-                v-model="oldPassword"
-                prepend-icon="iconfont icon-tmpassword"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12 class="text-md-center">
-              <v-text-field
-                label="新密码"
-                :type="show2?'text':'password'"
-                :append-icon="show2?'visibility_off':'visibility'"
-                :rules="passwordRules"
-                @click:append="show2=!show2"
-                @keyup.enter="resetPassword"
-                required
-                v-model="newPassword"
-                @input="passwordStrength"
-                prepend-icon="iconfont icon-login_password"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md3 class="grey--text text-md-left title  pt-2">密码强度：</v-flex>
-            <v-flex md9>
-              <el-progress class="pt-3 pr-3" :percentage="strength" :stroke-width="6"
-                           :show-text="false" :color="strengthColor"></el-progress>
-            </v-flex>
-            <v-flex md9 class="text-md-center mt-4">
-              <v-btn dark block depressed color="#40A1FA" round @click="resetPassword"><span
-                class="headline">重置密码</span>
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-form>
+        <v-layout row wrap justify-center>
+          <v-flex md12 class="text-md-center">
+            <div class="card-title color-dark" style="margin-top: 3.5vh">密码重置</div>
+          </v-flex>
+          <v-flex md12 class="text-md-center">
+            <v-text-field
+              label="用户名"
+              disabled
+              v-model="$store.state.user.username"
+              prepend-icon="iconfont icon-yonghu"
+            ></v-text-field>
+          </v-flex>
+          <v-flex md12 class="text-md-center">
+            <v-form v-model="valid" ref="form">
+              <v-layout row wrap justify-center>
+                <v-flex md12 class="text-md-center">
+                  <v-text-field
+                    label="旧密码"
+                    :type="show?'text':'password'"
+                    :append-icon="show?'visibility_off':'visibility'"
+                    :rules="passwordRules"
+                    @click:append="show=!show"
+                    @keyup.enter="resetPassword"
+                    required
+                    v-model="oldPassword"
+                    prepend-icon="iconfont icon-tmpassword"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex md12 class="text-md-center">
+                  <v-text-field
+                    label="新密码"
+                    :type="show2?'text':'password'"
+                    :append-icon="show2?'visibility_off':'visibility'"
+                    :rules="passwordRules"
+                    @click:append="show2=!show2"
+                    @keyup.enter="resetPassword"
+                    required
+                    v-model="newPassword"
+                    @input="passwordStrength"
+                    prepend-icon="iconfont icon-login_password"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex md3 class="grey--text text-md-left title  pt-2">密码强度：</v-flex>
+                <v-flex md9>
+                  <el-progress class="pt-3 pr-3" :percentage="strength" :stroke-width="6"
+                               :show-text="false" :color="strengthColor"></el-progress>
+                </v-flex>
+                <v-flex md9 class="text-md-center mt-4">
+                  <v-btn dark block depressed color="#40A1FA" round @click="resetPassword"><span
+                    class="headline">重置密码</span>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-form>
+          </v-flex>
+        </v-layout>
       </v-card>
     </v-flex>
   </v-layout>
@@ -213,8 +217,6 @@
           } else {//通过验证后
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             let newPassword = $md5(this.newPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
-            console.log(oldPassword, newPassword)
-            //todo 用户名
             $userApi.resetPassword(oldPassword, newPassword).then(res => {
               this.handleResult(res)
             }).catch(e => {
@@ -230,7 +232,7 @@
           this.reset = false
           this.newPassword = ""
           this.oldPassword = ""
-          this.strength = 0
+          this.this.strength = 0
           this.$message.success("密码修改成功!")
         } else {
           this.$message.error(res.msg)

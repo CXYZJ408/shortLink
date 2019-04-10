@@ -26,4 +26,21 @@ body {
   font-family: 黑体, serif;
 }
 
+.margin-0 {
+  margin: 0 !important;
+}
 
+.divider {
+  margin-left: 5%;
+  width: 90%;
+  border-color: #EBF0F2 !important;
+  margin-top: -2px;
+}
+.divider-2 {
+  border-color: #EBF0F2 !important;
+  margin-top: 5px;
+}
+.v-card--hover:hover {
+  cursor: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
