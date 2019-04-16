@@ -12,32 +12,32 @@
     </div>
     <v-list class="sidebar-theme" dense :expand="true">
       <div class="background" :style="{'top':top+'px'}"></div>
-      <v-list-tile to="/" nuxt active-class="active">
+      <v-list-tile to="/user_center" nuxt active-class="active">
         <v-list-tile-action>
           <v-icon :color="color1">iconfont icon-lianjie-duankai</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>短链生成</v-list-tile-title>
       </v-list-tile>
-      <v-list-tile to="/user_link" nuxt active-class="active">
+      <v-list-tile to="/user_center/user_link" nuxt active-class="active">
         <v-list-tile-action>
           <v-icon :color="color2">iconfont icon-share_link</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>个人短链</v-list-tile-title>
       </v-list-tile>
-      <v-list-tile to="/user_center" nuxt active-class="active">
+      <v-list-tile to="/user_center/my_center" nuxt active-class="active">
         <v-list-tile-action>
           <v-icon :color="color3">iconfont icon-gerenzhongxin</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>用户中心</v-list-tile-title>
       </v-list-tile>
-      <v-list-tile to="/invite" nuxt active-class="active">
+      <v-list-tile to="/user_center/invite" nuxt active-class="active">
         <v-list-tile-action>
           <v-icon :color="color4">iconfont icon-add-friends_icon</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>好友邀请</v-list-tile-title>
       </v-list-tile>
 
-      <v-list-tile to="/data_display" nuxt active-class="active">
+      <v-list-tile to="/user_center/data_display" nuxt active-class="active">
         <v-list-tile-action>
           <v-icon :color="color5">iconfont icon-shuju</v-icon>
         </v-list-tile-action>
@@ -61,7 +61,7 @@
         return "grey"
       },
       color1: function () {
-        if (this.now === '/') {
+        if (this.now === '/user_center') {
           console.log(this.$route.path)
           this.top = 0
           return "#FF9800"
@@ -69,7 +69,7 @@
         return "#E1E9F0"
       },
       color2: function () {
-        if (this.now === '/user_link') {
+        if (this.now === '/user_center/user_link') {
           console.log(this.$route.path)
           this.top = 40
           return "#40A1FA"
@@ -77,7 +77,7 @@
         return "#E1E9F0"
       },
       color3: function () {
-        if (this.now === '/user_center') {
+        if (this.now === '/user_center/my_center') {
           console.log(this.$route.path)
           this.top = 80
           return "#2ECC71"
@@ -85,7 +85,7 @@
         return "#E1E9F0"
       },
       color4: function () {
-        if (this.now === '/invite') {
+        if (this.now === '/user_center/invite') {
           console.log(this.$route.path)
           this.top = 120
           return "#E74C3C"
@@ -93,7 +93,7 @@
         return "#E1E9F0"
       },
       color5: function () {
-        if (this.now === '/data_display') {
+        if (this.now === '/user_center/data_display') {
           console.log(this.$route.path)
           this.top = 160
           return "#40A1FA"

@@ -1,13 +1,26 @@
 <template>
-  <v-card class="pt-3 my-card" id="realTime" flat hover>
-    <v-slider v-model="hourBefore" max="24" min="1" color="#4EA1FF" @change="changed" class="choose-time"
-              :label=labelMsg></v-slider>
-    <v-chart :autoresize=true :options="getUserRealTimeData"
-             style="width: 100%!important;height: 31vh"></v-chart>
-  </v-card>
+  <div>
+    <v-card class="pt-3 my-card" id="realTime" flat hover v-if="show">
+      <v-slider v-model="hourBefore" max="24" min="1" color="#4EA1FF" @change="changed" class="choose-time"
+                :label=labelMsg></v-slider>
+      <div class="real-time-title">短链点击统计（每分钟）</div>
+      <v-chart :autoresize=true :options="getUserRealTimeData"
+               style="width: 100%!important;height: 31vh"></v-chart>
+    </v-card>
+    <v-card class="pt-3 my-card" flat hover v-else>
+      <div class="real-time-title">短链点击统计（每分钟）</div>
+      <div class="none">暂无数据！</div>
+    </v-card>
+  </div>
 </template>
 
 <script>
+  import {LinkApi} from "../../api/LinkApi";
+  import {transformTime2} from "../../utils";
+
+  let $linkApi
+  let _ = require("lodash")
+  const ONE_MINUTE = 60//一分钟
   export default {
     name: 'LinkClickRealTime',//短链接点击统计（每分钟）
     computed: {
@@ -17,33 +30,32 @@
       },
       labelMsg: function () {
         return `往前（${this.hourBefore}小时）`
+      },
+      show: function () {
+        return this.links.length > 0
       }
     },
     created() {
-      this.handleRealTimeData()
+      $linkApi = new LinkApi()
     },
     destroyed() {
       clearInterval(this.timer)
+    },
+    props: {
+      links: {
+        type: Array
+      }
     },
     data: function () {
       return {
         nowTime: null,//当前时间
         start: null,//实时数据起始时间点
-        hourBefore: 1,//往前回溯几小时的数据
+        hourBefore: 6,//往前回溯几小时的数据
         stepTime: 60 * 1000,//间隔时间：1分钟
         userRegisterRealTime: {
           grid: {
             left: '7%',
             width: '87%',
-          },
-          title: {
-            text: '短链点击统计（每分钟）',
-            left: '5%',
-            textStyle: {
-              color: '#566573',
-              fontSize: 20,
-              fontFamily: 'kaiti'
-            }
           },
           tooltip: {
             trigger: 'axis',
@@ -138,58 +150,57 @@
     },
     methods: {
       changed() {
-        this.handleRealTimeData()
+        this.getServerRealTimeData()
       },
-      handleRealTimeData() {
-        //处理实时用户注册量数据
-        //初始化相关数据
-        this.nowTime = new Date()//当前时间
-        this.start = new Date(this.nowTime - 1000 * 60 * 60 * this.hourBefore)//获取起始时间点
-        this.realTimeData = this.setDate(this.getDataTillNow())//获取从5小时前到现在的数据集
-        let time = new Date(this.nowTime.getFullYear(), this.nowTime.getMonth(),
-          this.nowTime.getDate(), this.nowTime.getHours(), this.nowTime.getMinutes() + 1) - this.nowTime//同步时间
-        let handle = () => {
-          this.realTimeData.shift()
-          this.realTimeData.push(this.setDate(this.getRealTimeData(), this.start)[0])
+      getServerRealTimeData() {//像后端服务器发起请求
+        let tempDate = new Date()
+        tempDate.setSeconds(0)
+        this.nowTime = Math.floor(tempDate / 1000)//当前时间
+        this.start = Math.floor(new Date(this.nowTime * 1000 - 1000 * 60 * 60 * this.hourBefore).getTime() / 1000)//获取起始时间点
+        let linkIds = []
+        _.forEach(this.links, link => {
+          linkIds.push(link.id)
+        })
+        $linkApi.getRealTimeData(linkIds, this.start).then(res => {
+          if (res.code === this.$code.SUCCESS) {
+            this.realTimeData = this.handleResult(res.data)
+          } else {
+            this.$message.error(res.msg)
+          }
+        }).catch(e => {
+          this.$message.error(e)
+        })
+      },
+      handleResult(data) {
+        let res = []//返回数据
+        let queue = []//后端服务器数据队列
+        let insertZero = (timestamp) => {
+          let time = new Date(timestamp * 1000)
+          res.push({name: time, value: [transformTime2(timestamp), 0]})
         }
-        setTimeout(() => {
-          handle()
-          this.timer = setInterval(() => {//添加每分钟的数据
-            handle()
-          }, 60 * 1000)
-        }, time)
-
-      },
-      getRealTimeData() {//向后台请求1分钟内的实时数据
-        return [Math.floor(Math.random() * 100)]
-      },
-      getDataTillNow() {//向后台请求从5小时前到现在的数据集
-        let times = Math.floor((this.nowTime - this.start) / this.stepTime)
-        let resultData = []
+        _.forEach(data, item => {//遍历
+          queue.push(item)
+        })
+        let nowTime = this.start
+        let times = (Math.abs(nowTime - this.nowTime)) / ONE_MINUTE
         for (let i = 0; i < times; i++) {
-          resultData.push(Math.floor(Math.random() * 100))
+          if (queue.length > 0) {
+            let item = _.clone(queue[0])
+            if (item.time === nowTime) {
+              let time = new Date(nowTime * 1000)
+              res.push({name: time, value: [transformTime2(nowTime), item.click]})
+              queue.splice(0, 1)
+            } else {
+              insertZero(nowTime)
+            }
+          } else {
+            insertZero(nowTime)
+          }
+          nowTime += ONE_MINUTE
         }
-        return resultData
+        return res
       },
-      getTime() {//获取时间信息
-        this.start = new Date(+this.start + this.stepTime)//日期
-        let nowDate = `${this.start.getFullYear()}/${(this.start.getMonth() + 1)}/${this.start.getDate()} ${this.start.getHours() >= 10 ? this.start.getHours() : '0' + this.start.getHours()}:${this.start.getMinutes() >= 10 ? this.start.getMinutes() : '0' + this.start.getMinutes()}:${this.start.getSeconds() >= 10 ? this.start.getSeconds() : '0' + this.start.getSeconds()}`
-        return [this.start, nowDate]
-      },
-      setDate(realTimeDataSet) {//设置数据集的时间，以5分钟为一个单位，并将数据格式化后返回
-        let resultData = [] //返回的数据
-        for (let i = 0; i < realTimeDataSet.length; i++) {//取出每一个数据，并将数据的日期添加上
-          let time = this.getTime()
-          resultData.push({
-            name: time[0].toString(),
-            value: [
-              time[1],
-              realTimeDataSet[i]
-            ]
-          })
-        }
-        return resultData
-      },
+
     }
   }
 </script>
@@ -204,7 +215,7 @@
   .my-card {
     border-radius: 10px;
     position: relative;
-    /*background-color: rgba(174, 214, 241, .1);*/
+    height: 32vh;
   }
 
   .choose-time {
@@ -215,4 +226,22 @@
     width: 30%;
   }
 
+  .real-time-title {
+    position: absolute;
+    color: #566573;
+    font-size: 20px;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    left: 5%;
+  }
+
+  .none {
+    color: rgba(86,101,115,.6);
+    font-size: 40px;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
 </style>

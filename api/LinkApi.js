@@ -40,7 +40,6 @@ export class LinkApi extends Api {
 
   //删除链接
   deleteLink(linkId, send = true) {
-    console.log("删除", linkId)
     let url = Link + '/urls/delete'
     let params = {
       id: linkId
@@ -49,4 +48,27 @@ export class LinkApi extends Api {
     return super.judgeSend(send)
   }
 
+  getRealTimeData(links, timeStart, send = true) {
+    let url = Link + '/urls/display/real_time'
+    let params = {
+      links: links,
+      time_start: timeStart,
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.getRealTimeData, params)
+    return super.judgeSend(send)
+  }
+
+  getJumpLink(send = true) {
+    let url = Link + '/urls/display/'
+    super.pushRequest = new Request(requestMethods.POST, url, this.getJumpLink)
+    return super.judgeSend(send)
+  }
+
+  getUserAllLinks() {
+    return this.getLinkList(1, Number.MAX_SAFE_INTEGER)
+  }
+
+  getLinkMonthData(links, timeStart, send = true) {
+
+  }
 }

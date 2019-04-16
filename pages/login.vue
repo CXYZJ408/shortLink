@@ -32,14 +32,18 @@
                 @keyup.enter="login"
               ></v-text-field>
             </v-flex>
-            <v-flex md5 class="text-md-right">
+            <v-flex md5 class="text-md-left">
               <v-checkbox
-                class="pl-4 ml-1"
+                class="pl-3"
                 height="8px"
                 color="#40A1FA"
                 v-model="remember"
                 label="记住密码"
               ></v-checkbox>
+            </v-flex>
+            <v-spacer></v-spacer>
+            <v-flex md5 class="text-md-right">
+              <v-btn flat color="blue"  round ><nuxt-link class="blue--text" to="/forget">忘记密码?</nuxt-link></v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -62,6 +66,7 @@
 
   let $userApi
   let $cookie
+  import axios from 'axios'
 
   export default {
     head: {
@@ -89,7 +94,6 @@
         if (this.$refs.form.validate()) {
           let $md5 = require('js-md5')
           let password = $md5(this.user.password.split('').reverse().join(''))//将密码逆序同时进行md5处理
-
           $userApi.login(this.user.userName, password).then((res) => {
             this.handleLoginResult(res)
           }).catch(e => {
@@ -103,9 +107,8 @@
           this.handleRemember()
           //将用户的相关信息存放到store中
           this.$store.commit('login', res.data)
-          //todo 测试代码，此处模拟后端服务器将cookie写入浏览器中
           //页面跳转
-          this.$router.push({path: `/`})
+          this.$router.push({path: `/user_center`})
         } else {
           this.$message.error(res.msg)
         }

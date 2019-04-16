@@ -4,286 +4,22 @@
       <div class="toolbar-title">最近跳转链接</div>
     </div>
     <div class="list">
-      <div class="list-item px-3">
+
+      <div class="list-item px-3" v-for="item in list">
         <div class="list-item-up">
           <div class="d-inline-block icon">
             <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
           </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
+          <div class="short-link d-inline-block ml-2">{{item.shortLink}}</div>
+          <div class="note d-inline-block">{{item.note}}</div>
         </div>
         <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
+          <div class="long-link d-inline-block">{{item.longLink}}</div>
           <span class="time">2019/4/10 10:58</span>
         </div>
         <v-divider class="divider-2"></v-divider>
       </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
-      <div class="list-item px-3">
-        <div class="list-item-up">
-          <div class="d-inline-block icon">
-            <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
-          </div>
-          <div class="short-link d-inline-block ml-2">www.abc.com</div>
-          <div class="note d-inline-block">B站</div>
-        </div>
-        <div class="list-item-down">
-          <span class="long-link">www.abc.com</span>
-          <span class="time">2019/4/10 10:58</span>
-        </div>
-        <v-divider class="divider-2"></v-divider>
-      </div>
+
     </div>
     <div class="action text-md-right ">
       <v-btn color="white" small flat class="margin-0" @click="Refresh">
@@ -294,10 +30,19 @@
 </template>
 
 <script>
+  import {LinkApi} from "../../api/LinkApi";
+  import {transformTime2} from "../../utils";
+
+  let $linkApi
+  let _ = require("lodash")
   export default {
     name: 'LinkClickList',
     mounted() {
       this.handleTime()
+    },
+    created() {
+      $linkApi = new LinkApi()
+      this.getList()
     },
     destroyed() {
       clearInterval(this.timer)//清除计时器
@@ -315,16 +60,30 @@
       },
       getList() {
         //获取列表信息
-
-        return new Promise(resolve => {
-          setTimeout(() => {
-            console.log("获取信息")
+        return new Promise((resolve) => {
+          $linkApi.getJumpLink().then(res => {
+            if (res.code === this.$code.SUCCESS) {
+              this.list = []
+              _.forEach(res.data, item => {
+                let temp = _.clone(item)
+                temp.time = transformTime2(temp.time)
+                this.list.push(temp)
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
             resolve(true)
-          }, 2000)
+          }).catch(e => {
+            this.$message.error("列表刷新出错啦！")
+            clearInterval(this.timer)//清除计时器
+            this.time = 0
+          })
         })
       },
       Refresh() {
-        clearInterval(this.timer)//清除计时器
+        if (!_.isUndefined(this.timer)) {
+          clearInterval(this.timer)//清除计时器
+        }
         this.getList().then(() => {
           this.handleTime()
         })
@@ -333,7 +92,8 @@
     data: function () {
       return {
         time: 15,
-        timer: undefined
+        timer: undefined,
+        list: []
       }
     }
   }
@@ -383,9 +143,11 @@
   }
 
   .short-link {
-    font-size: 18px;
+    margin-top: 2px;
+    font-size: 16px;
     float: left;
     color: #41424E;
+    width: 150px;
   }
 
   .note {
@@ -393,11 +155,18 @@
     color: #41424E;
     padding-top: 5px;
     float: right;
+    white-space: nowrap;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .long-link {
     font-size: 14px;
-
+    white-space: nowrap;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .time {
@@ -424,7 +193,6 @@
   .btn-text {
     color: #C3CACE;
     font-family: "黑体", serif;
-
     font-size: 13px;
   }
 </style>

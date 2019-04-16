@@ -11,10 +11,12 @@
         <transition name="fade">
           <v-card @mouseleave="handleHover(false,false)" @mouseenter="handleHover(true,false)" v-if="showAll"
                   class="pa-3 show-all-card">
-            <v-chip close dark color="#9593CE" v-for="(item,index) in links" :key="index" @input="close"
-                    v-model="item.checked">
-              <span class="chip-text">{{item.title}}</span>
-            </v-chip>
+            <div>
+              <v-chip close dark color="#9593CE" v-for="(item,index) in links" :key="index" @input="close"
+                      v-model="item.checked">
+                <span class="chip-text">{{item.title}}</span>
+              </v-chip>
+            </div>
           </v-card>
         </transition>
       </v-flex>
@@ -32,12 +34,17 @@
       <v-card class="my-card" @mouseenter="handleHover(false,true)"
               @mouseleave="handleHover(false,false)" v-if="showSelect">
         <v-list>
-          <v-list-tile @click.stop="chooseAll">
+          <v-list-tile>
             <v-checkbox v-model="all" @click.stop="chooseAll" :indeterminate="indeterminate"
                         color="#4EA1FF"></v-checkbox>
             <v-list-tile-title>
               <span class="text" :class="{active:all}">选择所有</span>
             </v-list-tile-title>
+            <v-list-tile-action @click="refresh">
+              <v-btn icon small>
+                <v-icon color="#A7AEB3" size="18">iconfont icon-refresh</v-icon>
+              </v-btn>
+            </v-list-tile-action>
           </v-list-tile>
           <v-divider class="divider"></v-divider>
           <v-list-tile @click.stop="select(index)" v-for="(item,index) in links" :key="index">
@@ -76,6 +83,12 @@
         }
       }
     },
+    props: {
+      links: {
+        type: Array,
+        default:[]
+      }
+    },
     data: function () {
       return {
         showSelect: false,//显示选择框
@@ -83,23 +96,15 @@
         forceShowAll: false,//强制显示所有
         forceShowSelect: false,//强制显示选择框
         more: false,//当溢出的时候显示
-        links: [
-          {checked: false, title: "www.abc.com1", note: "谷歌", id: 1},
-          {checked: false, title: "www.abc.com2", note: "谷歌", id: 2},
-          {checked: false, title: "www.abc.com3", note: "谷歌", id: 3},
-          {checked: false, title: "www.abc.com4", note: "谷歌", id: 4},
-          {checked: false, title: "www.abc.com5", note: "谷歌", id: 5},
-          {checked: false, title: "www.abc.com6", note: "谷歌", id: 6},
-          {checked: false, title: "www.abc.com7", note: "谷歌", id: 7},
-          {checked: false, title: "www.abc.com8", note: "谷歌", id: 8},
-          {checked: false, title: "www.abc.com9", note: "谷歌", id: 9},
-        ],
         all: false,
         checkedNums: 0,
         indeterminate: false
       }
     },
     methods: {
+      refresh() {
+        this.$emit("getUserLinks")
+      },
       clean() {
         this.checkedNums = 0
         _.forEach(this.links, item => {
@@ -212,7 +217,7 @@
     top: 45px;
     right: 0;
     min-height: 30px;
-    max-height: 200px;
+    max-height: 400px;
     width: 300px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
     overflow: auto;
@@ -228,18 +233,30 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, .95);
+    max-height: 500px;
+  }
+
+  .show-all-card div {
+    max-height: 450px;
+    width: 100%;
+    min-height: 50px;
+    overflow: auto;
   }
 
   .text {
     color: #A7AEB3;
     font-family: 微软雅黑, serif;
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .sub-text {
     color: #A7AEB3;
     font-family: 微软雅黑, serif;
-    font-size: 14px;
+    font-size: 12px;
+    white-space: nowrap;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .selected {

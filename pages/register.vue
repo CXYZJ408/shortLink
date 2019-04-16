@@ -273,7 +273,6 @@
 
 <style scoped>
   .card {
-    margin-top: 5%;
     margin-right: auto;
     margin-left: auto;
     width: 480px;

@@ -14,3 +14,8 @@ Mock.mock('/feature/toshortlink', 'post', LinkApi.toShortLink)
 Mock.mock('/feature/urls', 'post', LinkApi.getLinkList)
 Mock.mock('/feature/urls/change', 'post', LinkApi.editLinks)
 Mock.mock('/feature/urls/delete', 'post', LinkApi.deleteLink)
+
+Mock.mock('/feature/urls/display/real_time', 'post', LinkApi.getRealTime)
+Mock.mock('/feature/urls/display', 'get', LinkApi.getList)
+
+

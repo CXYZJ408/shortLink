@@ -17,6 +17,19 @@ export class UserApi extends Api {
     return super.judgeSend(send)
   }
 
+  forget(username, phone, email, newPassword, send = true) {
+    let url = User + '/forget'
+    let params = {
+      username: username,
+      newPassword: newPassword,
+      phone:phone,
+      email:email
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.forget, params)
+    return super.judgeSend(send)
+
+  }
+
   loginAgain(cookie, send = true) {
     let url = User + '/loginAgain'
     let params = {

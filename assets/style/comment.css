@@ -36,11 +36,22 @@ body {
   border-color: #EBF0F2 !important;
   margin-top: -2px;
 }
+
 .divider-2 {
   border-color: #EBF0F2 !important;
   margin-top: 5px;
 }
+
 .v-card--hover:hover {
   cursor: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tooltip {
+  font-family: "黑体", serif;
+  color: #F2F4F4;
+}
+
+.v-carousel {
+  box-shadow: none!important;
 }

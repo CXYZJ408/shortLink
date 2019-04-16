@@ -24,6 +24,7 @@
     "mockjs": "^1.0.1-beta3",
     "nuxt": "^2.4.0",
     "qs": "^6.7.0",
+    "scrollreveal": "^4.0.5",
     "vue-echarts": "^4.0.1",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",

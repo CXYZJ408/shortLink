@@ -115,9 +115,114 @@ export default {
   },
   deleteLink: (options) => {
     const id = param2Obj(options.body)
-    console.log("ids:",id)
     return {
       code: 0
     }
   },
+  getRealTime: (options) => {
+    return {
+      "code": 0,
+      "data": [
+        {
+          "click": 30667,
+          "time": 1555146120
+        },
+        {
+          "click": 74002,
+          "time": 1555146180
+        },
+        {
+          "click": 73751,
+          "time": 1555146240
+        },
+        {
+          "click": 73745,
+          "time": 1555146300
+        },
+        {
+          "click": 73542,
+          "time": 1555146360
+        },
+        {
+          "click": 73407,
+          "time": 1555146420
+        },
+        {
+          "click": 73520,
+          "time": 1555146480
+        },
+        {
+          "click": 73355,
+          "time": 1555146540
+        },
+        {
+          "click": 73569,
+          "time": 1555146600
+        },
+        {
+          "click": 73674,
+          "time": 1555146660
+        },
+        {
+          "click": 73403,
+          "time": 1555146720
+        },
+        {
+          "click": 73275,
+          "time": 1555146780
+        },
+        {
+          "click": 73293,
+          "time": 1555146840
+        },
+        {
+          "click": 57207,
+          "time": 1555146900
+        }
+      ],
+      "msg": "success"
+    }
+  },
+  getList: () => {
+    return {
+      code: 0,
+      data: [
+        {
+          "id": 1,
+          "shortLink": "www.abc.com",
+          "longLink": "https://vuetifyjs.com/en/components/chips",
+          "note": "知乎",
+          "time": 1555164451
+        },
+        {
+          "id": 2,
+          "shortLink": "www.abc.com",
+          "longLink": "https://vuetifyjs.com/en/components/chips",
+          "note": "知乎",
+          "time": 1555164521
+        },
+        {
+          "id": 3,
+          "shortLink": "www.abc.com",
+          "longLink": "https://vuetifyjs.com/en/components/chips",
+          "note": "知乎",
+          "time": 1555164530
+        },
+        {
+          "id": 4,
+          "shortLink": "www.abc.com",
+          "longLink": "https://vuetifyjs.com/en/components/chips",
+          "note": "知乎",
+          "time": 1555164533
+        },
+        {
+          "id": 5,
+          "shortLink": "www.abc.com",
+          "longLink": "https://vuetifyjs.com/en/components/chips",
+          "note": "知乎",
+          "time": 1555164533
+        }
+      ]
+    }
+  }
 }
