@@ -1,60 +1,70 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center pt-3>
-      <v-card class="pa-3  elevation-10 form">
-        <v-card-text class="display-2">登录·
-          <nuxt-link class="grey--text" to="/register">注册</nuxt-link>
-        </v-card-text>
-        <v-form v-model="valid" ref="form" lazy-validation>
-          <v-layout row wrap justify-end>
-            <v-flex md12>
-              <v-text-field
-                class="pt-2 px-3"
-                prepend-icon="account_circle"
-                v-model="user.userName"
-                :rules="userNameRules"
-                label="用户名"
-                required
-                @keyup.enter="login"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field
-                class="pt-3 px-3"
-                :type="show?'text':'password'"
-                :append-icon="show?'visibility_off':'visibility'"
-                prepend-icon="lock"
-                v-model="user.password"
-                :rules="passwordRules"
-                label="密码"
-                @click:append="show=!show"
-                required
-                @keyup.enter="login"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md5 class="text-md-left">
-              <v-checkbox
-                class="pl-3"
-                height="8px"
-                color="#40A1FA"
-                v-model="remember"
-                label="记住密码"
-              ></v-checkbox>
-            </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex md5 class="text-md-right">
-              <v-btn flat color="blue"  round ><nuxt-link class="blue--text" to="/forget">忘记密码?</nuxt-link></v-btn>
+    <v-layout align-center justify-center row wrap>
+      <v-flex md12 class="text-md-center mb-3" style="margin-top: 4%">
+        <nuxt-link to="/">
+          <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title text-md-left">JumpLinker</div>
+        </nuxt-link>
+      </v-flex>
+      <v-flex md12>
+        <v-card class="pa-3  elevation-10 form">
+          <v-card-text class="display-2">登录·
+            <nuxt-link class="grey--text" to="/register">注册</nuxt-link>
+          </v-card-text>
+          <v-form v-model="valid" ref="form" lazy-validation>
+            <v-layout row wrap justify-end>
+              <v-flex md12>
+                <v-text-field
+                  class="pt-2 px-3"
+                  prepend-icon="account_circle"
+                  v-model="user.userName"
+                  :rules="userNameRules"
+                  label="用户名"
+                  required
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field
+                  class="pt-3 px-3"
+                  :type="show?'text':'password'"
+                  :append-icon="show?'visibility_off':'visibility'"
+                  prepend-icon="lock"
+                  v-model="user.password"
+                  :rules="passwordRules"
+                  label="密码"
+                  @click:append="show=!show"
+                  required
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md5 class="text-md-left">
+                <v-checkbox
+                  class="pl-3"
+                  height="8px"
+                  color="#40A1FA"
+                  v-model="remember"
+                  label="记住密码"
+                ></v-checkbox>
+              </v-flex>
+              <v-spacer></v-spacer>
+              <v-flex md5 class="text-md-right">
+                <v-btn flat color="blue" round>
+                  <nuxt-link class="blue--text" to="/forget">忘记密码?</nuxt-link>
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-form>
+          <v-layout justify-center>
+            <v-flex md11 class="">
+              <v-btn block round depressed large class="display-1 white--text" color="light-blue "
+                     @click="login">登录
+              </v-btn>
             </v-flex>
           </v-layout>
-        </v-form>
-        <v-layout justify-center>
-          <v-flex md11 class="">
-            <v-btn block round depressed large class="display-1 white--text" color="light-blue "
-                   @click="login">登录
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </v-card>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 
@@ -70,7 +80,7 @@
 
   export default {
     head: {
-      title: '短链 - 登录'
+      title: "JumpLinker - 登录"
     },
     layout: 'signIn',
     data: function () {
@@ -155,11 +165,25 @@
   }
 
   .form {
-    margin-top: 8%;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 1%;
     width: 400px;
     height: 410px;
+  }
+
+  .my-left {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .icon-title {
+    display: inline-block;
+    font-size: 50px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+    margin-top: 30px;
   }
 
   .icon {

@@ -91,7 +91,6 @@ async function proxy(request, returnType) {//批量请求发送
       //请求数据失败
       return Promise.reject()
     }
-
   }).catch((e) => {
     return {statusCode: 404, message: 'Post not found'}
   })

@@ -1,9 +1,6 @@
 <template>
   <v-layout row wrap justify-center id="invite">
     <input type="text" v-model="url" id="urlPath">
-    <v-flex md10 class="mt-2">
-      <div class="my-title text-md-center color-dark">邀请好友</div>
-    </v-flex>
     <v-flex md10 style="margin-top: 15vh">
       <v-layout justify-center>
         <v-flex md2>
@@ -37,6 +34,9 @@
 
   let $UserApi
   export default {
+    head: {
+      title: "JumpLinker - 用户邀请"
+    },
     name: "invite",
     computed: {
       url: function () {
@@ -50,6 +50,7 @@
     },
     mounted() {
       $UserApi = new UserApi()
+      this.$store.commit("setTitle", "好友邀请")
       $UserApi.inviteNum().then(res => {
         if (res.code === this.$code.SUCCESS) {
           console.log(res.data)

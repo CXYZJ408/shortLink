@@ -1,95 +1,103 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center pt-3>
-      <v-card class="elevation-10 pa-3 card">
-        <v-card-text class="display-2">
-          <nuxt-link class="grey--text" to="/login">登录</nuxt-link>
-          ·注册
-        </v-card-text>
-        <v-form v-model="valid" ref="form">
-          <v-layout algin-center justify-center row wrap>
-            <v-flex md12>
-              <v-text-field label="用户名" class="pt-2 px-3 text" v-model="user.userName" :rules="userNameRules"
-                            prepend-icon="account_circle" @keyup.enter="register"
-                            required></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field
-                class="pt-2 px-3"
-                prepend-icon="phone"
-                v-model="user.phone"
-                :rules="phoneRules"
-                :error="phoneError"
-                label="手机号" :error-messages="phoneMsg"
-                required
-                @keyup.enter="login"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field
-                class="pt-2 px-3"
-                prepend-icon="email"
-                v-model="user.email"
-                :rules="emailRules"
-                :error="emailError"
-                :error-messages="emailMsg"
-                label="邮箱"
-                required
-                @keyup.enter="login"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field
-                class="pt-2 px-3"
-                prepend-icon="iconfont icon-yaoqing"
-                v-model="user.invert"
-                label="邀请码(非必填项)"
-                @keyup.enter="login"
-              ></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field :type="show1?'text':'password'"
-                            :append-icon="show1?'visibility_off':'visibility'"
-                            prepend-icon="lock"
-                            class="pt-3 px-3"
-                            v-model="password1"
-                            :rules="passwordRules"
-                            label="输入密码"
-                            :error="passwordError"
-                            :error-messages="errorMsg"
-                            @click:append="show1=!show1"
-                            @input="passwordStrength"
-                            required
-                            @keyup.enter="register"></v-text-field>
-            </v-flex>
-            <v-flex md12>
-              <v-text-field :type="show2?'text':'password'"
-                            class="pt-3 px-3"
-                            :append-icon="show2?'visibility_off':'visibility'"
-                            prepend-icon="lock"
-                            v-model="password2"
-                            :rules="passwordRules"
-                            label="再次输入密码"
-                            :error="passwordError"
-                            :error-messages="errorMsg"
-                            @click:append="show2=!show2"
-                            @keyup.enter="register"
-                            required></v-text-field>
-            </v-flex>
-            <v-flex md4 class="grey--text text-md-left title pl-3 pt-2">密码强度：</v-flex>
-            <v-flex md8>
-              <el-progress class="pt-2 pr-3" :percentage="strength" :stroke-width="6"
-                           :show-text="false" :color="strengthColor"></el-progress>
+    <v-layout align-center justify-center row wrap>
+      <v-flex md12 class="text-md-center mb-3" style="margin-top: 2%">
+        <nuxt-link to="/">
+          <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title text-md-left">JumpLinker</div>
+        </nuxt-link>
+      </v-flex>
+      <v-flex md12>
+        <v-card class="elevation-10 pa-3 card">
+          <v-card-text class="display-2">
+            <nuxt-link class="grey--text" to="/login">登录</nuxt-link>
+            ·注册
+          </v-card-text>
+          <v-form v-model="valid" ref="form">
+            <v-layout algin-center justify-center row wrap>
+              <v-flex md12>
+                <v-text-field label="用户名" class="pt-2 px-3 text" v-model="user.userName" :rules="userNameRules"
+                              prepend-icon="account_circle" @keyup.enter="register"
+                              required></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field
+                  class="pt-2 px-3"
+                  prepend-icon="phone"
+                  v-model="user.phone"
+                  :rules="phoneRules"
+                  :error="phoneError"
+                  label="手机号" :error-messages="phoneMsg"
+                  required
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field
+                  class="pt-2 px-3"
+                  prepend-icon="email"
+                  v-model="user.email"
+                  :rules="emailRules"
+                  :error="emailError"
+                  :error-messages="emailMsg"
+                  label="邮箱"
+                  required
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field
+                  class="pt-2 px-3"
+                  prepend-icon="iconfont icon-yaoqing"
+                  v-model="user.invert"
+                  label="邀请码(非必填项)"
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field :type="show1?'text':'password'"
+                              :append-icon="show1?'visibility_off':'visibility'"
+                              prepend-icon="lock"
+                              class="pt-3 px-3"
+                              v-model="password1"
+                              :rules="passwordRules"
+                              label="输入密码"
+                              :error="passwordError"
+                              :error-messages="errorMsg"
+                              @click:append="show1=!show1"
+                              @input="passwordStrength"
+                              required
+                              @keyup.enter="register"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field :type="show2?'text':'password'"
+                              class="pt-3 px-3"
+                              :append-icon="show2?'visibility_off':'visibility'"
+                              prepend-icon="lock"
+                              v-model="password2"
+                              :rules="passwordRules"
+                              label="再次输入密码"
+                              :error="passwordError"
+                              :error-messages="errorMsg"
+                              @click:append="show2=!show2"
+                              @keyup.enter="register"
+                              required></v-text-field>
+              </v-flex>
+              <v-flex md4 class="grey--text text-md-left title pl-3 pt-2">密码强度：</v-flex>
+              <v-flex md8>
+                <el-progress class="pt-2 pr-3" :percentage="strength" :stroke-width="6"
+                             :show-text="false" :color="strengthColor"></el-progress>
+              </v-flex>
+            </v-layout>
+          </v-form>
+          <v-layout justify-center align-center pt-3>
+            <v-flex md11>
+              <v-btn @click="register" class="display-1" block large outline round color="green">注册
+              </v-btn>
             </v-flex>
           </v-layout>
-        </v-form>
-        <v-layout justify-center align-center pt-3>
-          <v-flex md11>
-            <v-btn @click="register" class="display-1" block large outline round color="green">注册
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </v-card>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -103,7 +111,7 @@
   let $cookie
   export default {
     head: {
-      title: '短链 - 注册'
+      title: "JumpLinker - 注册"
     },
     layout: 'signIn',
     mounted() {
@@ -282,7 +290,19 @@
   a {
     text-decoration: none;
   }
+  .my-left {
+    display: inline-block;
+    vertical-align: top;
+  }
 
+  .icon-title {
+    display: inline-block;
+    font-size: 50px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+    margin-top: 30px;
+  }
   .v-stepper {
     box-shadow: none;
   }

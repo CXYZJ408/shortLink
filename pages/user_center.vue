@@ -19,6 +19,7 @@
   import toolbar from '~/components/Toolbar.vue'
 
   export default {
+
     watch: {
       '$route': function (from, to) {
         this.nowPath = this.$route.path

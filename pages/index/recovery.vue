@@ -3,12 +3,12 @@
     <copy ref="copy"></copy>
     <v-dialog
       hide-overlay
-      v-model="showTransferDialog"
+      v-model="showRecoveryDialog"
       max-width="400">
       <v-card class="edit-card" max-height="380px">
-        <div class="card-title text-md-center my-title">转换完成</div>
+        <div class="card-title text-md-center my-title">还原完成</div>
 
-        <v-btn icon small flat color="red" class="card-close" @click="showTransferDialog=false">
+        <v-btn icon small flat color="red" class="card-close" @click="showRecoveryDialog=false">
           <v-icon size="12">iconfont icon-close</v-icon>
         </v-btn>
         <v-card-text>
@@ -59,7 +59,7 @@
         </v-card-text>
         <v-layout justify-center class="mt-1">
           <v-flex md10 class="text-md-right pb-3">
-            <v-btn color="#4EA1FF" dark depressed @click="showTransferDialog=false" block>
+            <v-btn color="#4EA1FF" dark depressed @click="showRecoveryDialog=false" block>
               <span class="btn-title">确定</span>
             </v-btn>
           </v-flex>
@@ -75,11 +75,11 @@
       </v-flex>
 
       <v-flex md6 class="text-md-center mt-3">
-        <el-input class="d-inline-block margin-0 top" placeholder="请输入要转换的链接" v-model="longLink"
+        <el-input class="d-inline-block margin-0 top" placeholder="请输入要还原的链接" v-model="shortLink"
                   :clearable="true"></el-input>
-        <v-btn class="d-inline-block transfer-btn top" dark color="#F8990C" depressed @click="transfer">
-          <v-icon size="18">iconfont icon-shuaxin</v-icon>
-          <span class="btn-text ml-2">转换</span></v-btn>
+        <v-btn class="d-inline-block transfer-btn top" dark color="blue" depressed @click="recovery">
+          <v-icon size="18">iconfont icon-huanyuan</v-icon>
+          <span class="btn-text ml-2">还原</span></v-btn>
       </v-flex>
     </v-layout>
     <div class="foot-div">
@@ -96,7 +96,7 @@
   let $linkApi
   let QRCode = require("qrcode")
   export default {
-    name: "transfer",
+    name: "recovery",
     layout: "index",
     components: {myFooter, copy},
     created() {
@@ -106,7 +106,7 @@
       return {
         longLink: "",
         shortLink: "",
-        showTransferDialog: false,
+        showRecoveryDialog: false,
       }
     },
     methods: {
@@ -127,14 +127,13 @@
         let objExp = new RegExp(Expression);
         return objExp.test(str) === true;
       },
-      transfer() {
-        if (this.checkURL(this.longLink)) {
-          this.showTransferDialog = true
-          $linkApi.transferFree(this.longLink).then(res => {
+      recovery() {
+        if (this.checkURL(this.shortLink)) {
+          $linkApi.restoreLink(this.shortLink).then(res => {
             if (res.code === this.$code.SUCCESS) {
-              this.shortLink = res.data.shorturl
+              this.longLink = res.data.longurl
               QRCode.toCanvas(document.getElementById('qrcode'), this.shortLink).then(() => {
-                this.showTransferDialog = true
+                this.showRecoveryDialog = true
               })
             } else {
               this.$message.error(res.msg)

@@ -53,5 +53,10 @@ body {
 }
 
 .v-carousel {
-  box-shadow: none!important;
+  box-shadow: none !important;
+}
+
+.margin-x-0 {
+  margin-left: 0!important;
+  margin-right: 0!important;
 }

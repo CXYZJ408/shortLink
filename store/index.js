@@ -4,7 +4,8 @@ import {UserApi} from '../api/UserApi'
 
 export const state = () => ({
   user: {},//user信息
-  isLogin: false
+  isLogin: false,
+  title: ""
 })
 
 export const mutations = {
@@ -19,6 +20,9 @@ export const mutations = {
     state.isLogin = false
     state.user = {}
   },
+  setTitle(state, title) {
+    state.title = title
+  }
 
 }
 export const actions = {

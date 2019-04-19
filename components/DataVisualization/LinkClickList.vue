@@ -11,11 +11,11 @@
             <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
           </div>
           <div class="short-link d-inline-block ml-2">{{item.shortLink}}</div>
-          <div class="note d-inline-block">{{item.note}}</div>
+          <div class="note d-inline-block">{{item.note.length>0?item.note:"无"}}</div>
         </div>
         <div class="list-item-down">
           <div class="long-link d-inline-block">{{item.longLink}}</div>
-          <span class="time">2019/4/10 10:58</span>
+          <span class="time">{{item.time}}</span>
         </div>
         <v-divider class="divider-2"></v-divider>
       </div>
@@ -45,7 +45,7 @@
       this.getList()
     },
     destroyed() {
-      clearInterval(this.timer)//清除计时器
+      this.clean()
     },
     methods: {
       handleTime() {
@@ -74,16 +74,19 @@
             }
             resolve(true)
           }).catch(e => {
-            this.$message.error("列表刷新出错啦！")
-            clearInterval(this.timer)//清除计时器
+            this.$message.error("网络异常，列表刷新出错！")
+            this.clean()
             this.time = 0
           })
         })
       },
-      Refresh() {
+      clean() {
         if (!_.isUndefined(this.timer)) {
           clearInterval(this.timer)//清除计时器
         }
+      },
+      Refresh() {
+        this.clean()
         this.getList().then(() => {
           this.handleTime()
         })

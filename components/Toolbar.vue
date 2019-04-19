@@ -1,6 +1,9 @@
 <template>
   <v-layout class="toolbar">
-    <v-flex md4 class="pl-3">
+    <div class="my-title title-center">
+      {{$store.state.title}}
+    </div>
+    <v-flex class="pl-3">
       <div class="d-inline-block day-icon mr-1">
         <v-icon color="blue">iconfont icon-riqi</v-icon>
       </div>
@@ -82,6 +85,7 @@
   .toolbar {
     height: 85px;
     background-color: white;
+    position: relative;
     z-index: 11;
     padding-top: 20px;
   }
@@ -107,6 +111,13 @@
     font-size: 14px;
     font-family: 微软雅黑, serif;
     color: #FF9800;
+  }
+
+  .title-center {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    text-align: center;
   }
 
   a {

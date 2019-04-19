@@ -86,7 +86,7 @@
     props: {
       links: {
         type: Array,
-        default:[]
+        default: []
       }
     },
     data: function () {
@@ -103,8 +103,17 @@
     },
     methods: {
       refresh() {
-        this.$emit("getUserLinks")
+        let temp = []
+        //将已选中的链接id保存
+        _.forEach(this.links, item => {
+          if (item.checked) {
+            temp.push(item.id)
+          }
+        })
+        this.$emit("getUserLinks", temp)
+        //todo 动画
       },
+
       clean() {
         this.checkedNums = 0
         _.forEach(this.links, item => {
@@ -121,7 +130,6 @@
         this.handleOverFlow()
       },
       handleHover(showAll, showSelect) {
-
         if (showAll && this.more) {//显示所有已选择的短链
           this.showAll = true
           this.forceShowAll = true

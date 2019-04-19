@@ -1,8 +1,5 @@
 <template>
   <v-layout row wrap justify-center id="user-center">
-    <v-flex md10 class="mt-2">
-      <div class="my-title text-md-center color-dark">用户中心</div>
-    </v-flex>
     <v-flex md6 xl5>
       <v-layout row wrap justify-center class="vip-card" id="vip">
         <v-flex md12 class="text-md-center">
@@ -111,10 +108,17 @@
   export default {
 
     name: "user_center",
-    mounted() {
+    head: {
+      title: "JumpLinker - 用户中心"
+    },
+    created() {
       $userApi = new UserApi()
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
+      this.$store.commit("setTitle","用户中心")
+    },
+    mounted() {
+      //todo 支付接口
     },
     computed: {
       strengthColor: function () {

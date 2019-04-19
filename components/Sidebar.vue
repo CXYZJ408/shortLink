@@ -41,7 +41,7 @@
         <v-list-tile-action>
           <v-icon :color="color5">iconfont icon-shuju</v-icon>
         </v-list-tile-action>
-        <v-list-tile-title>数据展示</v-list-tile-title>
+        <v-list-tile-title>数据统计</v-list-tile-title>
       </v-list-tile>
     </v-list>
   </v-navigation-drawer>

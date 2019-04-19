@@ -102,7 +102,6 @@
         }).catch(e=>{
           console.log(e)
         })
-        //todo 向后端发起修改请求，修改成功后向父组件提交修改后的数据信息
       },
       cancel() {
         this.$emit("cancel")

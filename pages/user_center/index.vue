@@ -52,12 +52,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-flex md8 xl9 class="text-md-center">
-      <div class="my-title">短链生成</div>
-    </v-flex>
-    <!--链接输入框-->
+      <!--链接输入框-->
     <v-flex md8 xl9>
-      <v-layout>
+      <v-layout mt-3>
         <v-flex md8 xl9>
           <el-input placeholder="请输入要转换的链接" v-model="url" :clearable="true">
             <template slot="prepend">http(s)://</template>
@@ -227,6 +224,10 @@
     },
     created() {
       $linkApi = new LinkApi()
+      this.$store.commit("setTitle","短链生成")
+    },
+    head: {
+      title: "JumpLinker - 短链生成"
     },
     methods: {
       modify() {
@@ -376,6 +377,7 @@
       },
       transfer() {
         //链接转换操作
+        //todo 添加动画效果
         if (this.links.length > 0) {
           console.log(this.links)
           $linkApi.transfer(this.links).then(res => {
@@ -402,7 +404,6 @@
         }
       },
       copy(index) {
-        console.log("user_center.vue", index)
         this.path = this.shortLinks[index].shortLink
         setTimeout(() => {
           let url = document.getElementById('urlPath')

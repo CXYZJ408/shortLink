@@ -1,39 +1,85 @@
 <template>
-  <v-card flat id="userMonth" class="pt-3 my-card" hover>
+  <v-card flat id="userMonth" class="pt-3 my-card" hover v-if="show">
+    <div class="real-time-title">短链点击统计（每月）</div>
     <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 31vh"></v-chart>
+  </v-card>
+  <v-card class="pt-3 my-card" flat hover v-else>
+    <div class="real-time-title">短链点击统计（每月）</div>
+    <div class="none">暂无数据！</div>
   </v-card>
 </template>
 
 <script>
+  import {LinkApi} from "../../api/LinkApi";
+  import {transformTime2} from "../../utils";
+
+  let $linkApi
+  let _ = require("lodash")
+  let moment = require("moment")
   export default {
     name: 'LinkForwardMonth',
-    created() {
-      let today = new Date()
-      this.start = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate())
-      this.end = today
-      this.handleData()
-    },
-    computed: {},
-    methods: {
-      handleData() {
-        this.newUserMonth.series[0].data = this.getData(this.start, this.end)
-      },
-      getData(startDate, endDate) {//到后台获取数据信息
-        // todo 替换成后端数据
-        const oneDay = 1000 * 3600 * 24
-        endDate = endDate.getTime()//转化为时间戳
-        //生成假数据
-        let result = []
-        for (; startDate.getTime() <= endDate; startDate = new Date(+startDate + oneDay)) {
-          let time = `${startDate.getFullYear()}/${(startDate.getMonth() + 1)}/${startDate.getDate()} ${startDate.getHours() >= 10 ? startDate.getHours() : '0' + startDate.getHours()}:${startDate.getMinutes() >= 10 ? startDate.getMinutes() : '0' + startDate.getMinutes()}:${startDate.getSeconds() >= 10 ? startDate.getSeconds() : '0' + startDate.getSeconds()}`
-          let data = Math.floor(Math.random() * 100)
-          result.push({
-            name: startDate.toDateString(),
-            value: [time, data]
-          })
-        }
-        return result//数据返回
+    props: {
+      links: {
+        type: Array
       }
+    },
+    created() {
+      $linkApi = new LinkApi()
+    },
+    destroyed(){
+      this.clean()
+    },
+    computed: {
+      show: function () {
+        return this.links.length > 0
+      }
+    },
+    methods: {
+      handleResult(start, data) {//用于处理返回的数据集，将为0的数据项插入
+        let res = []//返回数据
+        let timeMap = new Map()
+        _.forEach(data, item => {
+          timeMap.set(item.time, item.click)
+        })
+        let insertZero = (timestamp) => {
+          let time = new Date(timestamp * 1000)
+          res.push({name: time, value: [transformTime2(timestamp), 0]})
+        }
+        console.log(timeMap)
+        for (let i = 0; i < 30; i++) {//处理数据为0的情况
+          start.add(1, "days")
+          if (timeMap.has(start.unix())) {//存在该key
+            res.push({name: start.toDate(), value: [transformTime2(start.unix()), timeMap.get(start.unix())]})
+          } else {//否则插入0
+            insertZero(start.unix())
+          }
+        }
+        return res
+      },
+      clean() {
+        if (!_.isUndefined(this.timer))
+          clearTimeout(this.timer)
+      },
+      getMonthData() {
+        let links = []
+        _.forEach(this.links, link => {//添加要请求的链接
+          links.push(link.id)
+        })
+        $linkApi.getLinkMonthData(links).then(res => {//获取数据
+          if (res.code === this.$code.SUCCESS) {
+            let today = moment()
+            today.hour(0).minute(0).second(0)
+            this.newUserMonth.series[0].data = this.handleResult(today.subtract(30, "days"), res.data, today)
+            this.timer = setTimeout(() => {
+              this.getMonthData()
+            }, 30000)
+          } else {
+            this.$message.error(res.msg)
+          }
+        }).catch(() => {
+          this.$message.error("网络异常，获取月份数据失败")
+        })
+      },
     },
     data: function () {
       return {
@@ -42,26 +88,18 @@
         step: 1,
         start: null,
         end: null,
+        timer: undefined,
         newUserMonth: {
           color: '#3398DB',
           legend: {
             left: 100
-          },
-          title: {
-            text: '短链点击统计',
-            left: '5%',
-            textStyle: {
-              color: '#566573',
-              fontSize: 28,
-              fontFamily: 'kaiti'
-            }
           },
           tooltip: {
             trigger: 'axis',
             formatter: function (params) {
               params = params[0]
               let date = new Date(params.name)
-              return '时间：' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '<br/>注册人数 : ' + params.value[1]
+              return '时间：' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '<br/>点击次数 : ' + params.value[1]
             },
             axisPointer: {
               type: 'none',
@@ -157,7 +195,32 @@
     color: #757575;
   }
 
+  .real-time-title {
+    position: absolute;
+    color: #566573;
+    font-size: 20px;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    left: 5%;
+  }
+
   #userMonth {
     position: relative;
+  }
+
+  .none {
+    color: rgba(86, 101, 115, .6);
+    font-size: 40px;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  .my-card {
+    border-radius: 10px;
+    position: relative;
+    height: 32vh;
   }
 </style>

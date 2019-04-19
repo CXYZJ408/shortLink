@@ -2,7 +2,7 @@
   <v-layout row wrap justify-center mt-4 class="px-4">
     <v-flex md3 class="text-md-right"><span class="text">要统计的短链接：</span></v-flex>
     <v-flex md6>
-      <selection :links="links" @getUserLinks="getUserLinks"></selection>
+      <selection :links="links" @getUserLinks="getUserLinks" ref="selection"></selection>
     </v-flex>
     <v-flex md2 class="pl-2">
       <v-btn color="#2ECC71" round dark depressed @click="handleLinks">
@@ -15,12 +15,12 @@
           <v-layout row wrap>
             <v-flex md12>
               <no-ssr>
-                <linkClickRealTime ref="linkClickRealTime" :links="realTimeLinks"></linkClickRealTime>
+                <linkClickRealTime ref="linkClickRealTime" :links="timeLinks"></linkClickRealTime>
               </no-ssr>
             </v-flex>
             <v-flex md12 class=" mt-2">
               <no-ssr>
-                <linkForwardMonth></linkForwardMonth>
+                <linkForwardMonth :links="timeLinks" ref="monthLink"></linkForwardMonth>
               </no-ssr>
             </v-flex>
           </v-layout>
@@ -43,48 +43,70 @@
   let $linkApi
   let _ = require("lodash")
   export default {
+    head: {
+      title: "JumpLinker - 数据统计"
+    },
     name: "data_display",
     components: {selection, linkClickRealTime, linkClickList, linkForwardMonth},
     data: function () {
       return {
         linkList: undefined,
         links: [],
-        realTimeLinks: []
+        timeLinks: []
       }
     },
     created() {
       $linkApi = new LinkApi()
       this.getUserLinks()
+      this.$store.commit("setTitle", "数据统计")
     },
     methods: {
       handleLinks() {
         //处理要获取相关数据的链接
-        this.realTimeLinks = []
+        this.timeLinks = []
         _.forEach(this.links, link => {
           if (link.checked) {
-            this.realTimeLinks.push(link)
+            this.timeLinks.push(link)
           }
         })
-        this.$refs.linkClickRealTime.getServerRealTimeData()
+        if (this.timeLinks.length > 0) {
+          setTimeout(() => {
+            this.$refs.linkClickRealTime.clean()//先清空计时器，防止之前的计时器还未失效
+            this.$refs.linkClickRealTime.getServerRealTimeData()
+            this.$refs.monthLink.getMonthData()
+
+          }, 10)
+        } else {
+          this.$message.warning("请选择要统计的链接")
+        }
       },
-      getUserLinks() {
-        console.log("getUserLinks")
+      getUserLinks(tempLink) {
+        this.links = []
+        let flag = false//标志位，用于标记templink是否存在
+        if (_.isArray(tempLink)) {
+          flag = true
+        }
         $linkApi.getUserAllLinks().then(res => {
-          console.log(res.data)
           if (res.code === this.$code.SUCCESS) {
+            let num = 0
             _.forEach(res.data.links, link => {
+              let checked = flag && tempLink.indexOf(link.id) !== -1//判断是否之前选择过
+              if (checked) {
+                num++
+              }
               this.links.push({
-                checked: false,
+                checked: checked,
                 title: link.shorturl,
                 note: link.note,
                 id: link.id
               })
             })
+            this.$refs.selection.checkedNums = num
           } else {
             this.$message.error(res.msg)
           }
         }).catch(e => {
-          this.$message.error(e)
+          this.$message.error("网络异常，用户短链获取出错！")
         })
       },
       getRealTime(links, isUpdate) {

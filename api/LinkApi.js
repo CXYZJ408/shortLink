@@ -15,6 +15,25 @@ export class LinkApi extends Api {
     return super.judgeSend(send)
   }
 
+  transferFree(link, send = true) {
+    let url = 'free/toshorturl'
+    let params = {
+      longurl: link,
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.transferFree, params)
+    return super.judgeSend(send)
+  }
+
+  restoreLink(shortUrl, send = true){
+    //todo 还原链接
+    let url = 'free/restore'
+    let params = {
+      shorturl: shortUrl,
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.restoreLink, params)
+    return super.judgeSend(send)
+  }
+
   //修改短链
   editLink(id, longLink, note, send = true) {
     let url = Link + '/urls/change'
@@ -68,7 +87,12 @@ export class LinkApi extends Api {
     return this.getLinkList(1, Number.MAX_SAFE_INTEGER)
   }
 
-  getLinkMonthData(links, timeStart, send = true) {
-
+  getLinkMonthData(links, send = true) {
+    let url = Link + '/urls/display/month'
+    let params = {
+      links: links
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.getLinkMonthData, params)
+    return super.judgeSend(send)
   }
 }

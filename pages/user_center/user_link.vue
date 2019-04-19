@@ -27,9 +27,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-flex md10 class="text-md-center mt-2" style="position:absolute;">
-      <div class="my-title">个人短链</div>
-    </v-flex>
     <v-flex md10 mt-4 pt-3>
       <v-layout>
         <v-flex md5>
@@ -128,9 +125,13 @@
     name: "user_link",
     created() {
       $linkApi = new LinkApi()
+      this.$store.commit("setTitle", "个人短链")
       this.getLinkList(1).catch(e => {
         this.$message.error(e)
       })
+    },
+    head: {
+      title: "JumpLinker - 个人短链"
     },
     components: {
       linkEdit

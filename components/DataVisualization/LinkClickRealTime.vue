@@ -20,7 +20,8 @@
 
   let $linkApi
   let _ = require("lodash")
-  const ONE_MINUTE = 60//一分钟
+  const ONE_MINUTE_SECOND = 60//一分钟，秒数
+  const ONE_MINUTE_MILLISECOND = 60000//一分钟，毫秒数
   export default {
     name: 'LinkClickRealTime',//短链接点击统计（每分钟）
     computed: {
@@ -39,7 +40,7 @@
       $linkApi = new LinkApi()
     },
     destroyed() {
-      clearInterval(this.timer)
+      this.clean()
     },
     props: {
       links: {
@@ -48,10 +49,7 @@
     },
     data: function () {
       return {
-        nowTime: null,//当前时间
-        start: null,//实时数据起始时间点
-        hourBefore: 6,//往前回溯几小时的数据
-        stepTime: 60 * 1000,//间隔时间：1分钟
+        hourBefore: 1,//往前回溯几小时的数据
         userRegisterRealTime: {
           grid: {
             left: '7%',
@@ -93,6 +91,7 @@
             },
           },
           yAxis: {
+            minInterval: 1,
             axisTick: {lineStyle: {opacity: 0.3}},
             type: 'value',
             axisLine: {
@@ -145,62 +144,66 @@
           }]
         },//新用户注册实时更新图配置项
         realTimeData: [],//新用户注册实时更新图数据集
-        timer: null
+        timer: undefined,
       }
     },
     methods: {
       changed() {
+        this.clean()
         this.getServerRealTimeData()
       },
-      getServerRealTimeData() {//像后端服务器发起请求
-        let tempDate = new Date()
-        tempDate.setSeconds(0)
-        this.nowTime = Math.floor(tempDate / 1000)//当前时间
-        this.start = Math.floor(new Date(this.nowTime * 1000 - 1000 * 60 * 60 * this.hourBefore).getTime() / 1000)//获取起始时间点
-        let linkIds = []
+      getServerRealTimeData() {//向后端服务器发起请求
+        let nowDate = new Date()
+        nowDate.setSeconds(0)//设置秒数为0
+        let nowTime = Math.floor(nowDate / 1000)//获取当前时间到分钟
+        let start = Math.floor(new Date(nowDate - 1000 * 3600 * this.hourBefore).getTime() / 1000)//获取起始时间点
+        let linkIds = []//要请求的链接id
         _.forEach(this.links, link => {
           linkIds.push(link.id)
         })
-        $linkApi.getRealTimeData(linkIds, this.start).then(res => {
+        $linkApi.getRealTimeData(linkIds, start).then(res => {
           if (res.code === this.$code.SUCCESS) {
-            this.realTimeData = this.handleResult(res.data)
+            this.realTimeData = this.handleResult(start, res.data, nowTime)
+            //设置定时器用于定时请求
+            let time = new Date()
+            let nextTimeOut = new Date(time.getFullYear(), time.getMonth(),
+              time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds() + 30) - time//同步时间
+            this.timer = setTimeout(() => {
+              this.getServerRealTimeData()
+            }, nextTimeOut)
           } else {
             this.$message.error(res.msg)
           }
         }).catch(e => {
-          this.$message.error(e)
+          this.$message.error("网络异常，数据获取出错！")
         })
       },
-      handleResult(data) {
+      clean() {
+        if (!_.isUndefined(this.timer))
+          clearTimeout(this.timer)
+      },
+      handleResult(start, data, end) {//用于处理返回的数据集，将为0的数据项插入
         let res = []//返回数据
-        let queue = []//后端服务器数据队列
+        let timeMap = new Map()
+        _.forEach(data, item => {
+          timeMap.set(item.time, item.click)
+        })
         let insertZero = (timestamp) => {
           let time = new Date(timestamp * 1000)
           res.push({name: time, value: [transformTime2(timestamp), 0]})
         }
-        _.forEach(data, item => {//遍历
-          queue.push(item)
-        })
-        let nowTime = this.start
-        let times = (Math.abs(nowTime - this.nowTime)) / ONE_MINUTE
-        for (let i = 0; i < times; i++) {
-          if (queue.length > 0) {
-            let item = _.clone(queue[0])
-            if (item.time === nowTime) {
-              let time = new Date(nowTime * 1000)
-              res.push({name: time, value: [transformTime2(nowTime), item.click]})
-              queue.splice(0, 1)
-            } else {
-              insertZero(nowTime)
-            }
-          } else {
+        let nowTime = start
+        let times = ((Math.abs(nowTime - end)) / ONE_MINUTE_SECOND) + 1
+        for (let i = 0; i < times; i++) {//处理数据为0的情况
+          if (timeMap.has(nowTime)) {//存在该key
+            res.push({name: new Date(nowTime * 1000), value: [transformTime2(nowTime), timeMap.get(nowTime)]})
+          } else {//否则插入0
             insertZero(nowTime)
           }
-          nowTime += ONE_MINUTE
+          nowTime += ONE_MINUTE_SECOND
         }
         return res
       },
-
     }
   }
 </script>
@@ -235,7 +238,7 @@
   }
 
   .none {
-    color: rgba(86,101,115,.6);
+    color: rgba(86, 101, 115, .6);
     font-size: 40px;
     margin-top: 70px;
     margin-left: auto;

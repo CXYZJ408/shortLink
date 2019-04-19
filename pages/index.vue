@@ -12,15 +12,15 @@
         <span class="toolbar-action">短链生成</span>
       </v-btn>
 
-      <v-btn flat round color="#AEB6BF">
+      <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
         <span class="toolbar-action">短链还原</span>
       </v-btn>
 
-      <v-btn flat round color="#AEB6BF">
+      <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
         <span class="toolbar-action">二维码生成</span>
       </v-btn>
 
-      <v-btn flat round color="#AEB6BF">
+      <v-btn flat round color="#AEB6BF" nuxt to="/transfer1">
         <span class="toolbar-action">域名防红</span>
       </v-btn>
       <v-tooltip bottom>
@@ -43,7 +43,10 @@
 
   export default {
     name: "index",
-    layout: "index"
+    layout: "index",
+    head: {
+      title: "JumpLinker"
+    },
   }
 </script>
 
