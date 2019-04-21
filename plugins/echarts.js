@@ -21,3 +21,4 @@ import 'echarts/map/js/world'
 import 'echarts/theme/dark'
 
 Vue.component('v-chart', ECharts)
+

@@ -1,5 +1,12 @@
 <template>
   <v-layout row wrap justify-center id="user-center">
+    <v-dialog v-model="showPay">
+      <v-card flat>
+        <v-card-text>是否支付完成？</v-card-text>
+        <v-btn @click="payFinish">是</v-btn>
+        <v-btn @click="showPay=false">否</v-btn>
+      </v-card>
+    </v-dialog>
     <v-flex md6 xl5>
       <v-layout row wrap justify-center class="vip-card" id="vip">
         <v-flex md12 class="text-md-center">
@@ -14,20 +21,20 @@
         <v-flex md12 class=" mt-4 ml-5">
           <div class="color-dark font-2 "> 续费天数选择：</div>
         </v-flex>
-        <v-flex md12 class=" mt-2 ml-5">
-          <v-radio-group row v-model="radioGroup">
+        <v-flex md12 class="ml-5">
+          <v-radio-group row v-model="selectedId">
             <v-radio
               color="#40A1FA"
-              class="font-2 "
-              v-for="(selection,index) in selections"
-              :label="selection"
+              class="font-2 pa-2"
+              v-for="(moneyLabel,index) in moneyLabels"
+              :label="moneyLabel.name"
               :key="index"
-              :value="index"
+              :value="moneyLabel.id"
             ></v-radio>
           </v-radio-group>
         </v-flex>
-        <v-flex md6 class="text-md-center mt-2">
-          <v-btn dark block depressed color="#FF9800" round><span class="headline">续费</span></v-btn>
+        <v-flex md6 class="text-md-center">
+          <v-btn dark block depressed color="#FF9800" round @click="pay"><span class="headline">续费</span></v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -98,13 +105,13 @@
 </template>
 
 <script>
-  import {transformTime} from "../../utils";
+  import {parseCookieByName, transformTime} from "../../utils";
   import {UserApi} from '../../api/UserApi'
 
   let $userApi
   let $md5
   let $strength
-
+  let _ = require("lodash")
   export default {
 
     name: "user_center",
@@ -115,10 +122,29 @@
       $userApi = new UserApi()
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
-      this.$store.commit("setTitle","用户中心")
+      this.$store.commit("setTitle", "用户中心")
     },
     mounted() {
-      //todo 支付接口
+      $userApi.getCost().then(res => {
+        if (res.code === this.$code.SUCCESS) {
+          let tempId = false
+          _.forEach(res.data, moneyItem => {
+            if (!tempId) {
+              tempId = moneyItem.id
+            }
+            let temp = {
+              name: `${moneyItem.name}(${moneyItem.money}元)`,
+              id: moneyItem.id
+            }
+            this.moneyLabels.push(temp)
+          })
+          this.selectedId = tempId
+        } else {
+          this.$message.error(res.msg)
+        }
+      }).catch(() => {
+        this.$message.error("网络异常，获取数据失败！")
+      })
     },
     computed: {
       strengthColor: function () {
@@ -154,6 +180,7 @@
 
     data: function () {
       return {
+        showPay: false,
         valid: false,
         show2: false,
         show: false,
@@ -161,8 +188,8 @@
         oldPassword: "",
         newPassword: "",
         reset: false,
-        radioGroup: 0,
-        selections: ["一个月（10元）", "半年（50元）", "一年（100元）"],
+        selectedId: 0,
+        moneyLabels: [],
         passwordRules: [
           v => !!v || '密码不为空',
           v => {
@@ -214,6 +241,18 @@
           }
         }, 5)
       },
+      pay() {
+        $userApi.pay(this.selectedId).then(res => {
+          if (res.code === this.$code.SUCCESS) {
+            window.open(res.data.url)
+            this.showPay = true
+          } else {
+            this.$message.error(res.msg)
+          }
+        }).catch(() => {
+          this.$message.error("网络异常，支付失败！")
+        })
+      },
       resetPassword() {
         if (this.$refs.form.validate() && this.valid) {
           if (this.strength < 25) {//如果密码强度太低，则进行提示用户加强
@@ -228,6 +267,21 @@
             })
           }
         }
+      },
+      payFinish() {
+        let $cookie = require("js-cookie")
+        let cookie = parseCookieByName($cookie.get( 'user'))//获取token
+        if (!_.isEmpty(cookie)) {//存在cookie
+          //调用登录API
+          let $userApi = new UserApi()
+           $userApi.loginAgain(cookie).then(res => {
+            if (res.code === 0) {
+              console.log("loginAgain")
+              this.$store.commit('login', res.data)
+            }
+          })
+        }
+        $userApi.loginAgain()
       },
       handleResult(res) {
         if (res.code === this.$code.SUCCESS) {
@@ -275,11 +329,11 @@
   }
 
   .vip-card {
-    margin-top: 8vh;
+    margin-top: 12vh;
   }
 
   .password-card {
-    margin-top: 4vh;
+    margin-top: 8vh;
     margin-right: auto;
     margin-left: auto;
   }

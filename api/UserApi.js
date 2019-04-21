@@ -22,12 +22,11 @@ export class UserApi extends Api {
     let params = {
       username: username,
       newPassword: newPassword,
-      phone:phone,
-      email:email
+      phone: phone,
+      email: email
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.forget, params)
     return super.judgeSend(send)
-
   }
 
   loginAgain(cookie, send = true) {
@@ -78,6 +77,21 @@ export class UserApi extends Api {
   inviteNum(send = true) {
     let url = User + "/invite"
     super.pushRequest = new Request(requestMethods.GET, url, this.inviteNum)
+    return super.judgeSend(send)
+  }
+
+  getCost(send = true) {
+    let url = "/pay/cost"
+    super.pushRequest = new Request(requestMethods.GET, url, this.getCost)
+    return super.judgeSend(send)
+  }
+
+  pay(id, send = true) {
+    let url = "/pay/"
+    let params = {
+      id: id
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.pay, params)
     return super.judgeSend(send)
   }
 }
