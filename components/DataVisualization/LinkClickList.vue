@@ -70,7 +70,9 @@
                 this.list.push(temp)
               })
             } else {
-              this.$message.error(res.msg)
+              if (this.$store.state.isLogin) {
+                this.$message.error(res.msg )
+              }
             }
             resolve(true)
           }).catch(e => {

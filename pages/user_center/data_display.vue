@@ -43,6 +43,20 @@
   let $linkApi
   let _ = require("lodash")
   export default {
+    transition: {
+      beforeEnter(el) {
+        console.log("before-enter")
+        el.style.opacity = 0
+      },
+      enter(el, done) {
+        console.log("enter")
+        this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
+      },
+      leave(el, done) {
+        console.log("leave")
+        this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
+      }
+    },
     head: {
       title: "JumpLinker - 数据统计"
     },
@@ -71,10 +85,13 @@
         })
         if (this.timeLinks.length > 0) {
           setTimeout(() => {
-            this.$refs.linkClickRealTime.clean()//先清空计时器，防止之前的计时器还未失效
-            this.$refs.linkClickRealTime.getServerRealTimeData()
-            this.$refs.monthLink.getMonthData()
-
+            if (!_.isUndefined(this.$refs.linkClickRealTime)) {
+              this.$refs.linkClickRealTime.clean()//先清空计时器，防止之前的计时器还未失效
+              this.$refs.linkClickRealTime.getServerRealTimeData()
+            }
+            if (!_.isUndefined(this.$refs.monthLink)) {
+              this.$refs.monthLink.getMonthData()
+            }
           }, 10)
         } else {
           this.$message.warning("请选择要统计的链接")
@@ -101,20 +118,18 @@
                 id: link.id
               })
             })
-            this.$refs.selection.checkedNums = num
+            if (!_.isUndefined(this.$refs.selection)) {
+              this.$refs.selection.checkedNums = num
+            }
           } else {
-            this.$message.error(res.msg)
+            if (this.$store.state.isLogin) {
+              this.$message.error(res.msg)
+            }
           }
         }).catch(e => {
           this.$message.error("网络异常，用户短链获取出错！")
         })
       },
-      getRealTime(links, isUpdate) {
-
-      },
-      getMonth() {
-
-      }
     }
   }
 </script>

@@ -165,7 +165,6 @@
         let all = !this.all
         this.all = all
         if (all) {//全选
-          //todo 显示全选标签
           this.chooseAllOrNot(true)
           this.checkedNums = this.links.length
         } else {//全部取消选择

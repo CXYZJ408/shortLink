@@ -1,6 +1,7 @@
 export default  ({store, route, redirect, error, params, req}) => {
   //用户路由拦截
   //检测登录状态
+  return  0
   //todo 用户拦截
   if (!store.state.isLogin) {
     // 未登陆

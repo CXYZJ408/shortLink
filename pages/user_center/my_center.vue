@@ -1,10 +1,35 @@
 <template>
   <v-layout row wrap justify-center id="user-center">
-    <v-dialog v-model="showPay">
-      <v-card flat>
-        <v-card-text>是否支付完成？</v-card-text>
-        <v-btn @click="payFinish">是</v-btn>
-        <v-btn @click="showPay=false">否</v-btn>
+    <v-dialog
+      v-model="showPay"
+      max-width="400">
+      <v-card class="pb-2">
+        <div class="text-md-center icon-title" style="width: 100%">
+          <v-icon color="#FF9800" size="110">iconfont icon-money2</v-icon>
+        </div>
+        <v-card-text class="card-text">
+          请在新打开的页面完成支付。
+        </v-card-text>
+        <v-card-actions class="text-md-center d-block">
+          <v-btn
+            depressed
+            dark
+            color="grey"
+            @click="showPay = false">
+            <span class="tooltip" style="font-size: 18px">
+            取消
+            </span>
+          </v-btn>
+          <v-btn
+            color="#2ECC71"
+            depressed
+            dark
+            @click="payFinish">
+            <span class="pay-finish">
+              支付完成
+            </span>
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-flex md6 xl5>
@@ -113,7 +138,20 @@
   let $strength
   let _ = require("lodash")
   export default {
-
+    transition: {
+      beforeEnter(el) {
+        console.log("before-enter")
+        el.style.opacity = 0
+      },
+      enter(el, done) {
+        console.log("enter")
+        this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
+      },
+      leave(el, done) {
+        console.log("leave")
+        this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
+      }
+    },
     name: "user_center",
     head: {
       title: "JumpLinker - 用户中心"
@@ -140,7 +178,9 @@
           })
           this.selectedId = tempId
         } else {
-          this.$message.error(res.msg)
+          if (this.$store.state.isLogin) {
+            this.$message.error(res.msg)
+          }
         }
       }).catch(() => {
         this.$message.error("网络异常，获取数据失败！")
@@ -180,6 +220,7 @@
 
     data: function () {
       return {
+        orderId: undefined,
         showPay: false,
         valid: false,
         show2: false,
@@ -244,10 +285,13 @@
       pay() {
         $userApi.pay(this.selectedId).then(res => {
           if (res.code === this.$code.SUCCESS) {
+            this.orderId = res.data.order_id
             window.open(res.data.url)
             this.showPay = true
           } else {
-            this.$message.error(res.msg)
+            if (this.$store.state.isLogin) {
+              this.$message.error(res.msg)
+            }
           }
         }).catch(() => {
           this.$message.error("网络异常，支付失败！")
@@ -269,19 +313,21 @@
         }
       },
       payFinish() {
-        let $cookie = require("js-cookie")
-        let cookie = parseCookieByName($cookie.get( 'user'))//获取token
-        if (!_.isEmpty(cookie)) {//存在cookie
-          //调用登录API
-          let $userApi = new UserApi()
-           $userApi.loginAgain(cookie).then(res => {
-            if (res.code === 0) {
-              console.log("loginAgain")
-              this.$store.commit('login', res.data)
+        $userApi.queryPay(this.orderId).then(res => {
+          console.log(res.data)
+          if (res.code === this.$code.SUCCESS) {
+            if (res.data.payed) {//支付成功
+              //更新用户数据
+              this.$store.commit("paySuccess", res.data)
+              this.$message.success("恭喜您成为VIP会员!")
+            } else {
+              if (this.$store.state.isLogin) {
+                this.$message.warning("抱歉，未查询到您的支付信息")
+              }
             }
-          })
-        }
-        $userApi.loginAgain()
+          }
+          this.showPay = false
+        })
       },
       handleResult(res) {
         if (res.code === this.$code.SUCCESS) {
@@ -293,7 +339,9 @@
           this.this.strength = 0
           this.$message.success("密码修改成功!")
         } else {
-          this.$message.error(res.msg)
+          if (this.$store.state.isLogin) {
+            this.$message.error(res.msg)
+          }
         }
       }
     }
@@ -341,6 +389,27 @@
   .card-title {
     font-size: 40px
   }
+
+  .v-dialog {
+    border-radius: 3px;
+  }
+
+  .icon-title {
+    padding-top: 30px;
+  }
+
+  .card-text {
+    font-size: 25px;
+    font-family: 微软雅黑, serif;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .pay-finish {
+    font-family: 微软雅黑, serif;
+    font-size: 18px;
+  }
+
 </style>
 <style>
   #vip .v-label {

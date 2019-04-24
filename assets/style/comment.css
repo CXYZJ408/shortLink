@@ -12,6 +12,7 @@ body {
 /* 滚动槽 */
 ::-webkit-scrollbar-track {
   border-radius: 10px;
+  background-color: white;
 }
 
 

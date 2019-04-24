@@ -172,7 +172,9 @@
               this.getServerRealTimeData()
             }, nextTimeOut)
           } else {
-            this.$message.error(res.msg)
+            if (this.$store.state.isLogin) {
+              this.$message.error(res.msg)
+            }
           }
         }).catch(e => {
           this.$message.error("网络异常，数据获取出错！")

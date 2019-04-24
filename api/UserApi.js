@@ -74,12 +74,6 @@ export class UserApi extends Api {
     return super.judgeSend(send)
   }
 
-  inviteNum(send = true) {
-    let url = User + "/invite"
-    super.pushRequest = new Request(requestMethods.GET, url, this.inviteNum)
-    return super.judgeSend(send)
-  }
-
   getCost(send = true) {
     let url = "/pay/cost"
     super.pushRequest = new Request(requestMethods.GET, url, this.getCost)
@@ -93,5 +87,21 @@ export class UserApi extends Api {
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.pay, params)
     return super.judgeSend(send)
+  }
+
+  queryPay(orderId, send = true) {
+    let url = "/pay/query"
+    let params = {
+      order_id: orderId
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.queryPay, params)
+    return super.judgeSend(send)
+  }
+
+  inviteList(send = true) {
+    let url = User + "/invitees"
+    super.pushRequest = new Request(requestMethods.POST, url, this.inviteList)
+    return super.judgeSend(send)
+
   }
 }

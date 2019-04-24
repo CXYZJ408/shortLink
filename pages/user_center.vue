@@ -5,9 +5,11 @@
     </v-flex>
     <v-flex md11>
       <toolbar></toolbar>
-      <v-layout wrap >
+      <v-layout wrap>
         <v-card class="card" flat elevation="1">
-          <nuxt-child></nuxt-child>
+          <transition :css="false" mode="out-in">
+            <nuxt-child></nuxt-child>
+          </transition>
         </v-card>
       </v-layout>
     </v-flex>
@@ -30,6 +32,8 @@
         nowPath: this.$route.path
       }
     },
+
+    methods: {},
     components: {sidebar, toolbar}
   }
 </script>
@@ -39,7 +43,7 @@
     margin-right: auto;
     margin-top: 1.5vh;
     height: 85vh;
-    width:90%;
+    width: 90%;
     border-radius: 10px;
   }
 </style>

@@ -11,7 +11,7 @@
         <div>
           <span class="vip-text1">会员剩余</span><span class="vip-day pl-2">{{day}}</span>
           <span class="vip-text1 pl-2">天</span>
-          <nuxt-link class="vip-link pl-2" to="/user_center">续费</nuxt-link>
+          <nuxt-link class="vip-link pl-2" to="/user_center/my_center">续费</nuxt-link>
         </div>
         <div class="vip-text2">
           {{date}}
@@ -118,6 +118,7 @@
     position: absolute;
     height: 100%;
     text-align: center;
+    z-index: -1;
   }
 
   a {

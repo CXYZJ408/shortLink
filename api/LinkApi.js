@@ -25,7 +25,6 @@ export class LinkApi extends Api {
   }
 
   restoreLink(shortUrl, send = true){
-    //todo 还原链接
     let url = 'free/restore'
     let params = {
       shorturl: shortUrl,

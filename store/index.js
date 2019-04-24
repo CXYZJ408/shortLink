@@ -10,10 +10,8 @@ export const state = () => ({
 
 export const mutations = {
   login(state, data) {
-    console.log(data)
     state.user = data.user
     state.isLogin = true
-    console.log("state", state)
   },
 
   logout(state) {
@@ -22,8 +20,11 @@ export const mutations = {
   },
   setTitle(state, title) {
     state.title = title
+  },
+  paySuccess(state, payMsg) {
+    state.user.isVip = payMsg.isVip
+    state.user.expireTime = payMsg.expireTime
   }
-
 }
 export const actions = {
   async nuxtServerInit(store, {req}) {//在跳转其它的页面或是刷新页面的时候，nuxt会自动调用

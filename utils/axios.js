@@ -1,12 +1,12 @@
 import qs from 'qs'
 import axios from 'axios'
 
-let _ = require('lodash')
 
-axios.defaults.baseURL = "http://47.103.45.133/api"
+axios.defaults.baseURL = "/api"
 //请求地址
 axios.defaults.withCredentials = true // 允许携带cookie
 axios.interceptors.response.use(response => {
+
   return response
 }, error => {
 

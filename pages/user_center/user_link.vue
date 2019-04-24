@@ -5,24 +5,28 @@
     <v-dialog
       v-model="showDeleteLink"
       max-width="400">
-      <v-card flat>
-        <v-card-title class="headline">是否删除链接?</v-card-title>
-        <v-card-text>
+      <v-card class="pb-2">
+        <div class="text-md-center icon-title" style="width: 100%">
+          <v-icon color="orange" size="70">iconfont icon-Warn</v-icon>
+        </div>
+        <v-card-text class="card-text">
           您是否想要删除该链接？
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+        <v-card-actions class="text-md-center d-block">
           <v-btn
-            color="green darken-1"
+            color="grey darken-1"
             flat="flat"
             @click="showDeleteLink = false">
             取消
           </v-btn>
           <v-btn
-            color="green darken-1"
-            flat="flat"
+            color="red darken-1"
+            depressed
+            dark
             @click="deleteLink">
-            确定
+            <span class="tooltip">
+              确定删除！
+            </span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -127,7 +131,9 @@
       $linkApi = new LinkApi()
       this.$store.commit("setTitle", "个人短链")
       this.getLinkList(1).catch(e => {
-        this.$message.error(e)
+        if (this.$store.state.isLogin) {
+          this.$message.error(e)
+        }
       })
     },
     head: {
@@ -135,6 +141,20 @@
     },
     components: {
       linkEdit
+    },
+    transition: {
+      beforeEnter(el) {
+        console.log("before-enter")
+        el.style.opacity = 0
+      },
+      enter(el, done) {
+        console.log("enter")
+        this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
+      },
+      leave(el, done) {
+        console.log("leave")
+        this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
+      }
     },
     data: function () {
       return {
@@ -175,7 +195,9 @@
       },
       changePage() {//页面切换
         this.getLinkList(this.page.page).catch(e => {
-          this.$message.error(e)
+          if (this.$store.state.isLogin) {
+            this.$message.error(e)
+          }
         })
       },
       getLinkList(page) {//获取指定页面的数据
@@ -249,10 +271,14 @@
               this.deleteLinkIds = []
               this.showDeleteLink = false
             }).catch(e => {
-              this.$message.error(e)
+              if (this.$store.state.isLogin) {
+                this.$message.error(e)
+              }
             })
           } else {
-            this.$message.error(res.msg)
+            if (this.$store.state.isLogin) {
+              this.$message.error(res.msg)
+            }
           }
         })
       },
@@ -293,7 +319,7 @@
     border-color: #E7EEF6 !important;
     border-width: 1px !important;
     box-shadow: 0 0 2px 1px #E7EEF6;
-    border-radius: 10px;
+    border-radius: 3px;
   }
 
   .page {
@@ -316,6 +342,20 @@
     top: -100px;
   }
 
+  .v-dialog {
+    border-radius: 3px;
+  }
+
+  .icon-title {
+    padding-top: 30px;
+  }
+
+  .card-text {
+    font-size: 25px;
+    font-family: 微软雅黑, serif;
+    font-weight: 600;
+    text-align: center;
+  }
 </style>
 
 <style>

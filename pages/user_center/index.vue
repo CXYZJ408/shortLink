@@ -52,7 +52,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-      <!--链接输入框-->
+    <!--链接输入框-->
     <v-flex md8 xl9>
       <v-layout mt-3>
         <v-flex md8 xl9>
@@ -205,6 +205,20 @@
     components: {
       linkEdit
     },
+    transition: {
+      beforeEnter(el) {
+        console.log("before-enter")
+        el.style.opacity = 0
+      },
+      enter(el, done) {
+        console.log("enter")
+        this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
+      },
+      leave(el, done) {
+        console.log("leave")
+        this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
+      }
+    },
     data: function () {
       return {
         path: "",
@@ -218,13 +232,13 @@
         showDeleteLink: false,
         showCleanLink: false,
         showEdit: false,
-        editLink: {id: "abc", longLink: "https://www.bilibili.com/", shortLink: "www.abc.com", note: "B站"},
+        editLink: {id: "", longLink: "", shortLink: "", note: ""},
         editIndex: 0
       }
     },
     created() {
       $linkApi = new LinkApi()
-      this.$store.commit("setTitle","短链生成")
+      this.$store.commit("setTitle", "短链生成")
     },
     head: {
       title: "JumpLinker - 短链生成"
@@ -396,7 +410,9 @@
               this.initOption()
               this.$message.success("转换成功！")
             } else {
-              this.$message.error(res.msg)
+              if (this.$store.state.isLogin) {
+                this.$message.error(res.msg)
+              }
             }
           })
         } else {

@@ -26,7 +26,8 @@
     created() {
       $linkApi = new LinkApi()
     },
-    destroyed(){
+    destroyed() {
+      console.log("销毁了")
       this.clean()
     },
     computed: {
@@ -74,7 +75,9 @@
               this.getMonthData()
             }, 30000)
           } else {
-            this.$message.error(res.msg)
+            if (this.$store.state.isLogin) {
+              this.$message.error(res.msg)
+            }
           }
         }).catch(() => {
           this.$message.error("网络异常，获取月份数据失败")
