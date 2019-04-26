@@ -14,8 +14,9 @@
           <div class="sub-title">短链生成，一键追踪，安全高效，毫秒级响应，快速直达。</div>
         </div>
         <div class="action">
-          <v-btn color="#FF7800" large depressed dark><span class="btn-title">免费试用</span></v-btn>
-          <v-btn color="white" large outline depressed dark><span class="btn-title">立即购买</span></v-btn>
+          <v-btn color="#FF7800" large depressed dark nuxt to="/transfer"><span class="btn-title">免费试用</span></v-btn>
+          <v-btn color="white" large outline depressed dark @click="purchase"><span class="btn-title">立即购买</span>
+          </v-btn>
         </div>
       </div>
     </div>
@@ -64,7 +65,8 @@
                 <span class="y-card-subtitle">短地址数量不限</span></div>
             </div>
             <div class="mt-3 text-md-right">
-              <v-btn depressed dark round color="#4D55E8"><span class="y-card-btn px-2">免费注册</span></v-btn>
+              <v-btn depressed dark round color="#4D55E8" nuxt to="/register"><span class="y-card-btn px-2">免费注册</span>
+              </v-btn>
             </div>
             <div class="img">
               <img src="/img/index/blue-back.svg" alt="">
@@ -101,7 +103,8 @@
             </div>
           </div>
           <div class="mt-3 text-md-right">
-            <v-btn depressed dark round color="#FF960C"><span class="y-card-btn px-2">特价购买</span></v-btn>
+            <v-btn depressed dark round color="#FF960C" @click="purchase"><span class="y-card-btn px-2">特价购买</span>
+            </v-btn>
           </div>
           <div class="img">
             <img src="/img/index/yellow-back.svg" alt="">
@@ -162,6 +165,13 @@
       }
     },
     components: {myFooter},
+    methods: {
+      purchase() {
+        //状态树中设置跳转购买页面
+        this.$store.commit("setPurchaseVip", true)
+        this.$router.push("/login")
+      }
+    }
   }
 </script>
 
@@ -336,8 +346,9 @@
   .up {
     height: 150px;
   }
+
   .foot-div {
-     height:116px;
+    height: 116px;
   }
 
 </style>

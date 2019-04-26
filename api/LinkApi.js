@@ -15,16 +15,17 @@ export class LinkApi extends Api {
     return super.judgeSend(send)
   }
 
-  transferFree(link, send = true) {
+  transferFree(link, isRed = false, send = true) {
     let url = 'free/toshorturl'
     let params = {
       longurl: link,
+      isRed: isRed
     }
     super.pushRequest = new Request(requestMethods.POST, url, this.transferFree, params)
     return super.judgeSend(send)
   }
 
-  restoreLink(shortUrl, send = true){
+  restoreLink(shortUrl, send = true) {
     let url = 'free/restore'
     let params = {
       shorturl: shortUrl,

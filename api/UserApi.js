@@ -29,12 +29,12 @@ export class UserApi extends Api {
     return super.judgeSend(send)
   }
 
-  loginAgain(cookie, send = true) {
+  loginAgain(session, send = true) {
     let url = User + '/loginAgain'
-    let params = {
-      cookie: cookie
+    let header = {
+      cookie: "session=" + session
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, params)
+    super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, undefined, header)
     return super.judgeSend(send)
   }
 

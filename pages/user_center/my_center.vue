@@ -304,10 +304,11 @@
           } else {//通过验证后
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             let newPassword = $md5(this.newPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
+            //TypeError: Cannot set property 'strength' of undefined
             $userApi.resetPassword(oldPassword, newPassword).then(res => {
               this.handleResult(res)
             }).catch(e => {
-              this.$message.error("抱歉，出错啦！！")
+              this.$message.error("抱歉，出错啦！！" + e)
             })
           }
         }
@@ -336,7 +337,7 @@
           this.reset = false
           this.newPassword = ""
           this.oldPassword = ""
-          this.this.strength = 0
+          this.strength = 0
           this.$message.success("密码修改成功!")
         } else {
           if (this.$store.state.isLogin) {

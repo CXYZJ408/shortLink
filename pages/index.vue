@@ -1,37 +1,40 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-card flat class="index-card">
     <v-toolbar color="white" fixed flat height="55" style="z-index: 999">
-      <nuxt-link to="/" style="text-decoration: none">
-        <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
-        <span class="toolbar-title">JumpLinker</span>
-      </nuxt-link>
+    <nuxt-link to="/" style="text-decoration: none">
+      <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
+      <span class="toolbar-title">JumpLinker</span>
+    </nuxt-link>
 
-      <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-      <v-btn flat round color="#AEB6BF" nuxt to="/transfer">
-        <span class="toolbar-action">短链生成</span>
-      </v-btn>
+    <v-btn flat round color="#AEB6BF" nuxt to="/transfer">
+      <span class="toolbar-action">短链生成</span>
+    </v-btn>
 
-      <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
-        <span class="toolbar-action">短链还原</span>
-      </v-btn>
+    <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
+      <span class="toolbar-action">短链还原</span>
+    </v-btn>
 
-      <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
-        <span class="toolbar-action">二维码生成</span>
-      </v-btn>
+    <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
+      <span class="toolbar-action">二维码生成</span>
+    </v-btn>
 
-      <v-btn flat round color="#AEB6BF" nuxt to="/transfer1">
-        <span class="toolbar-action">域名防红</span>
-      </v-btn>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon flat color="#566573" v-on="on" nuxt to="/login">
-            <v-icon>iconfont icon-denglu</v-icon>
-          </v-btn>
-        </template>
-        <span class="tooltip">登录、注册</span>
-      </v-tooltip>
-    </v-toolbar>
+    <v-btn flat round  nuxt to="/DNSRed">
+      <span class="toolbar-action">域名防红</span>
+    </v-btn>
+    <v-btn v-if="$store.state.isLogin" :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
+      <span>{{$store.state.user.username}}</span>
+    </v-btn>
+    <v-tooltip bottom v-else>
+      <template v-slot:activator="{ on }">
+        <v-btn icon flat color="#566573" v-on="on" nuxt to="/login">
+          <v-icon>iconfont icon-denglu</v-icon>
+        </v-btn>
+      </template>
+      <span class="tooltip">登录、注册</span>
+    </v-tooltip>
+  </v-toolbar>
     <div style="margin-top: 55px;">
       <nuxt-child></nuxt-child>
     </div>

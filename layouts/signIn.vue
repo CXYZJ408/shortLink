@@ -1,12 +1,17 @@
 <template>
-  <v-app class="back" >
+  <v-app class="back">
     <nuxt/>
+    <detect-device></detect-device>
   </v-app>
 </template>
 
 <script>
-  export default {
+  import detectDevice from "../components/detectDevice";
 
+  export default {
+    components: {
+      detectDevice
+    }
   }
 </script>
 

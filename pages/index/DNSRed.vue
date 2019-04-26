@@ -65,9 +65,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-
     </v-dialog>
-
     <v-layout row wrap justify-center class="main">
       <v-flex md12 class="text-md-center mt-5 mb-2">
         <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -79,7 +77,7 @@
                   :clearable="true"></el-input>
         <v-btn class="d-inline-block transfer-btn top" dark color="#F8990C" depressed @click="transfer">
           <v-icon size="18">iconfont icon-shuaxin</v-icon>
-          <span class="btn-text ml-2">转换</span></v-btn>
+          <span class="btn-text ml-2">防红</span></v-btn>
       </v-flex>
     </v-layout>
     <div class="foot-div">
@@ -118,7 +116,6 @@
           link = this.shortLink
         }
         this.$refs.copy.copy(link)
-
       },
       checkURL(URL) {
         //判断url地址是否正确
@@ -130,7 +127,7 @@
       transfer() {
         if (this.checkURL(this.longLink)) {
           this.showTransferDialog = true
-          $linkApi.transferFree(this.longLink).then(res => {
+          $linkApi.transferFree(this.longLink, true).then(res => {
             if (res.code === this.$code.SUCCESS) {
               this.shortLink = res.data.shorturl
               QRCode.toCanvas(document.getElementById('qrcode'), this.shortLink).then(() => {

@@ -1,197 +1,200 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-layout row wrap mt-2 justify-center id="index">
-    <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
-    <input type="text" v-model="path" id="urlPath">
-    <v-dialog
-      v-model="showDeleteLink"
-      max-width="400">
-      <v-card flat>
-        <v-card-title class="headline">是否删除链接?</v-card-title>
-        <v-card-text>
-          您是否想要删除该链接？
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="showDeleteLink = false">
-            取消
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="deleteLink(modifyIndex)">
-            确定
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog
-      v-model="showCleanLink"
-      max-width="400">
-      <v-card flat>
-        <v-card-title class="headline">是否清空链接?</v-card-title>
-        <v-card-text>
-          您是否想要删除所有链接？
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="showCleanLink = false">
-            取消
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="cleanLinks">
-            确定
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <!--链接输入框-->
-    <v-flex md8 xl9>
-      <v-layout mt-3>
-        <v-flex md8 xl9>
-          <el-input placeholder="请输入要转换的链接" v-model="url" :clearable="true">
-            <template slot="prepend">http(s)://</template>
-          </el-input>
-        </v-flex>
-        <v-flex md4 xl3 class="text-md-center ">
-          <v-btn v-if="modifyMode" round depressed color="#2ECC71" dark @click="modify">
-            <v-icon size="15">iconfont icon-bianji</v-icon>
-            <span class="font ml-1">修改</span>
-          </v-btn>
-          <v-btn v-else depressed round color="#2ECC71" dark @click="addLink">
-            <v-icon size="24">iconfont icon-jiashang</v-icon>
-            <span class="font ml-1">添加</span>
-          </v-btn>
-          &nbsp;
-          <v-btn depressed round color="red" dark @click="handleClean">
-            <v-icon size="20">iconfont icon-shanchu</v-icon>
-            <span class="font ml-1">清空链接</span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <!--链接转换框-->
-    <v-flex md8 xl9 class="mt-4">
-      <v-layout align-center justify-center>
-        <!--待转换链接-->
-        <v-flex md5 xl5>
-          <v-card class="card" flat>
-            <div class="top-title" style="background-color: #2ECC71;">
-              <div>待转换的链接</div>
-            </div>
-            <div class="links-card-green links-card">
-              <v-list v-if="links.length>0" class="link-theme">
-                <div v-for="(link,index) in links">
-                  <v-list-tile @click="">
-                    <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
-                    <v-list-tile-title class="ml-2" @click="changeLink(index)">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link.url}}</div>
-                        </template>
-                        <span>{{link.url}}</span>
-                      </v-tooltip>
-                    </v-list-tile-title>
-                    <v-list-tile-content>
-                      <v-text-field
-                        v-model="link.note"
-                        placeholder="添加备注"
-                      ></v-text-field>
-                    </v-list-tile-content>
-                    <v-list-tile-action class="pr-3">
-                      <v-btn class="my-btn" icon depressed color="red" small outline @click="deleteLink(index)">
-                        <v-icon size="20" color="red">remove</v-icon>
-                      </v-btn>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                  <v-divider class="divider"></v-divider>
-                </div>
-              </v-list>
-              <div v-else class="empty">
-                请添加链接
-              </div>
-            </div>
-          </v-card>
-        </v-flex>
-        <v-flex md1 class="text-md-center mx-4 ">
-          <v-icon size="40" color="grey">iconfont icon-zhuanhuan</v-icon>
-        </v-flex>
-        <!--已转换链接-->
-        <v-flex md5 xl5>
-          <v-card class="card">
-            <div class="top-title" style="background-color: #40A1FA;">
-              <div>转换后的链接</div>
-            </div>
-            <div class="links-card-blue links-card">
-              <v-list v-if="shortLinks.length>0" class="link-theme">
-                <div v-for="(link,index) in shortLinks">
-                  <v-list-tile @click="">
-                    <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
-                    <v-list-tile-title class="ml-2" style="width: 70%" @click="edit(index)">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link.shortLink}}</div>
-                        </template>
-                        <span>{{link.shortLink}}</span>
-                      </v-tooltip>
-                    </v-list-tile-title>
-                    <v-list-tile-content @click="edit(index)">
-                      <v-text-field
-                        disabled
-                        v-model="link.note"
-                        placeholder="备注"
-                      ></v-text-field>
-                    </v-list-tile-content>
-                    <v-list-tile-action class="pr-3">
-                      <v-btn small icon depressed color="grey" flat @click="copy(index)">
-                        <v-icon size="15" color="gery">iconfont icon-copy</v-icon>
-                      </v-btn>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                  <v-divider class="divider"></v-divider>
-                </div>
-              </v-list>
-              <div v-else class="empty">
-                请转换链接
-              </div>
-            </div>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <!--操作区-->
-    <v-flex md8 xl9 class="mt-4">
-      <v-layout row wrap>
-        <v-flex md12 class="text-md-right">
-          <el-upload
-            class="d-inline-block"
-            action="#"
-            :show-file-list="false"
-            :before-upload="beforeUpload"
-            :http-request="handleUpload"
-            :multiple="false">
-            <v-btn depressed round color="#40A1FA" dark>
-              <v-icon size="18">iconfont icon-wenjian</v-icon>
-              <span class="font ml-2">批量导入</span>
+  <div>
+    <v-layout row wrap mt-2 justify-center  id="index">
+      <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
+      <input type="text" v-model="path" id="urlPath">
+      <v-dialog
+        v-model="showDeleteLink"
+        max-width="400">
+        <v-card flat>
+          <v-card-title class="headline">是否删除链接?</v-card-title>
+          <v-card-text>
+            您是否想要删除该链接？
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="showDeleteLink = false">
+              取消
             </v-btn>
-          </el-upload>
-          &nbsp;
-          <v-btn depressed round color="#F5B041" dark @click="transfer">
-            <v-icon size="18">iconfont icon-shuaxin</v-icon>
-            <span class="font ml-2">一键转换</span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <div class="grey--text ps">注：文件导入仅支持txt格式，在导入的时候请注意链接格式，不同链接请使用“;”隔开</div>
-  </v-layout>
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="deleteLink(modifyIndex)">
+              确定
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="showCleanLink"
+        max-width="400">
+        <v-card flat>
+          <v-card-title class="headline">是否清空链接?</v-card-title>
+          <v-card-text>
+            您是否想要删除所有链接？
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="showCleanLink = false">
+              取消
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="cleanLinks">
+              确定
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!--链接输入框-->
+      <v-flex md8 xl9>
+        <v-layout mt-3>
+          <v-flex md8 xl9>
+            <el-input placeholder="请输入要转换的链接" v-model="url" :clearable="true">
+              <template slot="prepend">http(s)://</template>
+            </el-input>
+          </v-flex>
+          <v-flex md4 xl3 class="text-md-center ">
+            <v-btn v-if="modifyMode" class="ma-0" round depressed color="#2ECC71" dark @click="modify">
+              <v-icon size="15">iconfont icon-bianji</v-icon>
+              <span class="font ml-1">修改</span>
+            </v-btn>
+            <v-btn v-else depressed round class="ma-0" color="#2ECC71" dark @click="addLink">
+              <v-icon size="24">iconfont icon-jiashang</v-icon>
+              <span class="font ml-1">添加</span>
+            </v-btn>
+            &nbsp;
+            <v-btn depressed round class="ma-0" color="red" dark @click="handleClean">
+              <v-icon size="20">iconfont icon-shanchu</v-icon>
+              <span class="font ml-1">清空链接</span>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <!--链接转换框-->
+      <v-flex md8 xl9 class="mt-4">
+        <v-layout align-center justify-center>
+          <!--待转换链接-->
+          <v-flex md5 xl5>
+            <v-card class="card" flat>
+              <div class="top-title" style="background-color: #2ECC71;">
+                <div>待转换的链接</div>
+              </div>
+              <div class="links-card-green links-card">
+                <v-list v-if="links.length>0" class="link-theme">
+                  <div v-for="(link,index) in links">
+                    <v-list-tile @click="">
+                      <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
+                      <v-list-tile-title class="ml-2" @click="changeLink(index)">
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on }">
+                            <div class="link" v-on="on">{{link.url}}</div>
+                          </template>
+                          <span>{{link.url}}</span>
+                        </v-tooltip>
+                      </v-list-tile-title>
+                      <v-list-tile-content>
+                        <v-text-field
+                          v-model="link.note"
+                          placeholder="添加备注"
+                        ></v-text-field>
+                      </v-list-tile-content>
+                      <v-list-tile-action class="pr-3">
+                        <v-btn class="my-btn" icon depressed color="red" small outline @click="deleteLink(index)">
+                          <v-icon size="20" color="red">remove</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider class="divider"></v-divider>
+                  </div>
+                </v-list>
+                <div v-else class="empty">
+                  请添加链接
+                </div>
+              </div>
+            </v-card>
+          </v-flex>
+          <v-flex md1 class="text-md-center mx-4 ">
+            <v-icon size="40" color="grey">iconfont icon-zhuanhuan</v-icon>
+          </v-flex>
+          <!--已转换链接-->
+          <v-flex md5 xl5>
+            <v-card class="card">
+              <div class="top-title" style="background-color: #40A1FA;">
+                <div>转换后的链接</div>
+              </div>
+              <div class="links-card-blue links-card">
+                <v-list v-if="shortLinks.length>0" class="link-theme">
+                  <div v-for="(link,index) in shortLinks">
+                    <v-list-tile @click="">
+                      <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
+                      <v-list-tile-title class="ml-2" style="width: 70%" @click="edit(index)">
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on }">
+                            <div class="link" v-on="on">{{link.shortLink}}</div>
+                          </template>
+                          <span>{{link.shortLink}}</span>
+                        </v-tooltip>
+                      </v-list-tile-title>
+                      <v-list-tile-content @click="edit(index)">
+                        <v-text-field
+                          disabled
+                          v-model="link.note"
+                          placeholder="备注"
+                        ></v-text-field>
+                      </v-list-tile-content>
+                      <v-list-tile-action class="pr-3">
+                        <v-btn small icon depressed color="grey" flat @click="copy(index)">
+                          <v-icon size="15" color="gery">iconfont icon-copy</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider class="divider"></v-divider>
+                  </div>
+                </v-list>
+                <div v-else class="empty">
+                  请转换链接
+                </div>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <!--操作区-->
+      <v-flex md8 xl9 class="mt-4">
+        <v-layout row wrap>
+          <v-flex md12 class="text-md-right">
+            <el-upload
+              class="d-inline-block"
+              action="#"
+              :show-file-list="false"
+              :before-upload="beforeUpload"
+              :http-request="handleUpload"
+              :multiple="false">
+              <v-btn depressed round color="#40A1FA" class="ma-0" dark>
+                <v-icon size="18">iconfont icon-wenjian</v-icon>
+                <span class="font ml-2">批量导入</span>
+              </v-btn>
+            </el-upload>
+            &nbsp;
+            <v-btn depressed round color="#F5B041" class="ma-0" dark @click="transfer">
+              <v-icon size="18">iconfont icon-shuaxin</v-icon>
+              <span class="font ml-2">一键转换</span>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <div class="grey--text ps">注：文件导入仅支持txt格式，在导入的时候请注意链接格式，不同链接请使用“;”隔开</div>
+    </v-layout>
+  </div>
+
 </template>
 
 <script>
@@ -239,6 +242,9 @@
     created() {
       $linkApi = new LinkApi()
       this.$store.commit("setTitle", "短链生成")
+    },
+    mounted() {
+      console.log("客户端：", window.navigator.userAgent)
     },
     head: {
       title: "JumpLinker - 短链生成"
@@ -393,7 +399,6 @@
         //链接转换操作
         //todo 添加动画效果
         if (this.links.length > 0) {
-          console.log(this.links)
           $linkApi.transfer(this.links).then(res => {
             console.log(res)
             let links = []
@@ -408,7 +413,8 @@
               }))
               this.shortLinks = _.clone(links)
               this.initOption()
-              this.$message.success("转换成功！")
+              // this.$message.success("转换成功！")
+
             } else {
               if (this.$store.state.isLogin) {
                 this.$message.error(res.msg)
@@ -550,10 +556,6 @@
 
   .v-dialog__content {
     padding-left: 200px !important;
-  }
-
-  #index .v-btn {
-    margin: 0 !important;
   }
 
   .my-btn {

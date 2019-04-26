@@ -1,12 +1,19 @@
 <template>
   <v-app class="back">
-    <div class="back-blue"></div>
-      <nuxt style="z-index: 1"/>
+    <div class="back-blue" v-if="!$store.state.isMobile"></div>
+    <nuxt style="z-index: 1"/>
+    <detect-device></detect-device>
   </v-app>
 </template>
 
 <script>
-  export default {}
+  import detectDevice from "../components/detectDevice";
+
+  export default {
+    components: {
+      detectDevice
+    }
+  }
 </script>
 <style scoped>
   .back {

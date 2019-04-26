@@ -1,10 +1,10 @@
 <template>
   <v-card flat id="userMonth" class="pt-3 my-card" hover v-if="show">
-    <div class="real-time-title">短链点击统计（每月）</div>
-    <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 31vh"></v-chart>
+    <div class="real-time-title">短链点击统计（每天）</div>
+    <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 32vh"></v-chart>
   </v-card>
   <v-card class="pt-3 my-card" flat hover v-else>
-    <div class="real-time-title">短链点击统计（每月）</div>
+    <div class="real-time-title">短链点击统计（每天）</div>
     <div class="none">暂无数据！</div>
   </v-card>
 </template>
@@ -27,7 +27,6 @@
       $linkApi = new LinkApi()
     },
     destroyed() {
-      console.log("销毁了")
       this.clean()
     },
     computed: {
@@ -132,7 +131,7 @@
               showMinLabel: false,
               textStyle: {
                 color: '#85929E',
-                fontSize: 14,
+                fontSize: 11,
                 fontFamily: 'kaiti'
               }
             },
@@ -155,7 +154,7 @@
             axisLabel: {
               textStyle: {
                 color: '#85929E',
-                fontSize: 16,
+                fontSize: 13,
                 fontFamily: 'kaiti'
               }
             },
@@ -224,6 +223,6 @@
   .my-card {
     border-radius: 10px;
     position: relative;
-    height: 32vh;
+    height: 35vh;
   }
 </style>

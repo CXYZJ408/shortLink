@@ -113,12 +113,17 @@
       },
       handleLoginResult(res) {
         if (res.code === this.$code.SUCCESS) {
-          this.$message.success('登陆成功！！')
+          this.$message.success('登录成功！！')
           this.handleRemember()
           //将用户的相关信息存放到store中
           this.$store.commit('login', res.data)
           //页面跳转
-          this.$router.push({path: `/user_center`})
+          if (this.$store.state.purchaseVip) {//如果购买，跳转到vip购买页面
+            this.$router.push({path: `/user_center/my_center`})
+            this.$store.commit("setPurchaseVip", false)
+          } else {
+            this.$router.push({path: `/user_center`})
+          }
         } else {
           this.$message.error(res.msg)
         }

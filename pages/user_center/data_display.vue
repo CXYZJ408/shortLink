@@ -90,6 +90,7 @@
               this.$refs.linkClickRealTime.getServerRealTimeData()
             }
             if (!_.isUndefined(this.$refs.monthLink)) {
+              this.$refs.monthLink.clean()
               this.$refs.monthLink.getMonthData()
             }
           }, 10)

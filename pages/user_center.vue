@@ -1,19 +1,24 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <sidebar :now="nowPath"></sidebar>
-    </v-flex>
-    <v-flex md11>
-      <toolbar></toolbar>
-      <v-layout wrap>
-        <v-card class="card" flat elevation="1">
-          <transition :css="false" mode="out-in">
-            <nuxt-child></nuxt-child>
-          </transition>
-        </v-card>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+  <div>
+    <v-layout v-if="!$store.state.isMobile">
+      <v-flex>
+        <sidebar :now="nowPath"></sidebar>
+      </v-flex>
+      <v-flex md11>
+        <toolbar></toolbar>
+        <v-layout wrap>
+          <v-card class="card" flat elevation="1">
+            <transition :css="false" mode="out-in">
+              <nuxt-child></nuxt-child>
+            </transition>
+          </v-card>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+    <div v-else>
+
+    </div>
+  </div>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
   <v-layout class="toolbar">
-    <div class="my-title title-center">
+    <div class="my-title title-center  mt-3">
       {{$store.state.title}}
     </div>
-    <v-flex class="pl-3">
+    <v-flex class="pl-3 mt-3">
       <div class="d-inline-block day-icon mr-1">
         <v-icon color="blue">iconfont icon-riqi</v-icon>
       </div>
@@ -19,11 +19,30 @@
       </div>
     </v-flex>
     <v-spacer></v-spacer>
-    <v-flex md1 class="mr-5">
-      <v-btn depressed flat round color="red" @click="quit">
-        <span class="quit">退出</span>
-        <v-icon color="red" class="pl-1" size="20">iconfont icon-sign-out</v-icon>
-      </v-btn>
+    <v-flex md1>
+      <v-speed-dial
+        v-model="fab"
+        top
+        depressed
+        right
+        open-on-hover
+        direction="bottom"
+        transition="scale-transition"
+        style="width: 50px"
+      >
+        <template v-slot:activator>
+          <v-btn small v-model="fab" fab color="grey" flat depressed>
+            <v-icon>iconfont icon-more</v-icon>
+            <v-icon>close</v-icon>
+          </v-btn>
+        </template>
+        <v-btn fab dark small depressed color="red" @click="quit">
+          <v-icon class="pl-1" size="24">iconfont icon-sign-out</v-icon>
+        </v-btn>
+        <v-btn fab dark small depressed color="grey" nuxt to="/">
+          <v-icon size="24">home</v-icon>
+        </v-btn>
+      </v-speed-dial>
     </v-flex>
   </v-layout>
 </template>
@@ -71,7 +90,9 @@
       }
     },
     data: function () {
-      return {}
+      return {
+        fab: false
+      }
     },
     mounted() {
       //初始化
@@ -87,7 +108,6 @@
     background-color: white;
     position: relative;
     z-index: 11;
-    padding-top: 20px;
   }
 
   .day-icon {

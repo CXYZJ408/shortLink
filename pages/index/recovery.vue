@@ -67,7 +67,6 @@
       </v-card>
 
     </v-dialog>
-
     <v-layout row wrap justify-center class="main">
       <v-flex md12 class="text-md-center mt-5 mb-2">
         <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>

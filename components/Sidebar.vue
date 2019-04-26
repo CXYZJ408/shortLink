@@ -7,8 +7,13 @@
     id="sidebar"
   >
     <div class="user-card">
-      <span>{{$store.state.user.username}}</span>
-      <v-icon :color="vipColor" class="pl-1" size="28">iconfont icon-huiyuan</v-icon>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <span v-on="on" class="user-name">{{$store.state.user.username}}</span>
+        </template>
+        <span>{{$store.state.user.username}}</span>
+      </v-tooltip>
+      <v-icon :color="vipColor" style="vertical-align: top" class="mt-3" size="28">iconfont icon-huiyuan</v-icon>
     </div>
     <v-list class="sidebar-theme" dense :expand="true">
       <div class="background" :style="{'top':top+'px'}"></div>
@@ -136,10 +141,15 @@
     padding-top: 15px;
   }
 
-  .user-card span {
+  .user-name {
     font-size: 35px;
     color: white !important;
     padding-left: 22px;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
   }
 
   .background {
