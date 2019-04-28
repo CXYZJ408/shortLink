@@ -24,7 +24,7 @@
         }
       }
     },
-    mounted() {
+    beforeMount() {
       this.detective()
       this.setEvent()
     }

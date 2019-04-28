@@ -1,4 +1,5 @@
 <template>
+
   <v-layout row wrap justify-center id="user-center">
     <v-dialog
       v-model="showPay"
@@ -127,6 +128,7 @@
       </v-card>
     </v-flex>
   </v-layout>
+
 </template>
 
 <script>

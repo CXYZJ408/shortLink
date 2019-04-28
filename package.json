@@ -28,11 +28,12 @@
     "qs": "^6.7.0",
     "scrollreveal": "^4.0.5",
     "velocity-animate": "^2.0.5",
+    "vue": "latest",
     "vue-echarts": "^4.0.1",
+    "vue2-touch-events": "^2.0.0",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",
-    "zxcvbn": "^4.4.2",
-    "vue": "latest"
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",

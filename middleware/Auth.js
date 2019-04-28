@@ -1,7 +1,8 @@
-export default ({store, route, redirect, error, params, req}) => {
+export default ({store, route, redirect, error, params, req, res}) => {
   //用户路由拦截
   //检测登录状态
   //todo 用户拦截
+  return 0
   if (!store.state.isLogin) {
     // 未登陆
     if (route.path.indexOf("/user_center") !== -1) {//如果没有登录要访问后台就禁止访问

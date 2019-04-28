@@ -55,7 +55,6 @@
       </v-card>
     </v-flex>
   </v-layout>
-
 </template>
 
 <script>
@@ -165,7 +164,7 @@
     font-weight: 600;
     font-size: 40px;
     font-style: italic;
-    color: rgba(0,0,0,.25);
+    color: rgba(0, 0, 0, .25);
 
   }
 </style>

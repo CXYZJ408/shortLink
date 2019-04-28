@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center pt-3>
+    <v-layout v-if="!$store.state.isMobile" align-center justify-center pt-3>
       <v-flex md4 xl3>
         <v-card class="pa-3 ma-2 elevation-10 form">
           <v-card-text class="display-2">忘记密码</v-card-text>
@@ -88,6 +88,89 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <v-layout mx-1 mt-3 row wrap>
+      <v-flex xs12>
+        <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+        <div class="icon-title-2 text-md-left">JumpLinker</div>
+      </v-flex>
+      <v-flex xs12>
+        <v-form v-model="valid" ref="form">
+          <v-text-field
+            class="pt-2"
+            prepend-icon="account_circle"
+            v-model="userName"
+            :rules="userNameRules"
+            label="用户名"
+            required
+            @keyup.enter="resetPassword"
+          ></v-text-field>
+          <v-text-field class="pt-2 "
+                        prepend-icon="phone"
+                        v-model="phone"
+                        :rules="phoneRules"
+                        :error="phoneError"
+                        label="手机号"
+                        :error-messages="phoneMsg"
+                        @keyup.enter="resetPassword"
+                        required>
+          </v-text-field>
+          <v-text-field class="pt-2"
+                        prepend-icon="email"
+                        v-model="email"
+                        :rules="emailRules"
+                        :error="emailError"
+                        :error-messages="emailMsg"
+                        @keyup.enter="resetPassword"
+                        label="邮箱"
+                        required>
+          </v-text-field>
+          <v-text-field
+            class="pt-2"
+            :type="show1?'text':'password'"
+            :append-icon="show1?'visibility_off':'visibility'"
+            prepend-icon="lock"
+            v-model="password1"
+            :rules="passwordRules"
+            label="输入新密码"
+            :error="error"
+            :error-messages="errorMsg"
+            @click:append="show1=!show1"
+            @input="passwordStrength"
+            @keyup.enter="resetPassword"
+            required
+          ></v-text-field>
+          <v-text-field
+            class="pt-3"
+            :type="show2?'text':'password'"
+            :append-icon="show2?'visibility_off':'visibility'"
+            prepend-icon="lock"
+            v-model="password2"
+            :rules="passwordRules"
+            label="再次输入密码"
+            :error="error"
+            :error-messages="errorMsg"
+            @click:append="show2=!show2"
+            @keyup.enter="resetPassword"
+            required
+          ></v-text-field>
+          <v-layout pb-2 justify-center mt-2>
+            <v-flex xs12>
+              <v-btn block depressed dark round large @click="resetPassword"
+                     color="light-blue ">
+                <span class="forget-btn">重置密码</span>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-form>
+      </v-flex>
+    </v-layout>
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/login" left absolute depressed flat
+           color="#5D6D7E">用户登录
+    </v-btn>
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/register" right absolute depressed flat
+           color="#4EA1FF">新用户注册
+    </v-btn>
   </v-container>
 </template>
 
@@ -283,8 +366,21 @@
   #send {
     background-color: #777676;
   }
-
+  .my-left {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .icon-title-2 {
+    display: inline-block;
+    font-size: 30px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+  }
   .login {
     color: #27AE60;
+  }
+  .mobile-bottom {
+    bottom: 10px;
   }
 </style>

@@ -18,7 +18,7 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'http://at.alicdn.com/t/font_1113745_omlogyqg5m.css'},//阿里icon设置
+      {rel: 'stylesheet', href: 'http://at.alicdn.com/t/font_1113745_3ewgj8afzna.css'},//阿里icon设置
       {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
     ]
   },
@@ -47,6 +47,7 @@ export default {
     {src: '~/plugins/echarts.js', ssr: false},//可视化数据插件
     {src: '~/plugins/utils.js', ssr: false},//自定义工具箱
     {src: '~/plugins/velocity', ssr: false},
+    {src: '~/plugins/touchSupport', ssr: false}
   ],
   router: {
     middleware: ['Auth'],

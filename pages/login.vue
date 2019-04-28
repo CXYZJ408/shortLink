@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center row wrap>
+    <v-layout align-center justify-center row wrap v-if="!$store.state.isMobile">
       <v-flex md12 class="text-md-center mb-3" style="margin-top: 4%">
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -57,7 +57,7 @@
             </v-layout>
           </v-form>
           <v-layout justify-center>
-            <v-flex md11 class="">
+            <v-flex md11>
               <v-btn block round depressed large class="display-1 white--text" color="light-blue "
                      @click="login">登录
               </v-btn>
@@ -66,6 +66,52 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <v-form v-model="valid" ref="form" lazy-validation v-else>
+      <v-layout mx-1 align-center justify-center row wrap style="padding-top: 18%">
+        <v-flex xs12>
+          <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title-2 text-md-left">JumpLinker</div>
+        </v-flex>
+        <v-flex xs12 style="margin-top: 5vh">
+          <v-text-field
+            class="pt-2 "
+            prepend-icon="account_circle"
+            v-model="user.userName"
+            :rules="userNameRules"
+            label="用户名"
+            required
+            @keyup.enter="login"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-text-field
+            class="pt-3 "
+            :type="show?'text':'password'"
+            :append-icon="show?'visibility_off':'visibility'"
+            prepend-icon="lock"
+            v-model="user.password"
+            :rules="passwordRules"
+            label="密码"
+            @click:append="show=!show"
+            required
+            @keyup.enter="login"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12 mt-3>
+          <v-btn block round depressed large class="display-1 white--text" color="light-blue "
+                 @click="login">登录
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-form>
+
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/register" left absolute depressed flat
+           color="#5D6D7E">新用户注册
+    </v-btn>
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/forget" right absolute depressed flat
+           color="#4EA1FF">忘记密码?
+    </v-btn>
   </v-container>
 
 
@@ -83,6 +129,7 @@
       title: "JumpLinker - 登录"
     },
     layout: 'signIn',
+
     data: function () {
       return {
         user: {
@@ -119,10 +166,18 @@
           this.$store.commit('login', res.data)
           //页面跳转
           if (this.$store.state.purchaseVip) {//如果购买，跳转到vip购买页面
-            this.$router.push({path: `/user_center/my_center`})
+            if (this.$store.state.isMobile) {
+              this.$router.push({path: `/user_center_mobile/my_center`})
+            } else {
+              this.$router.push({path: `/user_center/my_center`})
+            }
             this.$store.commit("setPurchaseVip", false)
           } else {
-            this.$router.push({path: `/user_center`})
+            if (this.$store.state.isMobile) {
+              this.$router.push({path: `/user_center_mobile`})
+            } else {
+              this.$router.push({path: `/user_center`})
+            }
           }
         } else {
           this.$message.error(res.msg)
@@ -130,7 +185,8 @@
       },
       handleRemember() {
         //判断是否需要记住密码
-        if (this.remember) {
+        //手机端默认记住密码
+        if (this.remember || this.$store.state.isMobile) {
           //将用户信息加密后存入cookie中
           let userName = encrypt(this.user.userName)
           let password = encrypt(this.user.password)
@@ -142,7 +198,6 @@
         }
       },
       readCookie() {
-        console.log("read")
         //读取本地cookie信息，查看之前是否有将用户的登录信息存放在cookie中
         let userName = $cookie.get('userName')
         let password = $cookie.get('password')
@@ -160,6 +215,14 @@
       //初始化
       $cookie = require('js-cookie')
       $userApi = new UserApi()
+      let back = document.getElementById("back")//获取背景
+      if (this.$store.state.isMobile) {
+        //手机端添加上颜色
+        back.style.backgroundColor = "white"
+      } else {
+        //PC端加上背景
+        back.style.backgroundImage = "url('/img/Login/background.jpg')"
+      }
       this.readCookie()
     }
   }
@@ -191,8 +254,19 @@
     margin-top: 30px;
   }
 
+  .icon-title-2 {
+    display: inline-block;
+    font-size: 30px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+  }
+
   .icon {
     height: 30px;
   }
 
+  .mobile-bottom {
+    bottom: 10px;
+  }
 </style>

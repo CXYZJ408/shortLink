@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center row wrap>
+    <v-layout v-if="!$store.state.isMobile" align-center justify-center row wrap>
       <v-flex md12 class="text-md-center mb-3" style="margin-top: 2%">
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -99,6 +99,94 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-form v-model="valid" ref="form" v-else>
+      <v-layout algin-center justify-center row wrap px-1 style="margin-top: 6%">
+        <v-flex xs12>
+          <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title-2 text-md-left">JumpLinker</div>
+        </v-flex>
+        <v-flex xs12 mt-2>
+          <v-text-field label="用户名" class="pa-0 text" v-model="user.userName" :rules="userNameRules"
+                        prepend-icon="account_circle" @keyup.enter="register"
+                        required></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-text-field
+            class="pa-0"
+            prepend-icon="phone"
+            v-model="user.phone"
+            :rules="phoneRules"
+            :error="phoneError"
+            label="手机号" :error-messages="phoneMsg"
+            required
+            @keyup.enter="login"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-text-field
+            class="pa-0"
+            prepend-icon="email"
+            v-model="user.email"
+            :rules="emailRules"
+            :error="emailError"
+            :error-messages="emailMsg"
+            label="邮箱"
+            required
+            @keyup.enter="login"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-text-field
+            class="pa-0"
+            :type="show1?'text':'password'"
+            :append-icon="show1?'visibility_off':'visibility'"
+            prepend-icon="lock"
+            v-model="password1"
+            :rules="passwordRules"
+            label="输入密码"
+            :error="passwordError"
+            :error-messages="errorMsg"
+            @click:append="show1=!show1"
+            @input="passwordStrength"
+            required
+            @keyup.enter="register"></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-text-field
+            class="pa-0"
+            :type="show2?'text':'password'"
+            :append-icon="show2?'visibility_off':'visibility'"
+            prepend-icon="lock"
+            v-model="password2"
+            :rules="passwordRules"
+            label="再次输入密码"
+            :error="passwordError"
+            :error-messages="errorMsg"
+            @click:append="show2=!show2"
+            @keyup.enter="register"
+            required></v-text-field>
+        </v-flex>
+        <v-flex xs12 class="py-0">
+          <v-text-field
+            class="pa-0"
+            prepend-icon="iconfont icon-yaoqing"
+            v-model="user.invert"
+            label="邀请码(非必填项)"
+            @keyup.enter="login"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12 >
+          <v-btn @click="register" class="display-1" large round block depressed dark color="#2ECC71">注册
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-form>
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/login" left absolute depressed flat
+           color="#5D6D7E">用户登录
+    </v-btn>
+    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/forget" right absolute depressed flat
+           color="#4EA1FF">忘记密码?
+    </v-btn>
   </v-container>
 </template>
 
@@ -290,6 +378,7 @@
   a {
     text-decoration: none;
   }
+
   .my-left {
     display: inline-block;
     vertical-align: top;
@@ -303,8 +392,20 @@
     vertical-align: top;
     margin-top: 30px;
   }
+
   .v-stepper {
     box-shadow: none;
   }
 
+  .icon-title-2 {
+    display: inline-block;
+    font-size: 30px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+  }
+
+  .mobile-bottom {
+    bottom: 5px;
+  }
 </style>

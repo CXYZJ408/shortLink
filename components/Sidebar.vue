@@ -67,7 +67,6 @@
       },
       color1: function () {
         if (this.now === '/user_center') {
-          console.log(this.$route.path)
           this.top = 0
           return "#FF9800"
         }
@@ -83,7 +82,6 @@
       },
       color3: function () {
         if (this.now === '/user_center/my_center') {
-          console.log(this.$route.path)
           this.top = 80
           return "#2ECC71"
         }
@@ -91,7 +89,6 @@
       },
       color4: function () {
         if (this.now === '/user_center/invite') {
-          console.log(this.$route.path)
           this.top = 120
           return "#E74C3C"
         }
@@ -99,7 +96,6 @@
       },
       color5: function () {
         if (this.now === '/user_center/data_display') {
-          console.log(this.$route.path)
           this.top = 160
           return "#40A1FA"
         }
@@ -119,9 +115,6 @@
         top: 0
       }
     },
-    mounted() {
-      console.log(this.$route.path)
-    }
   }
 </script>
 

@@ -12,7 +12,7 @@
   export default {
     components: {
       detectDevice
-    }
+    },
   }
 </script>
 <style scoped>

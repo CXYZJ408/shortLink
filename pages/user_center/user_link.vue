@@ -1,4 +1,5 @@
 <template>
+
   <v-layout row wrap justify-center>
     <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
     <input type="text" v-model="path" id="urlPath">
@@ -117,6 +118,7 @@
     </v-flex>
     <div class="grey--text ps">注：请单击链接进行复制</div>
   </v-layout>
+
 </template>
 
 <script>
@@ -214,7 +216,6 @@
             }
           })
         })
-
       },
       handleResult(page, links) {
         //处理列表数据结果

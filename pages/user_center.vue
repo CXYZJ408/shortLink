@@ -1,29 +1,26 @@
 <template>
-  <div>
-    <v-layout v-if="!$store.state.isMobile">
-      <v-flex>
-        <sidebar :now="nowPath"></sidebar>
-      </v-flex>
-      <v-flex md11>
-        <toolbar></toolbar>
-        <v-layout wrap>
-          <v-card class="card" flat elevation="1">
-            <transition :css="false" mode="out-in">
-              <nuxt-child></nuxt-child>
-            </transition>
-          </v-card>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-    <div v-else>
+  <v-layout>
+    <v-flex>
+      <sidebar :now="nowPath"></sidebar>
+    </v-flex>
+    <v-flex md11>
+      <toolbar></toolbar>
+      <v-layout wrap>
+        <v-card class="card" flat elevation="1">
+          <transition :css="false" mode="out-in">
+            <nuxt-child></nuxt-child>
+          </transition>
+        </v-card>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 
-    </div>
-  </div>
 </template>
 
 <script>
   import sidebar from '~/components/Sidebar.vue'
   import toolbar from '~/components/Toolbar.vue'
+  import bottomNav from '~/components/bottomNav.vue'
 
   export default {
 
@@ -34,12 +31,18 @@
     },
     data: function () {
       return {
-        nowPath: this.$route.path
+        nowPath: this.$route.path,
       }
     },
-
+    mounted() {
+      setTimeout(() => {
+        if (this.$store.state.isMobile) {//如果是手机端，跳转到手机界面
+          this.$router.replace('/user_center_mobile')
+        }
+      }, 0)
+    },
     methods: {},
-    components: {sidebar, toolbar}
+    components: {sidebar, toolbar, bottomNav}
   }
 </script>
 <style scoped>
@@ -51,4 +54,6 @@
     width: 90%;
     border-radius: 10px;
   }
+
+
 </style>

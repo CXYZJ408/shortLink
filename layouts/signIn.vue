@@ -1,5 +1,5 @@
 <template>
-  <v-app class="back">
+  <v-app id="back">
     <nuxt/>
     <detect-device></detect-device>
   </v-app>
@@ -16,12 +16,11 @@
 </script>
 
 <style scoped>
-  .back {
+  #back {
     background-size: cover;
     width: 100%;
     overflow: hidden;
     background-attachment: fixed;
-    background-image: url('/img/Login/background.jpg');
   }
 
 </style>
