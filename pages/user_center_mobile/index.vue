@@ -4,7 +4,7 @@
       <editOrAdd @deleteLink="deleteLink" @cancel="cancel" :isEdit="editModel" @transfer="transfer"
                  @saveLink="saveLink" :editLink="editLink"></editOrAdd>
     </v-dialog>
-    <v-toolbar flat color="blue">
+    <v-toolbar flat color="#FF9800">
       <span class="list-title">短链接</span>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -48,7 +48,7 @@
 <script>
   import {LinkApi} from "../../api/LinkApi";
   import editOrAdd from '../../components/editOrAddMobile'
-
+  //todo 需要添加虚拟列表
   let $linkApi
   let _ = require('lodash')
 
@@ -143,7 +143,7 @@
         }
       },
       setHeight() {
-        this.height = window.innerHeight - 56 - 36
+        this.height = window.innerHeight - 111
       },
       loadNextPage() {//加载下一页内容
         this.showLoading = true//显示加载字样
@@ -327,9 +327,9 @@
     width: 100%;
     font-weight: bold;
     font-style: italic;
-    font-family: "华文楷体",serif;
+    font-family: "华文楷体", serif;
     font-size: 25px;
-    color: rgba(40, 55, 71,.6);
+    color: rgba(40, 55, 71, .6);
   }
 
 

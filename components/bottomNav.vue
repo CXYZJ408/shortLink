@@ -1,22 +1,22 @@
 <template>
   <v-layout class="bottom-nav">
     <v-flex sm4>
-      <v-btn class="ma-0" :color="color1" block flat @click="go(0)">
-        <v-icon>
+      <v-btn style="height: 55px" class="ma-0" :color="color1" block flat @click="go(0)">
+        <v-icon size="28">
           iconfont icon-lianjie-duankai
         </v-icon>
       </v-btn>
     </v-flex>
     <v-flex sm4>
-      <v-btn class="ma-0" :color="color2" block flat @click="go(1)">
-        <v-icon>
+      <v-btn style="height: 55px" class="ma-0" :color="color2" block flat @click="go(1)">
+        <v-icon size="28">
           iconfont icon-shuju
         </v-icon>
       </v-btn>
     </v-flex>
     <v-flex sm4>
-      <v-btn class="ma-0" :color="color3" block flat @click="go(2)">
-        <v-icon>
+      <v-btn style="height: 55px" class="ma-0" :color="color3" block flat @click="go(2)">
+        <v-icon size="28">
           iconfont icon-gerenzhongxin
         </v-icon>
       </v-btn>
@@ -75,7 +75,7 @@
 
 <style scoped>
   .bottom-nav {
-    height: 36px;
+    height: 55px;
     width: 100%;
   }
 </style>

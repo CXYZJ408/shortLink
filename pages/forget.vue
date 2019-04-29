@@ -96,8 +96,10 @@
     </v-layout>
     <v-layout mx-1 v-else mt-3 row wrap>
       <v-flex xs12>
-        <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
-        <div class="icon-title-2 text-md-left">JumpLinker</div>
+        <nuxt-link to="/">
+          <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title-2 text-md-left">JumpLinker</div>
+        </nuxt-link>
       </v-flex>
       <v-flex xs12>
         <v-form v-model="valid" ref="form">
@@ -379,6 +381,7 @@
   #send {
     background-color: #777676;
   }
+
   .my-left {
     display: inline-block;
     vertical-align: top;
@@ -392,6 +395,7 @@
     vertical-align: top;
     margin-top: 30px;
   }
+
   .icon-title-2 {
     display: inline-block;
     font-size: 40px;
@@ -399,10 +403,16 @@
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;
   }
+
   .login {
     color: #27AE60;
   }
+
   .mobile-bottom {
     bottom: 10px;
+  }
+
+  a {
+    text-decoration: none;
   }
 </style>

@@ -70,8 +70,10 @@
     <v-form v-model="valid" ref="form" lazy-validation v-else>
       <v-layout mx-1 align-center justify-center row wrap style="padding-top: 18%">
         <v-flex xs12>
-          <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
-          <div class="icon-title-2 text-md-left">JumpLinker</div>
+          <nuxt-link to="/">
+            <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
+            <div class="icon-title-2 text-md-left">JumpLinker</div>
+          </nuxt-link>
         </v-flex>
         <v-flex xs12 style="margin-top: 5vh">
           <v-text-field

@@ -86,22 +86,22 @@
       <v-divider class="my-divider"></v-divider>
       <v-layout wrap row>
         <v-flex xs3>
-          <v-btn block depressed flat color="orange" class="ma-0" @click="btnAction(3)">
-            <v-icon size="25">iconfont icon-link</v-icon>
+          <v-btn style="height: 55px" block depressed flat color="orange" class="ma-0" @click="btnAction(3)">
+            <v-icon size="28">iconfont icon-link</v-icon>
           </v-btn>
         </v-flex>
         <v-flex xs3>
-          <v-btn block depressed flat color="red" class="ma-0" @click="btnAction(4)">
+          <v-btn style="height: 55px" block depressed flat color="red" class="ma-0" @click="btnAction(4)">
             <v-icon size="28">iconfont icon-shanchu</v-icon>
           </v-btn>
         </v-flex>
         <v-flex xs3>
-          <v-btn block depressed flat color="blue" class="ma-0" @click="btnAction(5)">
+          <v-btn style="height: 55px" block depressed flat color="blue" class="ma-0" @click="btnAction(5)">
             <v-icon size="22">iconfont icon-save</v-icon>
           </v-btn>
         </v-flex>
         <v-flex xs3>
-          <v-btn block depressed flat color="grey" class="ma-0" @click="btnAction(0)">
+          <v-btn style="height: 55px" block depressed flat color="grey" class="ma-0" @click="btnAction(0)">
             <v-icon size="28">iconfont icon-aui-icon-back</v-icon>
           </v-btn>
         </v-flex>
@@ -244,7 +244,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 36px;
+    height: 55px;
   }
 
   .my-divider {

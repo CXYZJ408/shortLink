@@ -102,8 +102,11 @@
     <v-form v-model="valid" ref="form" v-else>
       <v-layout algin-center justify-center row wrap mx-1 style="margin-top: 6%">
         <v-flex xs12>
-          <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
+          <nuxt-link to="/">
+            <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
           <div class="icon-title-2 text-md-left">JumpLinker</div>
+          </nuxt-link>
+
         </v-flex>
         <v-flex xs12 mt-2>
           <v-text-field label="用户名" class="pa-0 text" v-model="user.userName" :rules="userNameRules"
@@ -175,7 +178,7 @@
             @keyup.enter="login"
           ></v-text-field>
         </v-flex>
-        <v-flex xs12 >
+        <v-flex xs12>
           <v-btn @click="register" class="display-1" large round block depressed dark color="#2ECC71">注册
           </v-btn>
         </v-flex>

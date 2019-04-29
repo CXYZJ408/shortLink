@@ -59,6 +59,7 @@
 
 <script>
   import {UserApi} from "../../api/UserApi";
+  import {transformTime} from "../../utils";
 
   let $UserApi
   export default {
@@ -82,7 +83,7 @@
     name: "invite",
     computed: {
       url: function () {
-        return `http://47.103.45.133/register?inviteId=${this.$store.state.user.userId}`
+        return `https://jumplinker.com/register?inviteId=${this.$store.state.user.userId}`
       }
     },
     data: function () {
@@ -97,6 +98,9 @@
       $UserApi.inviteList().then(res => {
         if (res.code === this.$code.SUCCESS) {
           this.people = res.data.length
+          res.data.forEach(item => {
+            item.register_datetime = transformTime(item.register_datetime)
+          })
           this.users = res.data
         } else {
           if (this.$store.state.isLogin) {

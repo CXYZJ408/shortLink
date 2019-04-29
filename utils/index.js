@@ -62,6 +62,10 @@ export function transformTime(time) {
   if (_.isString(time)) {
     time = parseInt(time)
   }
+  if (String(time).length === 10) {
+    time *= 1000
+  }
+
   let date = new Date(time)
   let Y = date.getFullYear() + '-'
   let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
