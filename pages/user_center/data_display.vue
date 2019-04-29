@@ -45,15 +45,12 @@
   export default {
     transition: {
       beforeEnter(el) {
-        console.log("before-enter")
         el.style.opacity = 0
       },
       enter(el, done) {
-        console.log("enter")
         this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
       },
       leave(el, done) {
-        console.log("leave")
         this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
       }
     },

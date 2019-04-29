@@ -16,7 +16,7 @@
         <v-card-actions class="text-md-center d-block">
           <v-btn
             color="grey darken-1"
-            flat="flat"
+            flat
             @click="showDeleteLink = false">
             取消
           </v-btn>
@@ -263,8 +263,6 @@
       deleteLink() {
         //删除链接操作
         $linkApi.deleteLink(this.deleteLinkIds).then(res => {
-          console.log(res)
-
           if (res.code === this.$code.SUCCESS) {
             //删除链接后重新获取列表数据
             this.getLinkList(this.page.page).then(() => {

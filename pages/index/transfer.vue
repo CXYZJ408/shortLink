@@ -96,6 +96,9 @@
   let $linkApi
   let QRCode = require("qrcode")
   export default {
+    head: {
+      title: "JumpLinker - 短链生成"
+    },
     name: "transfer",
     layout: "index",
     components: {myFooter, copy},

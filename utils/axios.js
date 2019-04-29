@@ -2,7 +2,7 @@ import qs from 'qs'
 import axios from 'axios'
 
 
-axios.defaults.baseURL = "http://47.103.45.133/api"
+axios.defaults.baseURL = "https://jumplinker.com/api"
 //请求地址
 axios.defaults.withCredentials = true // 允许携带cookie
 axios.interceptors.response.use(response => {

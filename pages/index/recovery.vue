@@ -95,6 +95,9 @@
   let $linkApi
   let QRCode = require("qrcode")
   export default {
+    head: {
+      title: "JumpLinker - 短链还原"
+    },
     name: "recovery",
     layout: "index",
     components: {myFooter, copy},
@@ -117,7 +120,6 @@
           link = this.shortLink
         }
         this.$refs.copy.copy(link)
-
       },
       checkURL(URL) {
         //判断url地址是否正确

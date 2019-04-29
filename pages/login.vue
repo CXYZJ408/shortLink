@@ -70,7 +70,7 @@
     <v-form v-model="valid" ref="form" lazy-validation v-else>
       <v-layout mx-1 align-center justify-center row wrap style="padding-top: 18%">
         <v-flex xs12>
-          <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+          <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
           <div class="icon-title-2 text-md-left">JumpLinker</div>
         </v-flex>
         <v-flex xs12 style="margin-top: 5vh">
@@ -129,7 +129,6 @@
       title: "JumpLinker - 登录"
     },
     layout: 'signIn',
-
     data: function () {
       return {
         user: {
@@ -256,7 +255,7 @@
 
   .icon-title-2 {
     display: inline-block;
-    font-size: 30px;
+    font-size: 40px;
     color: #30304D;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;

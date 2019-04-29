@@ -41,7 +41,7 @@ export const actions = {
     //因为vue项目再刷新页面的时候不会保存用户的状态信息，所以每次在刷新的时候自动读取cookie中的数据进行登录
     //模拟再次登录
     let session = parseCookieByName(req.headers.cookie, 'session')//获取token
-    console.log(session)
+    console.log("session:", session)
     if (!_.isEmpty(session)) {//存在cookie
       //调用登录API
       let $userApi = new UserApi()

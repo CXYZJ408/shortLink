@@ -100,9 +100,9 @@
       </v-flex>
     </v-layout>
     <v-form v-model="valid" ref="form" v-else>
-      <v-layout algin-center justify-center row wrap px-1 style="margin-top: 6%">
+      <v-layout algin-center justify-center row wrap mx-1 style="margin-top: 6%">
         <v-flex xs12>
-          <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+          <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
           <div class="icon-title-2 text-md-left">JumpLinker</div>
         </v-flex>
         <v-flex xs12 mt-2>
@@ -207,6 +207,14 @@
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
       $cookie = require('js-cookie')
+      let back = document.getElementById("back")//获取背景
+      if (this.$store.state.isMobile) {
+        //手机端添加上颜色
+        back.style.backgroundColor = "white"
+      } else {
+        //PC端加上背景
+        back.style.backgroundImage = "url('/img/Login/background.jpg')"
+      }
       this.user.invert = this.$route.query.inviteId
     },
     methods: {
@@ -399,7 +407,7 @@
 
   .icon-title-2 {
     display: inline-block;
-    font-size: 30px;
+    font-size: 40px;
     color: #30304D;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;

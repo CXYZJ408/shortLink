@@ -14,7 +14,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="green darken-1"
-            flat="flat"
+            flat
             @click="showDeleteLink = false">
             取消
           </v-btn>
@@ -440,12 +440,12 @@
         this.showEdit = true
       },
       editShortLink(newLink) {
-        this.shortLinks[this.editIndex] = {
+        this.$set(this.shortLinks, this.editIndex, {
           id: newLink.id,
           longLink: newLink.longurl,
           shortLink: newLink.shorturl,
           note: newLink.note
-        }
+        })
         this.showEdit = false
       }
     }

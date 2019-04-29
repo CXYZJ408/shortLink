@@ -10,15 +10,20 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: "JumpLiner",
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: pkg.description}
+      {
+        hid: 'description',
+        name: 'description',
+        content: "jumplinker短网址可缩短各种网址快速链接分发并拥有强大的流量统计功能为用户提供大数据支持,专业完善的统计报表功能可在线查看让您专注推广提高效率降低成本"
+      },
+      {name: "keywords", content: "短网址,网址缩短,商用短网址,活码,短地址,微信活码,短链接,短网址生成,推广统计,jumplinker短网址"}
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'http://at.alicdn.com/t/font_1113745_3ewgj8afzna.css'},//阿里icon设置
+      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_3ewgj8afzna.css'},//阿里icon设置
       {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
     ]
   },

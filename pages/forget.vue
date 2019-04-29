@@ -1,6 +1,12 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout v-if="!$store.state.isMobile" align-center justify-center pt-3>
+    <v-layout row wrap v-if="!$store.state.isMobile" align-center justify-center pt-3>
+      <v-flex md12 class="text-md-center mb-3" style="margin-top: 2%">
+        <nuxt-link to="/">
+          <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
+          <div class="icon-title text-md-left">JumpLinker</div>
+        </nuxt-link>
+      </v-flex>
       <v-flex md4 xl3>
         <v-card class="pa-3 ma-2 elevation-10 form">
           <v-card-text class="display-2">忘记密码</v-card-text>
@@ -88,10 +94,9 @@
         </v-card>
       </v-flex>
     </v-layout>
-
-    <v-layout mx-1 mt-3 row wrap>
+    <v-layout mx-1 v-else mt-3 row wrap>
       <v-flex xs12>
-        <v-icon color="#FF9800" size="40" class="my-left">iconfont icon-link</v-icon>
+        <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
         <div class="icon-title-2 text-md-left">JumpLinker</div>
       </v-flex>
       <v-flex xs12>
@@ -182,11 +187,19 @@
   export default {
     name: 'forget',
     head: {
-      title: '短链 - 忘记密码'
+      title: 'JumpLinker - 忘记密码'
     },
     mounted() {
       $userApi = new UserApi()
       $strength = require('zxcvbn')
+      let back = document.getElementById("back")//获取背景
+      if (this.$store.state.isMobile) {
+        //手机端添加上颜色
+        back.style.backgroundColor = "white"
+      } else {
+        //PC端加上背景
+        back.style.backgroundImage = "url('/img/Login/background.jpg')"
+      }
     },
     layout: 'signIn',
     methods: {
@@ -370,9 +383,18 @@
     display: inline-block;
     vertical-align: top;
   }
+
+  .icon-title {
+    display: inline-block;
+    font-size: 50px;
+    color: #30304D;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    vertical-align: top;
+    margin-top: 30px;
+  }
   .icon-title-2 {
     display: inline-block;
-    font-size: 30px;
+    font-size: 40px;
     color: #30304D;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;

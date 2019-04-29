@@ -40,7 +40,7 @@ body {
 
 .divider-2 {
   border-color: #EBF0F2 !important;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 .v-card--hover:hover {
@@ -60,4 +60,25 @@ body {
 .margin-x-0 {
   margin-left: 0!important;
   margin-right: 0!important;
+}
+.my-left {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.icon-title {
+  display: inline-block;
+  font-size: 50px;
+  color: #30304D;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  vertical-align: top;
+  margin-top: 30px;
+}
+
+.icon-title-2 {
+  display: inline-block;
+  font-size: 40px;
+  color: #30304D;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  vertical-align: top;
 }

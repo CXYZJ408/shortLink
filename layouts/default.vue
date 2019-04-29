@@ -3,15 +3,16 @@
     <div class="back-blue" v-if="!$store.state.isMobile"></div>
     <nuxt style="z-index: 1"/>
     <detect-device></detect-device>
+    <baidu></baidu>
   </v-app>
 </template>
 
 <script>
   import detectDevice from "../components/detectDevice";
-
+  import baidu from '../components/Baidu'
   export default {
     components: {
-      detectDevice
+      detectDevice,baidu
     },
   }
 </script>

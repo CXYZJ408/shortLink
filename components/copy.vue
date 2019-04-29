@@ -11,13 +11,17 @@
       }
     },
     methods: {
-      copy(url) {
+      copy(url, isShort = true) {
         this.path = url
         setTimeout(() => {
           let url = document.getElementById('urlPath')
           url.select()
           document.execCommand('Copy')
-          this.$message.success("链接复制成功！")
+          if (isShort) {
+            this.$message.success("短链接复制成功！")
+          } else {
+            this.$message.success("长链接复制成功！")
+          }
         }, 100)
       }
     }

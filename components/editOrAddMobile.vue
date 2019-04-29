@@ -1,15 +1,38 @@
 <template>
   <v-card flat>
+    <v-dialog
+      v-model="showDelete"
+      max-width="400"
+      width="350">
+      <v-card class="pb-2">
+        <div class="icon-title" style="width: 100%">
+          <v-icon color="orange" size="70">iconfont icon-Warn</v-icon>
+        </div>
+        <v-card-text class="card-text">
+          您是否想要删除该链接？
+        </v-card-text>
+        <v-card-actions class="d-block" style="text-align: center">
+          <v-btn
+            color="grey darken-1"
+            flat
+            @click="showDelete = false">
+            取消
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            depressed
+            dark
+            @click="deleteLink">
+            <span class="tooltip">
+              确定删除！
+            </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <copy ref="copy"></copy>
     <div class="card-title">{{isEdit?"链接编辑":"添加链接"}}</div>
-    <v-btn
-      v-if="!isEdit"
-      absolute
-      dark
-      fab
-      class="my-absolute-btn"
-      color="grey"
-      flat
-    >
+    <v-btn v-if="!isEdit" absolute dark fab class="my-absolute-btn" color="grey" flat @click="btnAction(0)">
       <v-icon size="30">iconfont icon-aui-icon-back</v-icon>
     </v-btn>
     <v-layout wrap justify-center row class="main-content" v-if="isEdit">
@@ -59,26 +82,25 @@
         </v-btn>
       </v-flex>
     </v-layout>
-
     <div class="card-action" v-if="isEdit">
       <v-divider class="my-divider"></v-divider>
-      <v-layout>
-        <v-flex>
+      <v-layout wrap row>
+        <v-flex xs3>
           <v-btn block depressed flat color="orange" class="ma-0" @click="btnAction(3)">
             <v-icon size="25">iconfont icon-link</v-icon>
           </v-btn>
         </v-flex>
-        <v-flex>
+        <v-flex xs3>
           <v-btn block depressed flat color="red" class="ma-0" @click="btnAction(4)">
             <v-icon size="28">iconfont icon-shanchu</v-icon>
           </v-btn>
         </v-flex>
-        <v-flex>
+        <v-flex xs3>
           <v-btn block depressed flat color="blue" class="ma-0" @click="btnAction(5)">
             <v-icon size="22">iconfont icon-save</v-icon>
           </v-btn>
         </v-flex>
-        <v-flex>
+        <v-flex xs3>
           <v-btn block depressed flat color="grey" class="ma-0" @click="btnAction(0)">
             <v-icon size="28">iconfont icon-aui-icon-back</v-icon>
           </v-btn>
@@ -90,16 +112,20 @@
 </template>
 
 <script>
+  import copy from './copy'
+
+  let _ = require("lodash")
   export default {
+    components: {
+      copy
+    },
     props: {
       isEdit: {type: Boolean, default: false},
       editLink: {type: Object}
     },
     watch: {
-      isEdit: function () {
-        if (this.isEdit) {
-          this.link = this.editLink
-        }
+      editLink: function () {
+        this.link = _.clone(this.editLink)
       }
     },
     data: function () {
@@ -108,17 +134,21 @@
           shortLink: "",
           longLink: "",
           note: ""
-        }
+        },
+        showDelete: false
       }
-    },
-    mounted() {
-      console.log("dialogCreate")
-    },
-    destroyed() {
-      console.log("dialogDestroyed")
     },
     name: "editOrAddMobile",
     methods: {
+      copy(isShort) {
+        let link = ''
+        if (isShort) {
+          link = this.link.shortLink
+        } else {
+          link = this.link.longLink
+        }
+        this.$refs.copy.copy(link, isShort)
+      },
       /**
        * @param index 操作指令
        * 0 取消
@@ -134,21 +164,44 @@
             this.$emit("cancel")
             break
           case 1:
-            this.$emit("btnAction", index)
+            if (this.checkURL(this.link.longLink)) {
+              let link = {
+                url: this.link.longLink,
+                note: this.link.note
+              }
+              this.$emit("transfer", link)
+            } else {
+              this.$message.warning("请检查要转换的链接！")
+            }
             break
           case 2:
-            this.$emit("btnAction", index)
+            this.copy(true)
             break
           case 3:
-            this.$emit("btnAction", index)
+            this.copy(false)
             break
           case 4:
-            this.$emit("btnAction", index)
+            this.showDelete = true
             break
           case 5:
-            this.$emit("btnAction", index)
+            if (this.checkURL(this.link.longLink)) {
+              this.$emit("saveLink", this.link)
+            } else {
+              this.$message.warning("请检查要转换的链接！")
+            }
             break
         }
+      },
+      checkURL(URL) {
+        //判断url地址是否正确
+        let str = URL;
+        let Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        let objExp = new RegExp(Expression);
+        return objExp.test(str) === true;
+      },
+      deleteLink() {
+        this.$emit("deleteLink")
+        this.showDelete = false
       }
     }
   }
@@ -205,5 +258,17 @@
   .my-absolute-btn {
     bottom: 50px;
     right: 20px;
+  }
+
+  .icon-title {
+    padding-top: 30px;
+    text-align: center;
+  }
+
+  .card-text {
+    font-size: 25px;
+    font-family: 微软雅黑, serif;
+    font-weight: 600;
+    text-align: center;
   }
 </style>

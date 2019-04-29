@@ -1,40 +1,38 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <v-card flat class="index-card">
     <v-toolbar color="white" fixed flat height="55" style="z-index: 999">
-    <nuxt-link to="/" style="text-decoration: none">
-      <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
-      <span class="toolbar-title">JumpLinker</span>
-    </nuxt-link>
+      <nuxt-link to="/" style="text-decoration: none">
+        <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
+        <span class="toolbar-title">JumpLinker</span>
+      </nuxt-link>
 
-    <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-btn flat round color="#AEB6BF" nuxt to="/">
+        <span class="toolbar-action">首页</span>
+      </v-btn>
+      <v-btn flat round color="#AEB6BF" nuxt to="/transfer">
+        <span class="toolbar-action">短链生成</span>
+      </v-btn>
 
-    <v-btn flat round color="#AEB6BF" nuxt to="/transfer">
-      <span class="toolbar-action">短链生成</span>
-    </v-btn>
+      <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
+        <span class="toolbar-action">短链还原</span>
+      </v-btn>
 
-    <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
-      <span class="toolbar-action">短链还原</span>
-    </v-btn>
+      <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
+        <span class="toolbar-action">二维码生成</span>
+      </v-btn>
 
-    <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
-      <span class="toolbar-action">二维码生成</span>
-    </v-btn>
-
-    <v-btn flat round  nuxt to="/DNSRed">
-      <span class="toolbar-action">域名防红</span>
-    </v-btn>
-    <v-btn v-if="$store.state.isLogin" :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
-      <span>{{$store.state.user.username}}</span>
-    </v-btn>
-    <v-tooltip bottom v-else>
-      <template v-slot:activator="{ on }">
-        <v-btn icon flat color="#566573" v-on="on" nuxt to="/login">
-          <v-icon>iconfont icon-denglu</v-icon>
-        </v-btn>
-      </template>
-      <span class="tooltip">登录、注册</span>
-    </v-tooltip>
-  </v-toolbar>
+      <v-btn flat round nuxt to="/DNSRed">
+        <span class="toolbar-action">域名防红</span>
+      </v-btn>
+      <v-btn v-if="$store.state.isLogin"
+             :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
+        <span>{{$store.state.user.username}}</span>
+      </v-btn>
+      <v-btn v-else dark depressed round large color="#ffa018" nuxt to="/login">
+        <span class="login-register-btn">登录/注册</span>
+      </v-btn>
+    </v-toolbar>
     <div style="margin-top: 55px;">
       <nuxt-child></nuxt-child>
     </div>
@@ -48,8 +46,8 @@
     name: "index",
     layout: "index",
     head: {
-      title: "JumpLinker"
-    },
+      title: "短网址_短链接_流量统计_缩短网址_微信活码_活链_活码_三码合一_收款码合一-jumplinker短网址"
+    }
   }
 </script>
 
@@ -72,4 +70,10 @@
     font-size: 18px;
   }
 
+  .login-register-btn {
+    font-family: "微软雅黑", serif;
+    font-size: 19px;
+    color: white;
+
+  }
 </style>

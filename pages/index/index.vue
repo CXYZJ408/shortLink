@@ -22,7 +22,7 @@
     </div>
     <div class="second">
       <div class="second-title">
-        专为引流而生
+        专为跳转而生
       </div>
       <div class="second-img">
         <img src="/img/index/tree.png" width="400px" alt="">
@@ -45,7 +45,7 @@
           <div class="second-subtitle">快如闪电</div>
         </v-flex>
         <v-flex md8 class="text-md-center mt-3">
-          <div class="second-content">安全高效无劫持，毫秒级快速响应，多台服务器提供稳定性保证，让您引流无忧。</div>
+          <div class="second-content">安全高效无劫持，毫秒级快速响应，多台服务器提供稳定性保证，让您跳转无忧。</div>
           <div class="second-content">操作简单，终身免费使用，更有VIP专享服务为您提供。</div>
         </v-flex>
       </v-layout>
@@ -116,7 +116,7 @@
       <v-layout align-center justify-center row fill-height>
         <v-flex md5 style="margin-top: -70px">
           <p class="p-title">方方面面，快而稳定</p>
-          <p class="p-content">多台服务器实时保证您的引流链接稳定有效，我们会不断提升我们的服务器速度和性能，给您提供快速而稳定的引流服务。</p>
+          <p class="p-content">多台服务器实时保证您的跳转链接稳定有效，我们会不断提升我们的服务器速度和性能，给您提供快速而稳定的跳转服务。</p>
         </v-flex>
         <v-flex md2 offset-md1>
           <img src="/img/index/server.png" width="280px" alt="">
@@ -130,7 +130,7 @@
         </v-flex>
         <v-flex md5 offset-md1 style="margin-top: -70px">
           <p class="p-title">安全高效，拒绝劫持</p>
-          <p class="p-content">我们会使用银行级别的加密来确保您的任何跳转链接的安全，有专门的网络安全团队时刻保证跳转链接不被劫持，让您安全引流。</p>
+          <p class="p-content">我们会使用银行级别的加密来确保您的任何跳转链接的安全，有专门的网络安全团队时刻保证跳转链接不被劫持，让您安全跳转。</p>
         </v-flex>
       </v-layout>
     </div>
@@ -138,7 +138,7 @@
       <v-layout align-center justify-center row fill-height>
         <v-flex md5 style="margin-top: -70px">
           <p class="p-title">终身免费使用！</p>
-          <p class="p-content">一次注册终身免费使用，无需任何费用即可享受不限次数的网站引流，同时如有需要亦为您提供了VIP专项服务体验。</p>
+          <p class="p-content">一次注册终身免费使用，无需任何费用即可享受不限次数的网站跳转，同时如有需要亦为您提供了VIP专项服务体验。</p>
         </v-flex>
         <v-flex md2 offset-md1>
           <div class="free">Free!</div>
