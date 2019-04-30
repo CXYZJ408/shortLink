@@ -18,7 +18,6 @@ export default {
   },
   loginAgain: (options) => {
     const {cookie} = param2Obj(options.body)
-    console.log("loginAgain", cookie)
     if (cookie === 'abcdefg') {
       return {
         code: 0,

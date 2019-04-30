@@ -69,7 +69,6 @@
     created() {
       $linkApi = new LinkApi()
       this.getUserLinks()
-      console.log("data_display")
       this.$store.commit("setTitle", "数据统计")
     },
     methods: {

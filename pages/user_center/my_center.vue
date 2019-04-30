@@ -142,15 +142,12 @@
   export default {
     transition: {
       beforeEnter(el) {
-        console.log("before-enter")
         el.style.opacity = 0
       },
       enter(el, done) {
-        console.log("enter")
         this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
       },
       leave(el, done) {
-        console.log("leave")
         this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
       }
     },
@@ -255,7 +252,6 @@
       passwordStrength() {
         if (!this.reset) {
           let score = $strength(this.newPassword).score
-          console.log(score)
           let process
           if (score === 0) {
             process = 0
@@ -320,7 +316,6 @@
       },
       payFinish() {
         $otherApi.queryPay(this.orderId).then(res => {
-          console.log(res.data)
           if (res.code === this.$code.SUCCESS) {
             if (res.data.payed) {//支付成功
               //更新用户数据

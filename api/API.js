@@ -85,7 +85,6 @@ async function proxy(request, returnType) {//批量请求发送
   return Promise.all(invokes).then(async function (results) {//将所有的请求并行执行，然后返回结果
     if (!_.isEmpty(results)) {
       //成功请求到了数据
-      console.log('开始返回数据')
       return pushData(results, request, returnType)
     } else {
       //请求数据失败
@@ -123,31 +122,24 @@ function pushData(results, request, returnType) {//打包数据
 }
 
 function pack(request) {//打包
-  console.log('请求打包', request)
   let invokes = []
   for (let i = 0; i < request.length; i++) {//封装函数与参数
     invokes.push(new Promise((resolve) => {
       let call = Methods(request[i].requestMethod)
       if (!_.isUndefined(request[i].header)) {
         //存在header
-        console.log('存在header', request[i].header)
         if (!_.isUndefined(request[i].params)) {
           //存在params
-          console.log('存在params', request[i].params)
           resolve(call(request[i].url, request[i].params, request[i].header))
         } else {
           //不存在params
-          console.log('不存在params')
           resolve(call(request[i].url, null, request[i].header))
         }
       } else if (!_.isUndefined(request[i].params)) {
         //不存在header，存在params
-        console.log('不存在header，存在params')
-
         resolve(call(request[i].url, request[i].params))
       } else {
         //header于params均不存在
-        console.log('header于params均不存在')
         resolve(call(request[i].url))
       }
     }))

@@ -40,7 +40,6 @@ export class UserApi extends Api {
 
   //用户注册
   register(userName, password, email, phone, invite, send = true) {
-    console.log("register", userName, password, email, phone, invite)
     let url = User + '/register'
     let params = {
       username: userName,
@@ -51,7 +50,6 @@ export class UserApi extends Api {
     if (!_.isUndefined(invite)) {
       params.invite = invite
     }
-    console.log(params)
     super.pushRequest = new Request(requestMethods.POST, url, this.register, params)
     return super.judgeSend(send)
   }

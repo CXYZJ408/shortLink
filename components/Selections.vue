@@ -194,7 +194,6 @@
           let selected = this.$refs.selected
           if (!_.isUndefined(selected)) {
             let height = selected.scrollHeight
-            console.log(height)
             if (height > 53) {
               this.$refs.selected.scrollTop = selected.scrollHeight//如果DIV溢出，自动滚动到底部
               this.more = true

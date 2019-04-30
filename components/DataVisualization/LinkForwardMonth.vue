@@ -45,7 +45,6 @@
           let time = new Date(timestamp * 1000)
           res.push({name: time, value: [transformTime2(timestamp), 0]})
         }
-        console.log(timeMap)
         for (let i = 0; i < 30; i++) {//处理数据为0的情况
           start.add(1, "days")
           if (timeMap.has(start.unix())) {//存在该key

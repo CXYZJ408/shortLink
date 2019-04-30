@@ -57,6 +57,5 @@ export const actions = {
         }
       })
     }
-    // todo 将重新登录部分做成组件插入到layout中去
   }
 }

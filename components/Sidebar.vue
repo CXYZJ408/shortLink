@@ -74,7 +74,6 @@
       },
       color2: function () {
         if (this.now === '/user_center/user_link') {
-          console.log(this.$route.path)
           this.top = 40
           return "#40A1FA"
         }

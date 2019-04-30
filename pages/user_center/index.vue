@@ -210,15 +210,12 @@
     },
     transition: {
       beforeEnter(el) {
-        console.log("before-enter")
         el.style.opacity = 0
       },
       enter(el, done) {
-        console.log("enter")
         this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
       },
       leave(el, done) {
-        console.log("leave")
         this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
       }
     },
@@ -242,12 +239,6 @@
     created() {
       $linkApi = new LinkApi()
       this.$store.commit("setTitle", "短链生成")
-    },
-    destroyed() {
-
-    },
-    mounted() {
-      console.log("usercenter")
     },
     head: {
       title: "JumpLinker - 短链生成"
@@ -403,7 +394,6 @@
         //todo 添加动画效果
         if (this.links.length > 0) {
           $linkApi.transfer(this.links).then(res => {
-            console.log(res)
             let links = []
             if (res.code === this.$code.SUCCESS) {
               _.forEach(res.data, (item => {

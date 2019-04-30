@@ -101,7 +101,6 @@ export default {
     }
   },
   editLinks: (options) => {
-    console.log(options)
     const {id, longurl, note} = param2Obj(options.body)
     return {
       code: 0,

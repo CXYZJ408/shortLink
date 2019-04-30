@@ -72,9 +72,6 @@
       }
     },
     methods: {
-      download() {
-        //todo 下载
-      },
       checkURL(URL) {
         //判断url地址是否正确
         let str = URL;
