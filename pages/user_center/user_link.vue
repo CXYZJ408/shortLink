@@ -55,57 +55,59 @@
     </v-flex>
     <v-flex md10>
       <v-card class="card">
-        <el-table
-          height="60vh"
-          stripe
-          :lazy="true"
-          ref="multipleTable"
-          :cell-class-name="pointer"
-          :data="tableData"
-          tooltip-effect="dark"
-          @cell-click="handleCopy"
-          style="width: 100%"
-          @selection-change="handleSelectionChange">
-          <el-table-column
-            type="selection"
-            width="70">
-          </el-table-column>
-          <el-table-column
-            fixed
-            label="原始链接"
-            prop="longLink"
-            width="350"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="shortLink"
-            show-overflow-tooltip
-            label="短链接"
-            width="200">
-          </el-table-column>
-          <el-table-column
-            prop="note"
-            label="备注"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            type="index"
-            header-align="center"
-            align="center"
-            width="200"
-            label="操作">
-            <template slot-scope="scope">
-              <v-btn icon flat color="#8E44AD" @click="edit(scope.$index)">
-                <v-icon size="15">iconfont icon-bianji</v-icon>
-              </v-btn>
-              <v-btn icon flat color="red" @click="handleDeleteSingle(scope.$index)">
-                <v-icon size="18">iconfont icon-shanchu</v-icon>
-              </v-btn>
-            </template>
-          </el-table-column>
-        </el-table>
+        <no-ssr>
+          <el-table
+            height="60vh"
+            stripe
+            :lazy="true"
+            ref="multipleTable"
+            :cell-class-name="pointer"
+            :data="tableData"
+            tooltip-effect="dark"
+            @cell-click="handleCopy"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              width="70">
+            </el-table-column>
+            <el-table-column
+              fixed
+              label="原始链接"
+              prop="longLink"
+              width="350"
+              show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              prop="shortLink"
+              show-overflow-tooltip
+              label="短链接"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="note"
+              label="备注"
+              header-align="center"
+              align="center"
+              show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              type="index"
+              header-align="center"
+              align="center"
+              width="200"
+              label="操作">
+              <template slot-scope="scope">
+                <v-btn icon flat color="#8E44AD" @click="edit(scope.$index)">
+                  <v-icon size="15">iconfont icon-bianji</v-icon>
+                </v-btn>
+                <v-btn icon flat color="red" @click="handleDeleteSingle(scope.$index)">
+                  <v-icon size="18">iconfont icon-shanchu</v-icon>
+                </v-btn>
+              </template>
+            </el-table-column>
+          </el-table>
+        </no-ssr>
       </v-card>
     </v-flex>
     <v-flex md10 class="text-md-center page">
@@ -132,6 +134,8 @@
     created() {
       $linkApi = new LinkApi()
       this.$store.commit("setTitle", "个人短链")
+    },
+    mounted() {
       this.getLinkList(1).catch(e => {
         if (this.$store.state.isLogin) {
           this.$message.error(e)
@@ -146,15 +150,12 @@
     },
     transition: {
       beforeEnter(el) {
-        console.log("before-enter")
         el.style.opacity = 0
       },
       enter(el, done) {
-        console.log("enter")
         this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
       },
       leave(el, done) {
-        console.log("leave")
         this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
       }
     },

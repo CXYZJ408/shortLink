@@ -170,18 +170,21 @@
     <v-flex md8 xl9 class="mt-4">
       <v-layout row wrap>
         <v-flex md12 class="text-md-right">
-          <el-upload
-            class="d-inline-block"
-            action="#"
-            :show-file-list="false"
-            :before-upload="beforeUpload"
-            :http-request="handleUpload"
-            :multiple="false">
-            <v-btn depressed round color="#40A1FA" class="ma-0" dark>
-              <v-icon size="18">iconfont icon-wenjian</v-icon>
-              <span class="font ml-2">批量导入</span>
-            </v-btn>
-          </el-upload>
+          <no-ssr>
+            <el-upload
+              class="d-inline-block"
+              action="#"
+              :show-file-list="false"
+              :before-upload="beforeUpload"
+              :http-request="handleUpload"
+              :multiple="false">
+              <v-btn depressed round color="#40A1FA" class="ma-0" dark>
+                <v-icon size="18">iconfont icon-wenjian</v-icon>
+                <span class="font ml-2">批量导入</span>
+              </v-btn>
+            </el-upload>
+
+          </no-ssr>
           &nbsp;
           <v-btn depressed round color="#F5B041" class="ma-0" dark @click="transfer">
             <v-icon size="18">iconfont icon-shuaxin</v-icon>

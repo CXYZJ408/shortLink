@@ -29,7 +29,7 @@ export class UserApi extends Api {
     return super.judgeSend(send)
   }
 
-  loginAgain(session, send = true) {
+  async loginAgain(session, send = true) {
     let url = User + '/loginAgain'
     let header = {
       cookie: "session=" + session

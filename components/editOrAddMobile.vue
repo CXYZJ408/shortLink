@@ -213,7 +213,7 @@
     font-size: 3vh;
     padding-top: 1.8vh;
     font-family: 微软雅黑, serif;
-    background-color: #3FA3F9;
+    background-color: #FF9800;
     color: white;
     text-align: center;
   }

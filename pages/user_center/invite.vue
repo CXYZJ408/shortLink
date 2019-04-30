@@ -19,39 +19,41 @@
     </v-flex>
     <v-flex md10 class="mt-5">
       <v-card class="card">
-        <el-table
-          height="60vh"
-          stripe
-          :lazy="true"
-          ref="multipleTable"
-          :cell-class-name="pointer"
-          :data="users"
-          tooltip-effect="dark"
-          style="width: 100%">
-          <slot slot="empty"><span class="empty-text">您还没有邀请任何人哦！</span></slot>
-          <el-table-column
-            fixed
-            header-align="center"
-            label="受邀人"
-            prop="username"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="register_datetime"
-            show-overflow-tooltip
-            header-align="center"
-            label="注册时间"
-            align="center">
-          </el-table-column>
-          <el-table-column
-            prop="days"
-            label="赠送天数"
-            header-align="center"
-            align="center"
-            show-overflow-tooltip>
-          </el-table-column>
-        </el-table>
+        <no-ssr>
+          <el-table
+            height="60vh"
+            stripe
+            :lazy="true"
+            ref="multipleTable"
+            :cell-class-name="pointer"
+            :data="users"
+            tooltip-effect="dark"
+            style="width: 100%">
+            <slot slot="empty"><span class="empty-text">您还没有邀请任何人哦！</span></slot>
+            <el-table-column
+              fixed
+              header-align="center"
+              label="受邀人"
+              prop="username"
+              align="center"
+              show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              prop="register_datetime"
+              show-overflow-tooltip
+              header-align="center"
+              label="注册时间"
+              align="center">
+            </el-table-column>
+            <el-table-column
+              prop="days"
+              label="赠送天数"
+              header-align="center"
+              align="center"
+              show-overflow-tooltip>
+            </el-table-column>
+          </el-table>
+        </no-ssr>
       </v-card>
     </v-flex>
   </v-layout>
@@ -65,15 +67,12 @@
   export default {
     transition: {
       beforeEnter(el) {
-        console.log("before-enter")
         el.style.opacity = 0
       },
       enter(el, done) {
-        console.log("enter")
         this.$velocity(el, {opacity: 1}, {duration: 1000}, {complete: done})
       },
       leave(el, done) {
-        console.log("leave")
         this.$velocity(el, {opacity: 0}, {duration: 1000}, {complete: done})
       }
     },
@@ -89,11 +88,13 @@
     data: function () {
       return {
         people: 0,
-        users: []
+        users: [],
       }
     },
-    mounted() {
+    created() {
       $UserApi = new UserApi()
+    },
+    mounted() {
       this.$store.commit("setTitle", "好友邀请")
       $UserApi.inviteList().then(res => {
         if (res.code === this.$code.SUCCESS) {

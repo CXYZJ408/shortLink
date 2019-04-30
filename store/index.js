@@ -36,23 +36,23 @@ export const mutations = {
     state.purchaseVip = isPurchase
   }
 }
+
 export const actions = {
   async nuxtServerInit(store, {req}) {//在跳转其它的页面或是刷新页面的时候，nuxt会自动调用
     //因为vue项目再刷新页面的时候不会保存用户的状态信息，所以每次在刷新的时候自动读取cookie中的数据进行登录
-    //模拟再次登录
+    //模拟再次登
+
     let session = parseCookieByName(req.headers.cookie, 'session')//获取token
-    console.log("session:", session)
+    // return
     if (!_.isEmpty(session)) {//存在cookie
       //调用登录API
       let $userApi = new UserApi()
-      console.log("ok", session)
       await $userApi.loginAgain(session).then(res => {
         if (res.code === 0) {
-          console.log("loginAgain")
           store.commit('login', res.data)
         }
       })
     }
-
+    // todo 将重新登录部分做成组件插入到layout中去
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <v-layout class="text-xs-center temp" v-if="$store.state.isMobile" justify-center row wrap>
       <v-flex xs10>
         <v-icon size="100" color="#5D6D7E">iconfont icon-developing</v-icon>
@@ -40,9 +40,12 @@
         <v-btn flat round nuxt to="/DNSRed">
           <span class="toolbar-action">域名防红</span>
         </v-btn>
-        <v-btn v-if="$store.state.isLogin"
+        <v-btn target="_blank" flat round href="https://pay.jumplinker.com/ ">
+          <span class="toolbar-action">三码合一</span>
+        </v-btn>
+        <v-btn v-if="$store.state.isLogin" style="text-transform:none"
                :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
-          <span>{{$store.state.user.username}}</span>
+          <span class="headline">{{$store.state.user.username}}</span>
         </v-btn>
         <v-btn v-else dark depressed round large color="#ffa018" nuxt to="/login">
           <span class="login-register-btn">登录/注册</span>
@@ -107,3 +110,4 @@
     margin-top: 40%;
   }
 </style>
+

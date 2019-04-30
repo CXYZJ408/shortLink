@@ -76,7 +76,9 @@
             }
             resolve(true)
           }).catch(e => {
-            this.$message.error("网络异常，列表刷新出错！")
+            if (this.$store.state.isLogin) {
+              this.$message.error("网络异常，列表刷新出错！")
+            }
             this.clean()
             this.time = 0
           })

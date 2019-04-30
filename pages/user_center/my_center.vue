@@ -285,17 +285,20 @@
         }, 5)
       },
       pay() {
+        let tempWindow = window.open()
         $userApi.pay(this.selectedId).then(res => {
           if (res.code === this.$code.SUCCESS) {
             this.orderId = res.data.order_id
-            window.open(res.data.url)
+            tempWindow.location.href = res.data.url
             this.showPay = true
           } else {
+            tempWindow.close()
             if (this.$store.state.isLogin) {
               this.$message.error(res.msg)
             }
           }
         }).catch(() => {
+          tempWindow.close()
           this.$message.error("网络异常，支付失败！")
         })
       },
