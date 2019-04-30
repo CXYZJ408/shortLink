@@ -133,9 +133,9 @@
 
 <script>
   import {parseCookieByName, transformTime} from "../../utils";
-  import {UserApi} from '../../api/UserApi'
+  import {OtherApi} from "../../api/Other";
 
-  let $userApi
+  let $otherApi
   let $md5
   let $strength
   let _ = require("lodash")
@@ -159,13 +159,13 @@
       title: "JumpLinker - 用户中心"
     },
     created() {
-      $userApi = new UserApi()
+      $otherApi = new OtherApi()
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
       this.$store.commit("setTitle", "用户中心")
     },
     mounted() {
-      $userApi.getCost().then(res => {
+      $otherApi.getCost().then(res => {
         if (res.code === this.$code.SUCCESS) {
           let tempId = false
           _.forEach(res.data, moneyItem => {
@@ -286,7 +286,7 @@
       },
       pay() {
         let tempWindow = window.open()
-        $userApi.pay(this.selectedId).then(res => {
+        $otherApi.pay(this.selectedId).then(res => {
           if (res.code === this.$code.SUCCESS) {
             this.orderId = res.data.order_id
             tempWindow.location.href = res.data.url
@@ -310,7 +310,7 @@
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             let newPassword = $md5(this.newPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             //TypeError: Cannot set property 'strength' of undefined
-            $userApi.resetPassword(oldPassword, newPassword).then(res => {
+            $otherApi.resetPassword(oldPassword, newPassword).then(res => {
               this.handleResult(res)
             }).catch(e => {
               this.$message.error("抱歉，出错啦！！" + e)
@@ -319,7 +319,7 @@
         }
       },
       payFinish() {
-        $userApi.queryPay(this.orderId).then(res => {
+        $otherApi.queryPay(this.orderId).then(res => {
           console.log(res.data)
           if (res.code === this.$code.SUCCESS) {
             if (res.data.payed) {//支付成功

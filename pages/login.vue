@@ -166,6 +166,7 @@
           //将用户的相关信息存放到store中
           this.$store.commit('login', res.data)
           //页面跳转
+          this.$store.commit("changeNotice", true)//只有从登录进入才显示公告
           if (this.$store.state.purchaseVip) {//如果购买，跳转到vip购买页面
             if (this.$store.state.isMobile) {
               this.$router.push({path: `/user_center_mobile/my_center`})

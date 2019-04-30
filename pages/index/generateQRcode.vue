@@ -17,10 +17,12 @@
         </v-card-text>
         <v-layout justify-center>
           <v-flex md10 class="text-md-right pb-3">
-            <v-btn color="grey" dark depressed @click="download" block>
-              <v-icon size="18">iconfont icon-xiazai</v-icon>
-              <span class="btn-title ml-2">保存</span>
-            </v-btn>
+            <a id="download" href="" download="二维码" style="text-decoration: none">
+              <v-btn color="grey" dark depressed block>
+                <v-icon size="18">iconfont icon-xiazai</v-icon>
+                <span class="btn-title ml-2">保存</span>
+              </v-btn>
+            </a>
           </v-flex>
         </v-layout>
       </v-card>
@@ -71,7 +73,7 @@
     },
     methods: {
       download() {
-
+        //todo 下载
       },
       checkURL(URL) {
         //判断url地址是否正确
@@ -82,8 +84,11 @@
       },
       generate() {
         if (this.checkURL(this.longLink)) {
-          QRCode.toCanvas(document.getElementById('qrcode'), this.longLink).then(() => {
+          let canvas = document.getElementById('qrcode')
+          QRCode.toCanvas(canvas, this.longLink).then(() => {
             this.showQRCodeDialog = true
+            let image = document.getElementById('download')
+            image.href = canvas.toDataURL('image/png')
           })
         } else {
           this.$message.warning("请输入正确的地址")
@@ -166,6 +171,8 @@
   .btn-title {
     font-size: 22px;
     font-family: "黑体", serif;
+    text-decoration: none;
+    color: white;
   }
 </style>
 

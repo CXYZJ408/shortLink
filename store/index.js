@@ -4,14 +4,18 @@ import {UserApi} from '../api/UserApi'
 
 export const state = () => ({
   user: {},//user信息
-  isLogin: false,
-  title: "",
-  purchaseVip: false,
-  device: "windows",
-  isMobile: false,
+  isLogin: false,//是否登陆
+  title: "",//标题栏
+  purchaseVip: false,//是否要进行会员购买
+  device: "windows",//设备信息
+  isMobile: false,//是否是手机端
+  needNotice: false//是否需要显示公告
 })
 
 export const mutations = {
+  changeNotice(state, need) {
+    state.needNotice = need
+  },
   changeDevice(state, device) {
     state.device = device
     state.isMobile = !(device === 'windows')

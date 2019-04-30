@@ -1,13 +1,12 @@
 <template>
   <div class="back" id="transfer">
-    <copy ref="copy"></copy>
     <v-dialog
       hide-overlay
       v-model="showTransferDialog"
       max-width="400">
       <v-card class="edit-card" max-height="380px">
+        <copy ref="copy"></copy>
         <div class="card-title text-md-center my-title">转换完成</div>
-
         <v-btn icon small flat color="red" class="card-close" @click="showTransferDialog=false">
           <v-icon size="12">iconfont icon-close</v-icon>
         </v-btn>
@@ -19,13 +18,15 @@
                   <div class="label">长链接:</div>
                 </v-flex>
                 <v-flex md9>
-                  <el-input readonly v-model="longLink">
-                    <template v-slot:suffix>
-                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(0)">
-                        <v-icon size="12">iconfont icon-copy</v-icon>
-                      </v-btn>
-                    </template>
-                  </el-input>
+                  <no-ssr>
+                    <el-input readonly v-model="longLink">
+                      <template v-slot:suffix>
+                        <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(false)">
+                          <v-icon size="12">iconfont icon-copy</v-icon>
+                        </v-btn>
+                      </template>
+                    </el-input>
+                  </no-ssr>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -35,23 +36,25 @@
                   <div class="label">短链接:</div>
                 </v-flex>
                 <v-flex md9>
-                  <el-input v-model="shortLink" readonly>
-                    <template v-slot:suffix>
-                      <v-menu class="d-inline-block">
-                        <template v-slot:activator="{ on }">
-                          <v-btn v-on="on" icon small flat color="#ACAAAA" class="margin-x-0">
-                            <v-icon size="12">iconfont icon-QR-code</v-icon>
-                          </v-btn>
-                        </template>
-                        <div style="background-color: white">
-                          <canvas id="qrcode"></canvas>
-                        </div>
-                      </v-menu>
-                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(1)">
-                        <v-icon size="12">iconfont icon-copy</v-icon>
-                      </v-btn>
-                    </template>
-                  </el-input>
+                  <no-ssr>
+                    <el-input v-model="shortLink" readonly>
+                      <template v-slot:suffix>
+                        <v-menu class="d-inline-block">
+                          <template v-slot:activator="{ on }">
+                            <v-btn v-on="on" icon small flat color="#ACAAAA" class="margin-x-0">
+                              <v-icon size="12">iconfont icon-QR-code</v-icon>
+                            </v-btn>
+                          </template>
+                          <div style="background-color: white">
+                            <canvas id="qrcode"></canvas>
+                          </div>
+                        </v-menu>
+                        <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(true)">
+                          <v-icon size="12">iconfont icon-copy</v-icon>
+                        </v-btn>
+                      </template>
+                    </el-input>
+                  </no-ssr>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -113,15 +116,14 @@
       }
     },
     methods: {
-      copy(index) {
+      copy(isShort) {
         let link = ''
-        if (index === 0) {
-          link = this.longLink
-        } else {
+        if (isShort) {
           link = this.shortLink
+        } else {//
+          link = this.longLink
         }
-        this.$refs.copy.copy(link)
-
+        this.$refs.copy.copy(link, isShort)
       },
       checkURL(URL) {
         //判断url地址是否正确

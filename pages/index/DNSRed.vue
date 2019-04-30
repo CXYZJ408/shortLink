@@ -1,11 +1,11 @@
 <template>
   <div class="back" id="transfer">
-    <copy ref="copy"></copy>
     <v-dialog
       hide-overlay
       v-model="showTransferDialog"
       max-width="400">
       <v-card class="edit-card" max-height="380px">
+        <copy ref="copy"></copy>
         <div class="card-title text-md-center my-title">转换完成</div>
 
         <v-btn icon small flat color="red" class="card-close" @click="showTransferDialog=false">
@@ -21,7 +21,7 @@
                 <v-flex md9>
                   <el-input readonly v-model="longLink">
                     <template v-slot:suffix>
-                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(0)">
+                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(false)">
                         <v-icon size="12">iconfont icon-copy</v-icon>
                       </v-btn>
                     </template>
@@ -47,7 +47,7 @@
                           <canvas id="qrcode"></canvas>
                         </div>
                       </v-menu>
-                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(1)">
+                      <v-btn icon small flat color="#ACAAAA" class="margin-x-0" @click="copy(true)">
                         <v-icon size="12">iconfont icon-copy</v-icon>
                       </v-btn>
                     </template>
@@ -111,15 +111,16 @@
       }
     },
     methods: {
-      copy(index) {
+      copy(isShort) {
         let link = ''
-        if (index === 0) {
-          link = this.longLink
-        } else {
+        if (isShort) {
           link = this.shortLink
+        } else {//
+          link = this.longLink
         }
-        this.$refs.copy.copy(link)
+        this.$refs.copy.copy(link, isShort)
       },
+
       checkURL(URL) {
         //判断url地址是否正确
         let str = URL;
