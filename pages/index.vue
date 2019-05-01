@@ -10,7 +10,11 @@
         </div>
       </v-flex>
       <v-flex xs10 mt-3>
-        <v-btn dark depressed round large color="#ffa018" nuxt to="/login">
+        <v-btn v-if="$store.state.isLogin" style="text-transform:none"
+               :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center_mobile" depressed flat>
+          <span class="headline">{{$store.state.user.username}}</span>
+        </v-btn>
+        <v-btn v-else dark depressed round large color="#ffa018" nuxt to="/login">
           <span class="login-register-btn">登录/注册</span>
         </v-btn>
       </v-flex>

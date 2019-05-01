@@ -134,8 +134,10 @@
 <script>
   import {parseCookieByName, transformTime} from "../../utils";
   import {OtherApi} from "../../api/Other";
+  import {UserApi} from "../../api/UserApi";
 
   let $otherApi
+  let $userApi
   let $md5
   let $strength
   let _ = require("lodash")
@@ -157,6 +159,7 @@
     },
     created() {
       $otherApi = new OtherApi()
+      $userApi = new UserApi()
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
       this.$store.commit("setTitle", "用户中心")
@@ -204,7 +207,7 @@
           return 0
         } else {
           const oneDay = 1000 * 3600 * 24
-          return Math.floor((expireDay - today) / oneDay)
+          return Math.ceil((expireDay - today) / oneDay)
         }
       },
       date: function () {
@@ -306,7 +309,7 @@
             let oldPassword = $md5(this.oldPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             let newPassword = $md5(this.newPassword.split('').reverse().join(''))//将密码逆序同时进行md5处理
             //TypeError: Cannot set property 'strength' of undefined
-            $otherApi.resetPassword(oldPassword, newPassword).then(res => {
+            $userApi.resetPassword(oldPassword, newPassword).then(res => {
               this.handleResult(res)
             }).catch(e => {
               this.$message.error("抱歉，出错啦！！" + e)

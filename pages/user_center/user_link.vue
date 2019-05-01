@@ -206,7 +206,6 @@
       getLinkList(page) {//获取指定页面的数据
         return new Promise((resolve, reject) => {
           $linkApi.getLinkList(page).then(res => {
-            console.log(res)
             if (res.code === this.$code.SUCCESS) {
               //成功获取数据
               //进行数据的转换
@@ -234,12 +233,13 @@
       },
       editShortLink(newLink) {
         //更新编辑后的数据
-        this.tableData[this.editIndex] = {
+        this.$set(this.tableData, this.editIndex, {
           id: newLink.id,
           longLink: newLink.longurl,
           shortLink: newLink.shorturl,
           note: newLink.note
-        }
+        })
+
         this.showEdit = false
       },
       edit(index) {

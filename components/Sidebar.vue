@@ -137,7 +137,7 @@
     font-size: 35px;
     color: white !important;
     padding-left: 22px;
-    width: 150px;
+    max-width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-dialog v-model="editOrAddDialog" fullscreen :hide-overlay="false" transition="dialog-bottom-transition">
+    <v-dialog v-model="editOrAddDialog" fullscreen transition="dialog-bottom-transition">
       <editOrAdd @deleteLink="deleteLink" @cancel="cancel" :isEdit="editModel" @transfer="transfer"
                  @saveLink="saveLink" :editLink="editLink"></editOrAdd>
     </v-dialog>
-    <v-toolbar flat color="#FF9800">
+    <v-toolbar flat color="#F39C12">
       <span class="list-title">短链接</span>
       <v-spacer></v-spacer>
       <v-toolbar-items>
@@ -331,6 +331,9 @@
     font-size: 25px;
     color: rgba(40, 55, 71, .6);
   }
-
-
+</style>
+<style>
+  .v-dialog {
+    margin: 0;
+  }
 </style>

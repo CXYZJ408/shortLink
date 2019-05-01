@@ -22,7 +22,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <v-layout>
+    <v-layout style="height: 100vh">
       <v-flex>
         <sidebar :now="nowPath"></sidebar>
       </v-flex>

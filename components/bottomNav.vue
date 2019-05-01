@@ -47,7 +47,7 @@
       },
       color3: function () {
         if (this.now === '/user_center_mobile/my_center') {
-          return "#2ECC71"
+          return "#42426A"
         }
         return "grey"
       },
@@ -75,6 +75,8 @@
 
 <style scoped>
   .bottom-nav {
+    z-index: 999;
+    background-color: white;
     height: 55px;
     width: 100%;
   }

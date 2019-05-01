@@ -63,7 +63,7 @@
           return 0
         } else {
           const oneDay = 1000 * 3600 * 24
-          return Math.floor((expireDay - today) / oneDay)
+          return Math.ceil((expireDay - today) / oneDay)
         }
       },
       date: function () {
@@ -77,16 +77,10 @@
     },
     methods: {
       quit() {
-        $userApi.logout().then(res => {
-          if (res.code === this.$code.SUCCESS) {
-            //退出，删除cookie信息
-            this.$store.commit("logout")//删除状态树信息
-            $cookie.remove('user')
-            this.$router.push({path: '/login'})//跳转页面
-          }
-        }).catch(e => {
-          this.$message.error(`抱歉，出错啦！！`)
-        })
+        this.$store.commit("logout")//删除状态树信息
+        $cookie.remove('user')
+        this.$router.push({path: '/login'})//跳转页面
+        $userApi.logout()
       }
     },
     data: function () {
