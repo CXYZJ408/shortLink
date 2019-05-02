@@ -32,6 +32,32 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      hide-overlay
+      v-model="QRcode"
+      width="40vh">
+      <v-card class="pb-3 pt-2">
+        <div class="card-text">
+          二维码
+        </div>
+        <v-card-text class="qrcode pa-0">
+          <canvas id="qrcode"></canvas>
+        </v-card-text>
+        <v-card-actions class="text-md-center d-block py-0 px-5">
+          <v-btn
+            block
+            color="orange"
+            depressed
+            dark
+            @click="QRcode=false">
+            <span class="done">
+            确定
+            </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-flex md10 mt-4 pt-3>
       <v-layout>
         <v-flex md5>
@@ -102,7 +128,10 @@
                   <v-icon size="15">iconfont icon-bianji</v-icon>
                 </v-btn>
                 <v-btn icon flat color="red" @click="handleDeleteSingle(scope.$index)">
-                  <v-icon size="18">iconfont icon-shanchu</v-icon>
+                  <v-icon size="22">iconfont icon-shanchu</v-icon>
+                </v-btn>
+                <v-btn icon flat color="#ACAAAA" @click="showQRcode(scope.$index)">
+                  <v-icon size="16">iconfont icon-QR-code</v-icon>
                 </v-btn>
               </template>
             </el-table-column>
@@ -126,6 +155,8 @@
 <script>
   import linkEdit from '~/components/linkEeditDialog.vue'
   import {LinkApi} from "../../api/LinkApi";
+
+  let QRCode = require("qrcode")
 
   let $linkApi
   let _ = require('lodash')
@@ -161,6 +192,7 @@
     },
     data: function () {
       return {
+        QRcode: false,//显示二维码用
         path: "",//复制的地址信息
         page: {},//页面信息
         showEdit: false,//是否显示编辑窗口
@@ -179,6 +211,14 @@
       }
     },
     methods: {
+      showQRcode(index) {
+        console.log(index)
+        let link = this.tableData[index].shortLink
+        let canvas = document.getElementById('qrcode')
+        QRCode.toCanvas(canvas, link).then(() => {
+          this.QRcode = true
+        })
+      },
       pointer({columnIndex}) {//设置表格class
         if (columnIndex <= 2 && columnIndex >= 1) {
           return "pointer"
@@ -355,6 +395,17 @@
     font-family: 微软雅黑, serif;
     font-weight: 600;
     text-align: center;
+    width: 100%;
+  }
+
+  .qrcode {
+    text-align: center;
+  }
+
+  .done {
+    font-family: 微软雅黑, serif;
+    font-size: 25px;
+
   }
 </style>
 
