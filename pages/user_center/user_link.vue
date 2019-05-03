@@ -212,7 +212,6 @@
     },
     methods: {
       showQRcode(index) {
-        console.log(index)
         let link = this.tableData[index].shortLink
         let canvas = document.getElementById('qrcode')
         QRCode.toCanvas(canvas, link).then(() => {

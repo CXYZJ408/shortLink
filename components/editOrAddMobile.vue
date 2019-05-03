@@ -30,9 +30,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      hide-overlay
+      v-model="QRcode"
+      width="40vh">
+      <v-card class="pb-3 pt-2">
+        <div class="card-text">
+          二维码
+        </div>
+        <v-card-text class="qrcode pa-0">
+          <canvas id="qrcode"></canvas>
+        </v-card-text>
+        <v-card-actions class="text-md-center d-block py-0 px-5">
+          <v-btn
+            block
+            color="orange"
+            depressed
+            dark
+            @click="QRcode=false">
+            <span class="done">
+            确定
+            </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <copy ref="copy"></copy>
     <div class="card-title">{{isEdit?"链接编辑":"添加链接"}}</div>
-    <v-btn v-if="!isEdit" absolute dark fab class="my-absolute-btn" color="grey" flat @click="btnAction(0)">
+    <v-btn absolute dark fab class="my-absolute-btn" color="grey" flat @click="btnAction(0)">
       <v-icon size="30">iconfont icon-aui-icon-back</v-icon>
     </v-btn>
     <v-layout wrap justify-center row class="main-content" v-if="isEdit">
@@ -40,7 +65,7 @@
         <div class="title-text">短链接：</div>
       </v-flex>
       <v-flex xs8>
-        <el-input disabled v-model="link.shortLink">
+        <el-input v-model="link.shortLink">
           <v-icon slot="suffix" class="pt-2" color="#D7D7E3">block</v-icon>
         </el-input>
       </v-flex>
@@ -101,8 +126,8 @@
           </v-btn>
         </v-flex>
         <v-flex xs3>
-          <v-btn style="height: 55px" block depressed flat color="grey" class="ma-0" @click="btnAction(0)">
-            <v-icon size="28">iconfont icon-aui-icon-back</v-icon>
+          <v-btn style="height: 55px" block depressed flat color="grey" class="ma-0" @click="showQRcode">
+            <v-icon size="22">iconfont icon-QR-code</v-icon>
           </v-btn>
         </v-flex>
       </v-layout>
@@ -113,6 +138,8 @@
 
 <script>
   import copy from './copy'
+
+  let QRCode = require("qrcode")
 
   let _ = require("lodash")
   export default {
@@ -135,7 +162,8 @@
           longLink: "",
           note: ""
         },
-        showDelete: false
+        showDelete: false,
+        QRcode: false
       }
     },
     name: "editOrAddMobile",
@@ -149,6 +177,14 @@
         }
         this.$refs.copy.copy(link, isShort)
       },
+      showQRcode() {
+        let link = this.link.shortLink
+        let canvas = document.getElementById('qrcode')
+        QRCode.toCanvas(canvas, link).then(() => {
+          this.QRcode = true
+        })
+      },
+
       /**
        * @param index 操作指令
        * 0 取消
@@ -187,7 +223,7 @@
             if (this.checkURL(this.link.longLink)) {
               this.$emit("saveLink", this.link)
             } else {
-              this.$message.warning("请检查要转换的链接！")
+              this.$message.warning("请检查长链接是否正确！")
             }
             break
         }
@@ -256,7 +292,7 @@
   }
 
   .my-absolute-btn {
-    bottom: 50px;
+    bottom: 80px;
     right: 20px;
   }
 
@@ -265,10 +301,25 @@
     text-align: center;
   }
 
+  .qrcode {
+    text-align: center;
+  }
+
+  .done {
+    font-family: 微软雅黑, serif;
+    font-size: 25px;
+
+  }
+
   .card-text {
     font-size: 25px;
     font-family: 微软雅黑, serif;
     font-weight: 600;
     text-align: center;
+  }
+</style>
+<style>
+  .v-dialog {
+    margin: 0;
   }
 </style>
