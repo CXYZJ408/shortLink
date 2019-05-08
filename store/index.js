@@ -9,7 +9,7 @@ export const state = () => ({
   purchaseVip: false,//是否要进行会员购买
   device: "windows",//设备信息
   isMobile: false,//是否是手机端
-  needNotice: false//是否需要显示公告
+  needNotice: false,//是否需要显示公告
 })
 
 export const mutations = {

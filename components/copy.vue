@@ -3,6 +3,7 @@
 </template>
 
 <script>
+  let _ = require("lodash")
   export default {
     name: "copy",
     data: function () {
@@ -11,16 +12,19 @@
       }
     },
     methods: {
-      copy(url, isShort = true) {
+      copy(url, isShort = true, call) {
         this.path = url
         setTimeout(() => {
-          let url = document.getElementById('urlPath')
-          url.select()
+          let el = document.getElementById('urlPath');
+          el.select()
           document.execCommand('Copy')
           if (isShort) {
             this.$message.success("短链接复制成功！")
           } else {
             this.$message.success("长链接复制成功！")
+          }
+          if (_.isFunction(call)) {
+            call()
           }
         }, 100)
       }

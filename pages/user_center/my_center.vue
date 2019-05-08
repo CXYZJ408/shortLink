@@ -45,19 +45,38 @@
           <div class="color-dark font-1" v-html="date"></div>
         </v-flex>
         <v-flex md12 class=" mt-4 ml-5">
-          <div class="color-dark font-2 "> 续费天数选择：</div>
+          <div class="color-dark font-2 pay-title ">支付方式：</div>
+          <el-select v-model="selected" class="pay-selection" placeholder="请选择">
+            <el-option
+              v-for="item in payType"
+              :value="item">
+            </el-option>
+          </el-select>
         </v-flex>
-        <v-flex md12 class="ml-5">
-          <v-radio-group row v-model="selectedId">
-            <v-radio
-              color="#40A1FA"
-              class="font-2 pa-2"
-              v-for="(moneyLabel,index) in moneyLabels"
-              :label="moneyLabel.name"
-              :key="index"
-              :value="moneyLabel.id"
-            ></v-radio>
-          </v-radio-group>
+        <v-flex md12 v-if="selected==='在线支付'">
+          <v-layout row wrap>
+            <v-flex md12 class=" mt-4 ml-5">
+              <div class="color-dark font-2 ">续费天数选择：</div>
+            </v-flex>
+            <v-flex md12 class="ml-5">
+              <v-radio-group row v-model="selectedId">
+                <v-radio
+                  color="#40A1FA"
+                  class="font-2 pa-2"
+                  v-for="(moneyLabel,index) in moneyLabels"
+                  :label="moneyLabel.name"
+                  :key="index"
+                  :value="moneyLabel.id"
+                ></v-radio>
+              </v-radio-group>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex md12 class=" ml-5 mt-4 mb-4" v-else>
+          <div class="active-code-title">激活码：</div>
+          <div class="active-code-action ml-3">
+            <el-input v-model="activeCode" placeholder="请输入激活码" clearable></el-input>
+          </div>
         </v-flex>
         <v-flex md6 class="text-md-center">
           <v-btn dark block depressed color="#FF9800" round @click="pay"><span class="headline">续费</span></v-btn>
@@ -222,6 +241,8 @@
 
     data: function () {
       return {
+        payType: ["在线支付", "激活码支付"],
+        activeCode: "",
         orderId: undefined,
         showPay: false,
         valid: false,
@@ -233,6 +254,7 @@
         reset: false,
         selectedId: 0,
         moneyLabels: [],
+        selected: "在线支付",
         passwordRules: [
           v => !!v || '密码不为空',
           v => {
@@ -284,22 +306,42 @@
         }, 5)
       },
       pay() {
-        let tempWindow = window.open()
-        $otherApi.pay(this.selectedId).then(res => {
-          if (res.code === this.$code.SUCCESS) {
-            this.orderId = res.data.order_id
-            tempWindow.location.href = res.data.url
-            this.showPay = true
-          } else {
-            tempWindow.close()
-            if (this.$store.state.isLogin) {
-              this.$message.error(res.msg)
+        if (this.selected === '在线支付') {
+          let tempWindow = window.open()
+          $otherApi.pay(this.selectedId).then(res => {
+            if (res.code === this.$code.SUCCESS) {
+              this.orderId = res.data.order_id
+              tempWindow.location.href = res.data.url
+              this.showPay = true
+            } else {
+              tempWindow.close()
+              if (this.$store.state.isLogin) {
+                this.$message.error(res.msg)
+              }
             }
-          }
-        }).catch(() => {
-          tempWindow.close()
-          this.$message.error("网络异常，支付失败！")
-        })
+          }).catch(() => {
+            tempWindow.close()
+            this.$message.error("网络异常，支付失败！")
+          })
+        } else {
+          $otherApi.payByActiveCode(this.activeCode).then(res => {
+            if (res.code === this.$code.SUCCESS) {
+              if (res.data.payed) {//激活成功
+                //更新用户数据
+                this.$store.commit("paySuccess", res.data)
+                this.$message.success("恭喜您成为VIP会员!")
+              } else {
+                if (this.$store.state.isLogin) {
+                  this.$message.warning(res.msg)
+                }
+              }
+            } else {
+              this.$message.warning(res.msg)
+            }
+          })
+
+        }
+
       },
       resetPassword() {
         if (this.$refs.form.validate() && this.valid) {
@@ -380,6 +422,24 @@
     left: 49%;
   }
 
+  .active-code-action {
+    display: inline-block;
+    vertical-align: top;
+    font-family: "微软雅黑", sans-serif;
+    font-size: 2vh;
+    width: 70%;
+  }
+
+  .active-code-title {
+    display: inline-block;
+    width: 15%;
+    color: #3D3D60;
+    vertical-align: top;
+    font-family: "微软雅黑", sans-serif;
+    font-size: 20px;
+    padding-top: 5px;
+  }
+
   .vip-card {
     margin-top: 12vh;
   }
@@ -388,6 +448,19 @@
     margin-top: 8vh;
     margin-right: auto;
     margin-left: auto;
+  }
+
+  .pay-title {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 5px;
+  }
+
+  .pay-selection {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    width: 20vh;
   }
 
   .card-title {

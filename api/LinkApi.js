@@ -95,4 +95,15 @@ export class LinkApi extends Api {
     super.pushRequest = new Request(requestMethods.POST, url, this.getLinkMonthData, params)
     return super.judgeSend(send)
   }
+
+
+  getQRcode(link, send = true) {
+    let url = Link + "/urls/qrcode"
+    let params = {
+      url: link
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.getQRcode, params)
+    return super.judgeSend(send)
+
+  }
 }

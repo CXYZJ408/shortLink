@@ -39,7 +39,8 @@
           二维码
         </div>
         <v-card-text class="qrcode pa-0">
-          <canvas id="qrcode"></canvas>
+          <img class="qrcode-img"
+               :src="src" alt="">
         </v-card-text>
         <v-card-actions class="text-md-center d-block py-0 px-5">
           <v-btn
@@ -65,7 +66,7 @@
         <div class="title-text">短链接：</div>
       </v-flex>
       <v-flex xs8>
-        <el-input v-model="link.shortLink">
+        <el-input :readonly="isReadOnly" v-model="link.shortLink">
           <v-icon slot="suffix" class="pt-2" color="#D7D7E3">block</v-icon>
         </el-input>
       </v-flex>
@@ -138,9 +139,10 @@
 
 <script>
   import copy from './copy'
+  import {LinkApi} from "../api/LinkApi";
 
   let QRCode = require("qrcode")
-
+  let $linkApi
   let _ = require("lodash")
   export default {
     components: {
@@ -155,13 +157,18 @@
         this.link = _.clone(this.editLink)
       }
     },
+    mounted() {
+      $linkApi = new LinkApi()
+    },
     data: function () {
       return {
+        src: "",
         link: {
           shortLink: "",
           longLink: "",
           note: ""
         },
+        isReadOnly: true,
         showDelete: false,
         QRcode: false
       }
@@ -171,18 +178,29 @@
       copy(isShort) {
         let link = ''
         if (isShort) {
+          this.isReadOnly = false
           link = this.link.shortLink
         } else {
           link = this.link.longLink
         }
-        this.$refs.copy.copy(link, isShort)
+        let call = () => {
+          this.isReadOnly = true
+        }
+        this.$refs.copy.copy(link, isShort, call)
+
       },
       showQRcode() {
         let link = this.link.shortLink
-        let canvas = document.getElementById('qrcode')
-        QRCode.toCanvas(canvas, link).then(() => {
-          this.QRcode = true
-        })
+        this.src = `/api/feature/urls/qrcode?url=${link}`
+        this.QRcode = true
+
+        /*   $linkApi.getQRcode(link).then(res => {
+             let canvas = document.getElementById('qrcode')
+           })*/
+        /* let canvas = document.getElementById('qrcode')
+         QRCode.toCanvas(canvas, link).then(() => {
+           this.QRcode = true
+         })*/
       },
 
       /**
@@ -317,6 +335,12 @@
     font-weight: 600;
     text-align: center;
   }
+
+  .qrcode-img {
+    width: 20vh;
+    height: 20vh;
+  }
+
 </style>
 <style>
   .v-dialog {

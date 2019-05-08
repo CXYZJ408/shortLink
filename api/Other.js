@@ -32,8 +32,17 @@ export class OtherApi extends Api {
 
   getNotice(send = true) {
     let url = "/announcement/"
-
     super.pushRequest = new Request(requestMethods.GET, url, this.getNotice)
     return super.judgeSend(send)
+  }
+
+  payByActiveCode(activeCode, send = true) {
+    let url = "/pay/card"
+    let params = {
+      card: activeCode
+    }
+    super.pushRequest = new Request(requestMethods.POST, url, this.payByActiveCode, params)
+    return super.judgeSend(send)
+
   }
 }
