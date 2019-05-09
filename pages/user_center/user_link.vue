@@ -118,6 +118,14 @@
               show-overflow-tooltip>
             </el-table-column>
             <el-table-column
+              prop="count"
+              label="总点击数"
+              align="center"
+              show-overflow-tooltip
+              width="90"
+            >
+            </el-table-column>
+            <el-table-column
               type="index"
               header-align="center"
               align="center"
@@ -265,7 +273,8 @@
             id: link.id,
             longLink: link.longurl,
             shortLink: link.shorturl,
-            note: link.note
+            note: link.note,
+            count: link.count,
           })
         })
         this.tableData = _.clone(data)
