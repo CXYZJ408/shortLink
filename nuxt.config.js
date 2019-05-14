@@ -46,6 +46,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/vue-virtual-scroller.js', ssr: false },//虚拟滚动条插件，提高页面性能
     {src: '~/plugins/element.js', ssr: false},//UI框架
     {src: '@/plugins/vuetify'},//UI
     {src: '~/plugins/echarts.js', ssr: false},//可视化数据插件

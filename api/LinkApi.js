@@ -17,11 +17,11 @@ export class LinkApi extends Api {
 
   transferFree(link, isRed = false, send = true) {
     let url = 'free/toshorturl'
-    let params = {
+    let l = {
       longurl: link,
       isRed: isRed
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.transferFree, params)
+    super.pushRequest = new Request(requestMethods.POST, url, this.transferFree, l)
     return super.judgeSend(send)
   }
 

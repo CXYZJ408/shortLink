@@ -16,26 +16,44 @@
     <v-layout row wrap pt-1 class="list" :style="{'height':height+'px'}">
       <v-flex xs12>
         <div ref="box">
-          <div class="list-item" v-for="(item,index) in linkList">
-            <div @click="showEditDialog(index)" class="px-2" v-ripple="{ class: 'grey--text'}">
-              <div class="list-item-up">
-                <div class="d-inline-block icon">
-                  <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
+          <RecycleScroller
+            :key="true"
+            :items="linkList"
+            :buffer="200"
+            :page-mode="true"
+            :poolSize="100"
+            key-field="id"
+            :item-size="55"
+            style="z-index:10"
+          >
+            <template slot-scope="{item,index}">
+              <div class="list-item">
+                <div @click="showEditDialog(index)" class="px-2" v-ripple="{ class: 'grey--text'}">
+                  <div class="list-item-up">
+                    <div class="d-inline-block icon">
+                      <v-icon color="#FF960C">iconfont icon-lianjieguanlian</v-icon>
+                    </div>
+                    <div class="short-link d-inline-block ml-2">{{item.shortLink}}</div>
+                    <div class="note d-inline-block">
+                      {{item.note.length>0?item.note:""}}
+                    </div>
+                  </div>
+                  <div class="list-item-down">
+                    <div class="long-link d-inline-block">{{item.longLink}}</div>
+                    <div class="d-inline-block count">
+                      {{item.count}}
+                    </div>
+                  </div>
                 </div>
-                <div class="short-link d-inline-block ml-2">{{item.shortLink}}</div>
-                <div class="note d-inline-block">{{item.note.length>0?item.note:""}}</div>
+                <v-divider style="color: #EBF0F2"></v-divider>
               </div>
-              <div class="list-item-down">
-                <div class="long-link d-inline-block">{{item.longLink}}</div>
-              </div>
-            </div>
-            <v-divider style="color: #EBF0F2"></v-divider>
-          </div>
+            </template>
+          </RecycleScroller>
         </div>
       </v-flex>
       <v-flex xs12 v-if="linkList.length>0">
         <div class="empty" v-if="showLoading">正在加载中。。。</div>
-        <div id="observe" v-else style="width: 1px;height: 1px;"></div>
+        <div id="observe" v-else style="width: 10px;height:10px;"></div>
         <div class="empty" v-if="noneData">没有数据啦！</div>
       </v-flex>
       <v-flex xs12 v-else>
@@ -114,7 +132,7 @@
           //如果还有数据没有加载出来，则启用观察者
           setTimeout(() => {//延迟加载
             this.startObserve()
-          }, 0)
+          }, 100)
         } else {
           this.noneData = true
         }
@@ -157,7 +175,7 @@
       },
       getLinkList(page) {//获取指定页面的数据
         return new Promise((resolve, reject) => {
-          $linkApi.getLinkList(page, 13).then(res => {
+          $linkApi.getLinkList(page, 20).then(res => {
             if (res.code === this.$code.SUCCESS) {
               //成功获取数据
               //进行数据的转换
@@ -178,6 +196,7 @@
             longLink: link.longurl,
             shortLink: link.shorturl,
             note: link.note,
+            count: link.count
           })
         })
         this.lastLength = data.length
@@ -306,6 +325,7 @@
     white-space: nowrap;
     width: 50px;
     overflow: hidden;
+    text-align: center;
     text-overflow: ellipsis;
   }
 
@@ -330,6 +350,16 @@
     font-family: "华文楷体", serif;
     font-size: 25px;
     color: rgba(40, 55, 71, .6);
+  }
+
+  .count {
+    width: 18%;
+    font-size: 14px;
+    font-family: "华文楷体", serif;
+    color: rgba(40, 55, 71, .6);
+    text-align: center;
+    vertical-align: top;
+    padding-left: 2vh;
   }
 </style>
 <style>

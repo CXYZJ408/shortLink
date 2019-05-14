@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh">
     <div>
-      <v-dialog max-width="480" v-model="notice" hide-overlay persistent>
+      <v-dialog max-width="70vh" v-model="notice" hide-overlay persistent>
         <v-card flat class="px-4 py-2">
           <div class="my-dialog-title mt-2">
             <v-icon size="38" class="mt-1" color="rgba(93,109,126,.81)">iconfont icon-info</v-icon>
@@ -9,7 +9,7 @@
               用户通知
             </span>
           </div>
-          <div class="dialog-content mt-2">
+          <div class="dialog-content mt-2 pt-4">
             <p v-html="msg">
             </p>
           </div>

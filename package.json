@@ -31,6 +31,7 @@
     "velocity-animate": "^2.0.5",
     "vue": "latest",
     "vue-echarts": "^4.0.1",
+    "vue-virtual-scroller": "^1.0.0-rc.2",
     "vue2-touch-events": "^2.0.0",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",

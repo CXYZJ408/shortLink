@@ -48,7 +48,8 @@
           <div class="color-dark font-2 pay-title ">支付方式：</div>
           <el-select v-model="selected" class="pay-selection" placeholder="请选择">
             <el-option
-              v-for="item in payType"
+              v-for="(item,index) in payType"
+              :key="index"
               :value="item">
             </el-option>
           </el-select>

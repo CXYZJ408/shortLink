@@ -10,12 +10,35 @@
         </div>
         <transition name="fade">
           <v-card @mouseleave="handleHover(false,false)" @mouseenter="handleHover(true,false)" v-if="showAll"
-                  class="pa-3 show-all-card">
-            <div>
+                  class="show-all-card">
+            <div class="show-all-div" v-if="links.length<100">
               <v-chip close dark color="#9593CE" v-for="(item,index) in links" :key="index" @input="close"
                       v-model="item.checked">
                 <span class="chip-text">{{item.title}}</span>
               </v-chip>
+            </div>
+            <div class="show-all-div" v-else>
+              <div class="mode-title">*高性能模式</div>
+              <RecycleScroller
+                :key="true"
+                :items="links"
+                :buffer="200"
+                :poolSize="100"
+                :page-mode="true"
+                :prerender="200"
+                key-field="id"
+                :item-size="48"
+                style="z-index:10"
+              >
+                <template slot-scope="{item,index}">
+                  <div class="chip-box">
+                    <v-chip close dark color="#9593CE" @input="close"
+                            v-model="item.checked">
+                      <span class="chip-text">{{item.title}}</span>
+                    </v-chip>
+                  </div>
+                </template>
+              </RecycleScroller>
             </div>
           </v-card>
         </transition>
@@ -47,17 +70,32 @@
             </v-list-tile-action>
           </v-list-tile>
           <v-divider class="divider"></v-divider>
-          <v-list-tile @click.stop="select(index)" v-for="(item,index) in links" :key="index">
+          <div class="card-div">
+            <RecycleScroller
+              :key="true"
+              :items="links"
+              :buffer="200"
+              :page-mode="true"
+              :poolSize="100"
+              key-field="id"
+              :item-size="48"
+              style="z-index:10"
+            >
+              <template slot-scope="{item,index}">
+                <v-list-tile @click.stop="select(index)">
           <span>
             <v-checkbox @click.stop="select(index)" height="16" v-model="item.checked" color="#4EA1FF"></v-checkbox>
           </span>
-            <v-list-tile-title>
-              <span class="text" :class="{active:item.checked}">{{item.title}}</span>
-            </v-list-tile-title>
-            <v-list-tile-action>
-              <span class="sub-text" :class="{active:item.checked}">{{item.note}}</span>
-            </v-list-tile-action>
-          </v-list-tile>
+                  <v-list-tile-title>
+                    <span class="text" :class="{active:item.checked}">{{item.title}}</span>
+                  </v-list-tile-title>
+                  <v-list-tile-action>
+                    <span class="sub-text" :class="{active:item.checked}">{{item.note}}</span>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </template>
+            </RecycleScroller>
+          </div>
         </v-list>
       </v-card>
     </transition>
@@ -66,7 +104,7 @@
 
 <script>
   let _ = require('lodash')
-//todo 需要添加虚拟列表
+  //todo 需要添加虚拟列表
   export default {
     name: "selections",
     watch: {
@@ -226,7 +264,6 @@
     max-height: 400px;
     width: 300px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-    overflow: auto;
     z-index: 200;
   }
 
@@ -238,11 +275,13 @@
     z-index: 999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
     border-radius: 20px;
+    padding: 30px;
     background-color: rgba(255, 255, 255, .95);
     max-height: 500px;
   }
 
-  .show-all-card div {
+  .show-all-div {
+    border-radius: unset !important;
     max-height: 450px;
     width: 100%;
     min-height: 50px;
@@ -271,6 +310,12 @@
     width: 100%;
   }
 
+  .chip-box {
+    width: 100%;
+    height: 48px;
+    text-align: center;
+  }
+
   /* 设置滚动条的样式 */
   .selected::-webkit-scrollbar {
     width: 0;
@@ -280,9 +325,26 @@
     font-family: 微软雅黑, serif;
   }
 
+  .card-div {
+    overflow: auto;
+    max-height: 400px;
+    width: 300px;
+  }
+
   .active {
     color: #4EA1FF;
   }
+
+  .mode-title {
+    position: absolute;
+    width: 15vh;
+    bottom: 10px;
+    left: 20px;
+    font-size: 2vh;
+    font-family: "微软雅黑", sans-serif;
+    color: #ABB2B9;
+  }
+
 </style>
 <style>
   .theme--light.v-icon {
