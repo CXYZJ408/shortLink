@@ -65,7 +65,7 @@
 
 <script>
   import {LinkApi} from "../../api/LinkApi";
-  import editOrAdd from '../../components/editOrAddMobile'
+  import editOrAdd from '../../components/shortLinkMobileIndex/editOrAddMobile'
   //todo 需要添加虚拟列表
   let $linkApi
   let _ = require('lodash')

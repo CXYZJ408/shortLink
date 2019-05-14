@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import selection from '../../components/Selections'
+  import selection from '../../components/DataVisualization/Selections'
   import linkClickRealTime from '../../components/DataVisualization/LinkClickRealTime'
   import linkClickList from '../../components/DataVisualization/LinkClickList'
   import linkForwardMonth from "../../components/DataVisualization/LinkForwardMonth.vue"

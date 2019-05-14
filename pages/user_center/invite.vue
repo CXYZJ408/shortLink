@@ -110,7 +110,7 @@
         }
       }).catch((e) => {
         if (this.$store.state.isLogin) {
-          this.$message.error("网络异常，获取数据失败")
+          // this.$message.error("网络异常，获取数据失败")
         }
       })
     },

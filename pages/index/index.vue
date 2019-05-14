@@ -151,7 +151,7 @@
 </template>
 
 <script>
-  import myFooter from '../../components/myFooter'
+  import myFooter from '../../components/layout/myFooter'
 
   export default {
     name: "index",

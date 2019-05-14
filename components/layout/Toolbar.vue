@@ -48,8 +48,8 @@
 </template>
 
 <script>
-  import {transformTime} from "../utils";
-  import {UserApi} from '../api/UserApi'
+  import {transformTime} from "../../utils";
+  import {UserApi} from '../../api/UserApi'
 
   let $userApi
   let $cookie

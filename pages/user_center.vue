@@ -42,9 +42,8 @@
 </template>
 
 <script>
-  import sidebar from '~/components/Sidebar.vue'
-  import toolbar from '~/components/Toolbar.vue'
-  import bottomNav from '~/components/bottomNav.vue'
+  import sidebar from '../components/layout/Sidebar.vue'
+  import toolbar from '../components/layout/Toolbar.vue'
   import {OtherApi} from "../api/Other";
 
   export default {
@@ -82,7 +81,7 @@
       }, 0)
     },
     methods: {},
-    components: {sidebar, toolbar, bottomNav}
+    components: {sidebar, toolbar}
   }
 </script>
 <style scoped>

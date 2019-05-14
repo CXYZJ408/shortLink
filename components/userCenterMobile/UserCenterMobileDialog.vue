@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {UserApi} from "../api/UserApi";
+  import {UserApi} from "../../api/UserApi";
 
   let $cookie
   let $userApi

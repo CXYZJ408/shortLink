@@ -49,9 +49,9 @@
 </template>
 
 <script>
-  import myFooter from '../../components/myFooter'
+  import myFooter from '../../components/layout/myFooter'
   import {LinkApi} from "../../api/LinkApi";
-  import copy from '../../components/copy'
+  import copy from '../../components/other/copy'
 
   let $linkApi
   let QRCode = require("qrcode")

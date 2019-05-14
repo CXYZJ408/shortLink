@@ -7,8 +7,8 @@
 </template>
 
 <script>
-  import detectDevice from "../components/detectDevice";
-  import baidu from '../components/Baidu'
+  import detectDevice from "../components/other/detectDevice";
+  import baidu from '../components/other/Baidu'
 
   export default {
     name: "index",

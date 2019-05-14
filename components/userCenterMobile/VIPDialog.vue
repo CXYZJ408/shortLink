@@ -88,8 +88,8 @@
 </template>
 
 <script>
-  import {transformTime} from "../utils";
-  import {OtherApi} from "../api/Other";
+  import {transformTime} from "../../utils";
+  import {OtherApi} from "../../api/Other";
 
   let $otherApi
   let _ = require("lodash")

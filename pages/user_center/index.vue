@@ -199,7 +199,7 @@
 
 <script>
   import {LinkApi} from "../../api/LinkApi";
-  import linkEdit from '~/components/linkEeditDialog.vue'
+  import linkEdit from '../../components/shortLinkMobileIndex/linkEeditDialog.vue'
   //todo 清空链接的dialog重写
   let _ = require('lodash')
   let $linkApi
