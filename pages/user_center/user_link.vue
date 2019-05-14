@@ -98,16 +98,21 @@
               width="70">
             </el-table-column>
             <el-table-column
-              fixed
               label="原始链接"
               prop="longLink"
-              width="350"
+              width="200"
               show-overflow-tooltip>
             </el-table-column>
             <el-table-column
               prop="shortLink"
               show-overflow-tooltip
               label="短链接"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="imitateLink"
+              show-overflow-tooltip
+              label="仿长链接"
               width="200">
             </el-table-column>
             <el-table-column
@@ -233,7 +238,7 @@
       },
       handleCopy(row, column) {//复制链接
         let rowColumn = column.property
-        if (rowColumn === 'longLink' || rowColumn === 'shortLink') {
+        if (rowColumn === 'longLink' || rowColumn === 'shortLink' || rowColumn === 'imitateLink') {
           this.path = row[rowColumn]
           setTimeout(() => {
             let url = document.getElementById('urlPath')
@@ -273,6 +278,7 @@
             id: link.id,
             longLink: link.longurl,
             shortLink: link.shorturl,
+            imitateLink: link.imitateurl,
             note: link.note,
             count: link.count,
           })
