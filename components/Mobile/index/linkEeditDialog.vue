@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import {LinkApi} from "../../api/LinkApi";
+  import {LinkApi} from "../../../api/LinkApi";
 
   let _ = require('lodash')
   let $linkApi

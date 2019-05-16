@@ -149,7 +149,6 @@
           }
         })
         this.$emit("getUserLinks", temp)
-        //todo 动画
       },
 
       clean() {

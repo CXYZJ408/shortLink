@@ -15,8 +15,8 @@
 </template>
 
 <script>
-  import {LinkApi} from "../../api/LinkApi";
-  import {transformTime2} from "../../utils";
+  import {LinkApi} from "../../../api/LinkApi";
+  import {transformTime2} from "../../../utils";
 
   let $linkApi
   let _ = require("lodash")

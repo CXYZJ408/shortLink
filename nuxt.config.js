@@ -22,7 +22,7 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_bur7evzo2rw.css'},//阿里icon设置
+      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_4mc080o2tg.css'},//阿里icon设置
       {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
     ]
   },
@@ -46,7 +46,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~/plugins/vue-virtual-scroller.js', ssr: false },//虚拟滚动条插件，提高页面性能
+    {src: '~/plugins/vue-virtual-scroller.js', ssr: false},//虚拟滚动条插件，提高页面性能
+    {src: '~/plugins/loading.js'},//页面加载动画插件
     {src: '~/plugins/element.js', ssr: false},//UI框架
     {src: '@/plugins/vuetify'},//UI
     {src: '~/plugins/echarts.js', ssr: false},//可视化数据插件

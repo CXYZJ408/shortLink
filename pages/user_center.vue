@@ -42,8 +42,8 @@
 </template>
 
 <script>
-  import sidebar from '../components/layout/Sidebar.vue'
-  import toolbar from '../components/layout/Toolbar.vue'
+  import sidebar from '../components/PC/layout/Sidebar.vue'
+  import toolbar from '../components/PC/layout/Toolbar.vue'
   import {OtherApi} from "../api/Other";
 
   export default {

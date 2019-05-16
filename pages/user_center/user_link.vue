@@ -166,7 +166,7 @@
 </template>
 
 <script>
-  import linkEdit from '../../components/shortLinkMobileIndex/linkEeditDialog.vue'
+  import linkEdit from '../../components/Mobile/index/linkEeditDialog.vue'
   import {LinkApi} from "../../api/LinkApi";
 
   let QRCode = require("qrcode")

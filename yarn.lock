@@ -7190,6 +7190,11 @@ vue-loader@^15.7.0:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-loaders@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-3.0.2.tgz#1855b39a3eae788b7c764a526e00dda70567971c"
+  integrity sha512-EAucm4iCElrz2tX7taZVHI67/VIc2hd/VpAryK7khQDg1UdsOz33p52iG761gwcs5IjsThrxsu1+XxgxTQxCtQ==
+
 vue-meta@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-meta/-/vue-meta-1.6.0.tgz#89b664f6011a207e098e8ba3b9d32e29c819b65d"

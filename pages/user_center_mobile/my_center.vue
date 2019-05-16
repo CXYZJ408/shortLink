@@ -128,9 +128,9 @@
 <script>
   import {UserApi} from "../../api/UserApi";
   import {transformTime} from "../../utils";
-  import userCenterDialog from '../../components/userCenterMobile/UserCenterMobileDialog'
-  import vip from '../../components/userCenterMobile/VIPDialog'
-  import invite from '../../components/userCenterMobile/inviteDialog'
+  import userCenterDialog from '../../components/Mobile/userCenter/UserCenterMobileDialog'
+  import vip from '../../components/Mobile/userCenter/VIPDialog'
+  import invite from '../../components/Mobile/userCenter/inviteDialog'
 
   let $userApi
   let $cookie

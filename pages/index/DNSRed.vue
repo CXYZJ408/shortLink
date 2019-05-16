@@ -87,7 +87,7 @@
 </template>
 
 <script>
-  import myFooter from '../../components/layout/myFooter'
+  import myFooter from '../../components/PC/layout/myFooter'
   import {LinkApi} from "../../api/LinkApi";
   import copy from '../../components/other/copy'
 

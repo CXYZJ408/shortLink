@@ -3,6 +3,20 @@ body {
 
 }
 
+@font-face {
+  font-family: 'webfont';
+  src: url('//at.alicdn.com/t/webfont_be4ddqd89o.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/webfont_be4ddqd89o.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('//at.alicdn.com/t/webfont_be4ddqd89o.woff') format('woff'), /* chrome、firefox */ url('//at.alicdn.com/t/webfont_be4ddqd89o.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('//at.alicdn.com/t/webfont_be4ddqd89o.svg#NotoSansHans-DemiLight') format('svg'); /* iOS 4.1- */
+}
+
+.web-font {
+  font-family: "webfont", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
@@ -58,9 +72,10 @@ body {
 }
 
 .margin-x-0 {
-  margin-left: 0!important;
-  margin-right: 0!important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
+
 .my-left {
   display: inline-block;
   vertical-align: top;
@@ -83,3 +98,7 @@ body {
   vertical-align: top;
 }
 
+.my-inline-div {
+  display: inline-block;
+  vertical-align: top;
+}

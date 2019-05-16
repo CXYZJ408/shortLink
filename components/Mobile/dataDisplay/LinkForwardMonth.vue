@@ -1,21 +1,24 @@
 <template>
-  <v-card flat id="userMonth" class="pt-3 my-card" hover v-if="show">
-    <div class="real-time-title">短链点击统计（每天）</div>
-    <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 32vh"></v-chart>
-  </v-card>
-  <v-card class="pt-3 my-card" flat hover v-else>
-    <div class="real-time-title">短链点击统计（每天）</div>
-    <div class="none">暂无数据！</div>
-  </v-card>
+  <div>
+    <v-card flat id="userMonth" class="pa-2 my-card" v-if="show">
+      <div class="real-time-title">短链点击统计（每天）</div>
+      <v-chart :autoresize=true :options="newUserMonth" style="width: 100%!important;height: 32vh"></v-chart>
+    </v-card>
+    <v-card class="pa-2 my-card" flat hover v-else>
+      <div class="real-time-title">短链点击统计（每天）</div>
+      <div class="none">暂无数据！</div>
+    </v-card>
+  </div>
+
 </template>
 
 <script>
-  import {LinkApi} from "../../api/LinkApi";
-  import {transformTime2} from "../../utils";
+  import {LinkApi} from "../../../api/LinkApi";
+  import {transformTime2} from "../../../utils";
 
   let $linkApi
   let _ = require("lodash")
-  let moment = require("moment")
+  let moment = require("moment/moment")
   export default {
     name: 'LinkForwardMonth',
     props: {

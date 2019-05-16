@@ -34,10 +34,10 @@
 </template>
 
 <script>
-  import selection from '../../components/DataVisualization/Selections'
-  import linkClickRealTime from '../../components/DataVisualization/LinkClickRealTime'
-  import linkClickList from '../../components/DataVisualization/LinkClickList'
-  import linkForwardMonth from "../../components/DataVisualization/LinkForwardMonth.vue"
+  import selection from '../../components/PC/DataVisualization/Selections'
+  import linkClickRealTime from '../../components/PC/DataVisualization/LinkClickRealTime'
+  import linkClickList from '../../components/PC/DataVisualization/LinkClickList'
+  import linkForwardMonth from "../../components/PC/DataVisualization/LinkForwardMonth.vue"
   import {LinkApi} from "../../api/LinkApi";
 
   let $linkApi

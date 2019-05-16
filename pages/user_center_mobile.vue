@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import bottomNav from '../components/layout/bottomNav.vue'
+  import bottomNav from '../components/Mobile/layout/bottomNav.vue'
   import {OtherApi} from "../api/Other";
 
   export default {

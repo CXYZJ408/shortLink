@@ -497,6 +497,5 @@
 
   #vip .theme--light.v-icon {
     color: #85C1E9
-
   }
 </style>

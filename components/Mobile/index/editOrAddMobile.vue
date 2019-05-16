@@ -138,8 +138,8 @@
 </template>
 
 <script>
-  import copy from '../other/copy'
-  import {LinkApi} from "../../api/LinkApi";
+  import copy from '../../other/copy'
+  import {LinkApi} from "../../../api/LinkApi";
 
   let QRCode = require("qrcode")
   let $linkApi
