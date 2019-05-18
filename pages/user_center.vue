@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 100vh">
-    <div>
+  <div style="height: 100vh" class="hidden-sm-and-down">
+    <div >
       <v-dialog max-width="70vh" v-model="notice" hide-overlay persistent>
         <v-card flat class="px-4 py-2">
           <div class="my-dialog-title mt-2">

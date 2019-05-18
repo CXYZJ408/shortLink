@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout row wrap v-if="!$store.state.isMobile" align-center justify-center pt-3>
+    <v-layout row wrap class="hidden-sm-and-down" align-center justify-center pt-3>
       <v-flex md12 class="text-md-center mb-3" style="margin-top: 2%">
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -94,7 +94,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout mx-1 v-else mt-3 row wrap>
+    <v-layout mx-1 class="hidden-md-and-up" mt-3 row wrap>
       <v-flex xs12>
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
@@ -172,10 +172,10 @@
         </v-form>
       </v-flex>
     </v-layout>
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/login" left absolute depressed flat
+    <v-btn class="hidden-md-and-up ma-0 mobile-bottom" nuxt to="/login" left absolute depressed flat
            color="#5D6D7E">用户登录
     </v-btn>
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/register" right absolute depressed flat
+    <v-btn class="hidden-md-and-up ma-0 mobile-bottom" nuxt to="/register" right absolute depressed flat
            color="#4EA1FF">新用户注册
     </v-btn>
   </v-container>

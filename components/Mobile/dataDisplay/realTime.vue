@@ -56,6 +56,7 @@
     },
     data: function () {
       return {
+
         userRegisterRealTime: {
           grid: {
             left: '7%',

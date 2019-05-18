@@ -193,14 +193,6 @@
         let link = this.link.shortLink
         this.src = `/api/feature/urls/qrcode?url=${link}`
         this.QRcode = true
-
-        /*   $linkApi.getQRcode(link).then(res => {
-             let canvas = document.getElementById('qrcode')
-           })*/
-        /* let canvas = document.getElementById('qrcode')
-         QRCode.toCanvas(canvas, link).then(() => {
-           this.QRcode = true
-         })*/
       },
 
       /**

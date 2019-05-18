@@ -4,19 +4,7 @@
       <userCenterDialog :title="title">
         <vip @back="back" v-if="which===0"></vip>
         <invite @back="back" v-else-if="which===2"></invite>
-        <v-layout class="text-xs-center temp" v-else justify-center row wrap>
-          <v-btn absolute dark fab class="my-absolute-btn" color="grey" flat @click="back">
-            <v-icon size="30">iconfont icon-aui-icon-back</v-icon>
-          </v-btn>
-          <v-flex xs10>
-            <v-icon size="100" color="#5D6D7E">iconfont icon-developing</v-icon>
-          </v-flex>
-          <v-flex xs10>
-            <div class="empty px-3">
-              手机版正在紧张开发中，敬请期待。。。
-            </div>
-          </v-flex>
-        </v-layout>
+        <resetPassword @back="back" v-else></resetPassword>
       </userCenterDialog>
     </v-dialog>
     <div class="toolbar">
@@ -131,13 +119,14 @@
   import userCenterDialog from '../../components/Mobile/userCenter/UserCenterMobileDialog'
   import vip from '../../components/Mobile/userCenter/VIPDialog'
   import invite from '../../components/Mobile/userCenter/inviteDialog'
+  import resetPassword from "../../components/Mobile/userCenter/resetPassword";
 
   let $userApi
   let $cookie
   export default {
     name: "userCenter",
     components: {
-      userCenterDialog, vip, invite
+      userCenterDialog, vip, invite, resetPassword
     },
     data: function () {
       return {
@@ -154,6 +143,14 @@
       $cookie = require('js-cookie')
       $userApi = new UserApi()
       this.getInvite()
+    },
+    mounted() {
+      console.log(this.$store.state.purchaseVip)
+      if (this.$store.state.purchaseVip) {
+        console.log(this.$store.state.purchaseVip)
+        this.go(0)
+        this.$store.commit("setPurchaseVip", false)
+      }
     },
     methods: {
       back() {
@@ -176,6 +173,7 @@
             break
         }
         this.dialog = true
+        console.log(this.dialog)
       },
       getInvite() {
         $userApi.inviteList().then(res => {

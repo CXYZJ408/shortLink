@@ -15,9 +15,8 @@
       copy(url, isShort = true, call) {
         this.path = url
         setTimeout(() => {
-          let el = document.getElementById('urlPath');
-          el.select()
-          document.execCommand('Copy')
+          document.getElementById('urlPath').select();
+          document.execCommand('copy')
           if (isShort) {
             this.$message.success("短链接复制成功！")
           } else {
@@ -26,7 +25,7 @@
           if (_.isFunction(call)) {
             call()
           }
-        }, 100)
+        }, 200)
       }
     }
   }

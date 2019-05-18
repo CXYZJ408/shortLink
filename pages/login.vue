@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout align-center justify-center row wrap v-if="!$store.state.isMobile">
+    <v-layout align-center justify-center row wrap class="hidden-sm-and-down">
       <v-flex md12 class="text-md-center mb-3" style="margin-top: 4%">
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -67,7 +67,7 @@
       </v-flex>
     </v-layout>
 
-    <v-form v-model="valid" ref="form" lazy-validation v-else>
+    <v-form v-model="valid" ref="form" lazy-validation class="hidden-md-and-up">
       <v-layout mx-1 align-center justify-center row wrap style="padding-top: 18%">
         <v-flex xs12>
           <nuxt-link to="/">
@@ -108,10 +108,10 @@
       </v-layout>
     </v-form>
 
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/register" left absolute depressed flat
+    <v-btn class="ma-0 mobile-bottom hidden-md-and-up" nuxt to="/register" left absolute depressed flat
            color="#5D6D7E">新用户注册
     </v-btn>
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/forget" right absolute depressed flat
+    <v-btn class="ma-0 mobile-bottom hidden-md-and-up" nuxt to="/forget" right absolute depressed flat
            color="#4EA1FF">忘记密码?
     </v-btn>
   </v-container>
@@ -173,7 +173,9 @@
             } else {
               this.$router.push({path: `/user_center/my_center`})
             }
-            this.$store.commit("setPurchaseVip", false)
+            if (!this.$store.state.isMobile) {
+              this.$store.commit("setPurchaseVip", false)
+            }
           } else {
             if (this.$store.state.isMobile) {
               this.$router.push({path: `/user_center_mobile`})

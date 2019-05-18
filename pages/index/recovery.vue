@@ -72,17 +72,51 @@
 
     </v-dialog>
     <v-layout row wrap justify-center class="main">
-      <v-flex md12 class="text-md-center mt-5 mb-2">
-        <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
-        <div class="icon-title text-md-left">JumpLinker</div>
+      <input readonly style="width: 100%;height:36px;position: absolute;opacity: 0" type="text" id="url"
+             v-model="longLink">
+      <v-flex md12 xs12 class="text-md-center text-xs-center mt-5 mb-2">
+        <v-icon color="#FF9800" size="8vh" class="my-left">iconfont icon-link</v-icon>
+        <div class="icon-title text-md-left text-xs-left">JumpLinker</div>
       </v-flex>
+      <v-flex class="hidden-md-and-up mt-3 text-xs-right" xs2>
+        <div class="my-title1">短链接：</div>
+      </v-flex>
+      <v-flex md7 xs7 class="text-md-center text-xs-right mt-3">
+        <no-ssr>
+          <el-input class=" margin-0" placeholder="请输入要还原的链接" v-model="shortLink"
+                    :clearable="true"></el-input>
+        </no-ssr>
 
-      <v-flex md6 class="text-md-center mt-3">
-        <el-input class="d-inline-block margin-0 top" placeholder="请输入要还原的链接" v-model="shortLink"
-                  :clearable="true"></el-input>
-        <v-btn class="d-inline-block transfer-btn top" dark color="blue" depressed @click="recovery">
+      </v-flex>
+      <v-flex md1 class="hidden-sm-and-down mt-3 text-xs-left">
+        <v-btn class="d-inline-block hidden-sm-and-down transfer-btn top" dark color="blue" depressed @click="recovery">
           <v-icon size="18">iconfont icon-huanyuan</v-icon>
           <span class="btn-text ml-2">还原</span></v-btn>
+      </v-flex>
+      <v-flex xs3 class="hidden-md-and-up text-xs-left mt-3">
+        <v-btn class="transfer-btn " dark color="blue" depressed
+               @click="recovery">
+          <v-icon size="18">iconfont icon-huanyuan</v-icon>
+          <span class="btn-text ml-2">还原</span>
+        </v-btn>
+      </v-flex>
+      <v-flex class="hidden-md-and-up mt-3 text-xs-right" xs2 v-show="longLink.length>0">
+        <div class="my-title1">长链接：</div>
+      </v-flex>
+      <v-flex xs7 class="hidden-md-and-up text-xs-right mt-3" v-show="longLink.length>0">
+        <no-ssr>
+          <el-input style="width: 100%" class="margin-0 top" v-model="longLink"></el-input>
+        </no-ssr>
+      </v-flex>
+      <v-flex xs3 class="transfer-btn hidden-md-and-up text-xs-left  mt-3" v-show="longLink.length>0">
+        <v-btn class="d-inline-block transfer-btn top" dark color="grey" depressed
+               @click="copy">
+          <v-icon size="18">iconfont icon-copy</v-icon>
+          <span class="btn-text ml-2">复制</span>
+        </v-btn>
+      </v-flex>
+      <v-flex xs12 class="text-xs-center hidden-md-and-up mt-5">
+        <img class="qrcode-img" :src="src" alt="">
       </v-flex>
     </v-layout>
     <div class="foot-div">
@@ -113,6 +147,7 @@
         longLink: "",
         shortLink: "",
         showRecoveryDialog: false,
+        src: ""
       }
     },
     methods: {
@@ -123,7 +158,14 @@
         } else {//
           link = this.longLink
         }
-        this.$refs.copy.copy(link, isShort)
+        if (this.$store.state.isMobile) {
+          document.getElementById('url').select()
+          document.execCommand('copy')
+          this.$message.success("长链接复制成功")
+
+        } else {
+          this.$refs.copy.copy(link, isShort)
+        }
       },
       checkURL(URL) {
         //判断url地址是否正确
@@ -137,9 +179,14 @@
           $linkApi.restoreLink(this.shortLink).then(res => {
             if (res.code === this.$code.SUCCESS) {
               this.longLink = res.data.longurl
-              QRCode.toCanvas(document.getElementById('qrcode'), this.shortLink).then(() => {
-                this.showRecoveryDialog = true
-              })
+              if (!this.$store.state.isMobile) {
+                QRCode.toCanvas(document.getElementById('qrcode'), this.shortLink).then(() => {
+                  this.showRecoveryDialog = true
+                })
+              } else {
+                let link = this.longLink
+                this.src = `https://jumplinker.com/api/feature/urls/qrcode?url=${link}`
+              }
             } else {
               this.$message.error(res.msg)
             }
@@ -180,13 +227,19 @@
     width: 100%;
   }
 
+  .my-title1 {
+    line-height: 36px;
+    font-family: 黑体, serif;
+    color: #3D3D60;
+  }
+
   .icon-title {
     display: inline-block;
-    font-size: 50px;
+    font-size: 5vh;
     color: #30304D;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;
-    margin-top: 30px;
+    margin-top: 1vh;
   }
 
   .my-left {
@@ -207,6 +260,11 @@
     vertical-align: top;
   }
 
+  .qrcode-img {
+    width: 30vh;
+    height: 30vh;
+  }
+
   .transfer-btn {
     margin: 0 0 0 -4px;
   }
@@ -224,9 +282,7 @@
 </style>
 
 <style>
-  #transfer .el-input {
-    width: 80% !important;
-  }
+
 
   #transfer .el-input__inner {
     border-radius: 0;

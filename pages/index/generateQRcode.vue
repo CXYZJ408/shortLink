@@ -29,17 +29,31 @@
     </v-dialog>
 
     <v-layout row wrap justify-center class="main">
-      <v-flex md12 class="text-md-center mt-5 mb-2">
-        <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
-        <div class="icon-title text-md-left">JumpLinker</div>
+      <v-flex md12 xs12 class="text-md-center text-xs-center mt-5 mb-2">
+        <v-icon color="#FF9800" size="8vh" class="my-left">iconfont icon-link</v-icon>
+        <div class="icon-title text-md-left text-xs-left">JumpLinker</div>
       </v-flex>
-
-      <v-flex md6 class="text-md-center mt-3">
-        <el-input class="d-inline-block margin-0 top" placeholder="请输入要生成二维码的链接" v-model="longLink"
-                  :clearable="true"></el-input>
-        <v-btn class="d-inline-block transfer-btn top" dark color="grey" depressed @click="generate">
+      <v-flex class="hidden-md-and-up mt-3 text-xs-right" xs2>
+        <div class="my-title1">链接：</div>
+      </v-flex>
+      <v-flex md7 xs7 class="text-md-center text-xs-right mt-3">
+        <no-ssr>
+          <el-input class="margin-0" placeholder="请输入要生成二维码的链接" v-model="longLink"
+                    :clearable="true"></el-input>
+        </no-ssr>
+      </v-flex>
+      <v-flex md1 class="hidden-sm-and-down mt-3 text-xs-left">
+        <v-btn class=" transfer-btn" dark color="grey" depressed @click="generate">
           <v-icon size="18">iconfont icon-QR-code</v-icon>
           <span class="btn-text ml-2">生成</span></v-btn>
+      </v-flex>
+      <v-flex xs3 class="hidden-md-and-up text-xs-left mt-3">
+        <v-btn class="transfer-btn top" dark color="grey" depressed @click="generate">
+          <v-icon size="18">iconfont icon-QR-code</v-icon>
+          <span class="btn-text ml-2">生成</span></v-btn>
+      </v-flex>
+      <v-flex xs12 class="text-xs-center hidden-md-and-up mt-5">
+        <img class="qrcode-img" :src="src" alt="">
       </v-flex>
     </v-layout>
     <div class="foot-div">
@@ -69,6 +83,7 @@
       return {
         longLink: "",
         showQRCodeDialog: false,
+        src: ""
       }
     },
     methods: {
@@ -81,12 +96,17 @@
       },
       generate() {
         if (this.checkURL(this.longLink)) {
-          let canvas = document.getElementById('qrcode')
-          QRCode.toCanvas(canvas, this.longLink).then(() => {
-            this.showQRCodeDialog = true
-            let image = document.getElementById('download')
-            image.href = canvas.toDataURL('image/png')
-          })
+          if (!this.$store.state.isMobile) {
+            let canvas = document.getElementById('qrcode')
+            QRCode.toCanvas(canvas, this.longLink).then(() => {
+              this.showQRCodeDialog = true
+              let image = document.getElementById('download')
+              image.href = canvas.toDataURL('image/png')
+            })
+          } else {
+            let link = this.longLink
+            this.src = `https://jumplinker.com/api/feature/urls/qrcode?url=${link}`
+          }
         } else {
           this.$message.warning("请输入正确的地址")
         }
@@ -125,11 +145,11 @@
 
   .icon-title {
     display: inline-block;
-    font-size: 50px;
+    font-size: 5vh;
     color: #30304D;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     vertical-align: top;
-    margin-top: 30px;
+    margin-top: 1vh;
   }
 
   .my-left {
@@ -144,6 +164,12 @@
 
   .main {
     margin-top: 10%;
+  }
+
+  .my-title1 {
+    line-height: 36px;
+    font-family: 黑体, serif;
+    color: #3D3D60;
   }
 
   .top {
@@ -171,13 +197,14 @@
     text-decoration: none;
     color: white;
   }
+
+  .qrcode-img {
+    width: 30vh;
+    height: 30vh;
+  }
 </style>
 
 <style>
-  #transfer .el-input {
-    width: 80% !important;
-  }
-
   #transfer .el-input__inner {
     border-radius: 0;
     height: 36px;

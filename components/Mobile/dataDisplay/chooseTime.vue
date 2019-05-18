@@ -3,7 +3,7 @@
     <span class="time-text my-inline-div ">
       往前：
     </span>
-    <div id="progress" @touchmove="move" @touchend="end" class="my-inline-div time-progress">
+    <div id="progress" @touchend="end" class="my-inline-div time-progress">
       <div class="progress" :style="{'width':width+'px'}"></div>
       <div class="mr-2 hour white--text">
         {{hourBefore}}
@@ -35,8 +35,19 @@
       }
     },
     methods: {
-      end() {
-        this.$emit('changeData', this.hourBefore)
+      end(event) {
+        let width = event.changedTouches[0].clientX - left
+        let timer = setInterval(() => {
+          if (this.width+10 < width) {
+            this.width += 10
+          } else if (this.width-10 > width) {
+            this.width -= 10
+          } else {
+            this.width=width
+            clearInterval(timer)
+            this.$emit('changeData', this.hourBefore)
+          }
+        }, 10)
       },
       move(event) {
         let width = event.touches[0].clientX - left

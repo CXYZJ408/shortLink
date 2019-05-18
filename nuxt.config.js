@@ -22,7 +22,7 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_4mc080o2tg.css'},//阿里icon设置
+      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_hwc2cigrb1.css'},//阿里icon设置
       {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
     ]
   },

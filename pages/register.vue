@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center fluid>
-    <v-layout v-if="!$store.state.isMobile" align-center justify-center row wrap>
+    <v-layout align-center justify-center row wrap class="hidden-sm-and-down">
       <v-flex md12 class="text-md-center mb-3" style="margin-top: 2%">
         <nuxt-link to="/">
           <v-icon color="#FF9800" size="120" class="my-left">iconfont icon-link</v-icon>
@@ -99,12 +99,12 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-form v-model="valid" ref="form" v-else>
+    <v-form v-model="valid" ref="form" class="hidden-md-and-up">
       <v-layout algin-center justify-center row wrap mx-1 style="margin-top: 6%">
         <v-flex xs12>
           <nuxt-link to="/">
             <v-icon color="#FF9800" size="50" class="my-left">iconfont icon-link</v-icon>
-          <div class="icon-title-2 text-md-left">JumpLinker</div>
+            <div class="icon-title-2 text-md-left">JumpLinker</div>
           </nuxt-link>
 
         </v-flex>
@@ -184,10 +184,10 @@
         </v-flex>
       </v-layout>
     </v-form>
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/login" left absolute depressed flat
+    <v-btn class="ma-0 mobile-bottom hidden-md-and-up" nuxt to="/login" left absolute depressed flat
            color="#5D6D7E">用户登录
     </v-btn>
-    <v-btn v-if="$store.state.isMobile" class="ma-0 mobile-bottom" nuxt to="/forget" right absolute depressed flat
+    <v-btn class="hidden-md-and-up ma-0 mobile-bottom" nuxt to="/forget" right absolute depressed flat
            color="#4EA1FF">忘记密码?
     </v-btn>
   </v-container>

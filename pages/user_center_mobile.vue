@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100vh" flat style="position: relative">
+  <v-card height="100vh" class="hidden-md-and-up" flat style="position: relative">
     <div>
       <v-dialog max-width="50vh" v-model="notice" hide-overlay persistent>
         <v-card flat class="px-3 py-2">

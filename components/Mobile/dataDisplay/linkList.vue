@@ -6,7 +6,7 @@
         最新跳转：
       </div>
       <div class="right-title ">
-        <v-btn color="#C3CACE" round small flat class="margin-0">
+        <v-btn color="#C3CACE" round small flat class="margin-0" @click="Refresh">
           <v-icon color="#C3CACE" size="13">iconfont icon-refresh</v-icon>
           <span class="btn-text ml-1">{{time}}秒更新</span>
         </v-btn>
