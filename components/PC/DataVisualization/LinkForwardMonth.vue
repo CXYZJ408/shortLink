@@ -163,6 +163,11 @@
           },
           series: [
             {
+              label: {
+                show: true,
+                position: "top",
+                fontSize:10
+              },
               type: 'bar',
               barWidth: '60%',
               data: []
