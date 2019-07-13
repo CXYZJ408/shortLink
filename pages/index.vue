@@ -93,6 +93,11 @@
         <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
           <span class="toolbar-action">二维码生成</span>
         </v-btn>
+
+        <v-btn flat round nuxt to="/DNSRed">
+          <span class="toolbar-action">域名防红</span>
+        </v-btn>
+
         <v-btn target="_blank" flat round href="https://pay.jumplinker.com/">
           <span class="toolbar-action">三码合一</span>
         </v-btn>
