@@ -104,6 +104,7 @@
               image.href = canvas.toDataURL('image/png')
             })
           } else {
+
             let link = this.longLink
             this.src = `https://jumplinker.com/api/feature/urls/qrcode?url=${link}`
           }

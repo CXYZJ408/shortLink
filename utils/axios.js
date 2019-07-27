@@ -1,11 +1,17 @@
 import qs from 'qs'
 import axios from 'axios'
 
-
+let _ = require('lodash')
 axios.defaults.baseURL = "https://jumplinker.com/api"
 //请求地址
 axios.defaults.withCredentials = true // 允许携带cookie
 axios.interceptors.response.use(response => {
+
+  let token = localStorage.getItem("token")
+  if (!_.isNull(token)) {
+    console.log(token)
+  }
+
 
   return response
 }, error => {
