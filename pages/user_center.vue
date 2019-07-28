@@ -15,7 +15,7 @@
           </div>
           <div class="dialog-action mt-2 mb-3">
             <v-btn flat color="#2ECC71" depressed large block @click="notice=false">
-              <v-icon size="40">done</v-icon>
+              <v-icon size="40">iconfont icon-done</v-icon>
               <span class="done">知道了</span>
             </v-btn>
           </div>

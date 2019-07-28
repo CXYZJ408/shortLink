@@ -22,8 +22,7 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_usz1tmjz9f.css'},//阿里icon设置
-      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
+      {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_bqp4ro4flck.css'},//阿里icon设置
     ]
   },
 
@@ -36,6 +35,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/style/googleFont.css',
     '~/assets/style/app.styl',
     '~/assets/style/transition.css',
     'element-ui/lib/theme-chalk/index.css',

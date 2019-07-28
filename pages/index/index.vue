@@ -61,10 +61,10 @@
               <div class="y-card-title-mobile">免费版</div>
               <div class="mt-3">
                 <div>
-                  <v-icon color="#4D55E8" size="20">done</v-icon>
+                  <v-icon color="#4D55E8" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">访问次数不限</span></div>
                 <div class="mt-3">
-                  <v-icon color="#4D55E8" size="20">done</v-icon>
+                  <v-icon color="#4D55E8" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">短地址数量不限</span></div>
               </div>
               <div class="text-xs-right" style="z-index: 99;">
@@ -83,25 +83,25 @@
               <div class="left">
                 <div class="y-card-title-mobile">VIP版</div>
                 <div class="mt-2">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">访问次数不限</span>
                 </div>
                 <div class="mt-2">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">短地址数量不限</span>
                 </div>
               </div>
               <div class="right ">
                 <div class="mt-2">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">统计数据可视化</span>
                 </div>
                 <div class="mt-2">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">任意修改链接指向</span>
                 </div>
                 <div class="mt-2">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle-mobile">多地址合并统计</span>
                 </div>
               </div>
@@ -214,10 +214,10 @@
               <div class="y-card-title">免费版</div>
               <div class="mt-3">
                 <div>
-                  <v-icon color="#4D55E8" size="20">done</v-icon>
+                  <v-icon color="#4D55E8" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">访问次数不限</span></div>
                 <div class="mt-3">
-                  <v-icon color="#4D55E8" size="20">done</v-icon>
+                  <v-icon color="#4D55E8" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">短地址数量不限</span></div>
               </div>
               <div class="mt-3 text-md-right">
@@ -236,25 +236,25 @@
               <div class="left">
                 <div class="y-card-title">VIP版</div>
                 <div class="mt-3">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">访问次数不限</span>
                 </div>
                 <div class="mt-3">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">短地址数量不限</span>
                 </div>
               </div>
               <div class="right mt-3">
                 <div class="mt-3">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">统计数据可视化</span>
                 </div>
                 <div class="mt-3">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">任意修改链接指向</span>
                 </div>
                 <div class="mt-3">
-                  <v-icon color="#FF960C" size="20">done</v-icon>
+                  <v-icon color="#FF960C" size="20">iconfont icon-done</v-icon>
                   <span class="y-card-subtitle">多地址合并统计</span>
                 </div>
               </div>

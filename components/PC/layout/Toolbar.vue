@@ -33,14 +33,14 @@
         <template v-slot:activator>
           <v-btn small v-model="fab" fab color="grey" flat depressed>
             <v-icon>iconfont icon-more</v-icon>
-            <v-icon>close</v-icon>
+            <v-icon>iconfont icon-close</v-icon>
           </v-btn>
         </template>
         <v-btn fab dark small depressed color="red" @click="quit">
           <v-icon class="pl-1" size="24">iconfont icon-sign-out</v-icon>
         </v-btn>
         <v-btn fab dark small depressed color="grey" nuxt to="/">
-          <v-icon size="24">home</v-icon>
+          <v-icon size="24">iconfont icon-home</v-icon>
         </v-btn>
       </v-speed-dial>
     </v-flex>
