@@ -34,6 +34,7 @@ export class UserApi extends Api {
     let header = {
       cookie: "session=" + session
     }
+    console.log('loginAgain')
     super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, undefined, header)
     return super.judgeSend(send)
   }

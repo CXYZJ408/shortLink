@@ -177,7 +177,7 @@
       transfer() {
         if (this.checkURL(this.longLink)) {
 
-          $linkApi.transferFree(this.longLink).then(res => {
+          $linkApi.transferFree(this.longLink, true).then(res => {
             if (res.code === this.$code.SUCCESS) {
               this.shortLink = res.data.shorturl
               if (!this.$store.state.isMobile) {

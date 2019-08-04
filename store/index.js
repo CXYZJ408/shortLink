@@ -48,13 +48,17 @@ export const actions = {
 
     let session = parseCookieByName(req.headers.cookie, 'session')//获取token
     // return
+    console.log('session', session)
     if (!_.isEmpty(session)) {//存在cookie
       //调用登录API
       let $userApi = new UserApi()
       await $userApi.loginAgain(session).then(res => {
-        if (res.code === 0) {
+        console.log('res:',res)
+        if (res && res.code === 0) {
           store.commit('login', res.data)
         }
+      }).catch(e => {
+        console.log(e)
       })
     }
   }
