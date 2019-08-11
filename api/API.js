@@ -1,64 +1,56 @@
-import $axios from '../utils/axios'
+import $axios from './axios'
 import {requestMethods} from './Request'
 
 let _ = require('lodash')
-const RETURN_TYPE = {//防止被篡改
-  //数据的返回格式有两种
-  Array: 'Array',//使用数组格式返回api请求数据，为默认返回方式
-  Map: 'Map'//使用map方式返回，此方式的key为所调用的API的名字。
-  // 注：如果在批量请求中有多个一样的API请求的时候，使用map方式会丢失api请求返回的数据，只会返回最后一次api调用的值
-}
 
 export class Api {
 
-  constructor() {
-    this._returnType = RETURN_TYPE.Array//数据返回格式为数组形式，为false表示返回字典形式
-    this._apply = true
-    this._requestQueue = []
-    this._RETURN_TYPE = RETURN_TYPE
-  }
+  async send(request) {
+    let call = Api.Methods(request.requestMethod)
+    let result
+    try {
+      if (!_.isUndefined(request.header)) {
+        //存在header
+        console.log('存在header')
+        if (!_.isUndefined(request.params)) {
+          //存在params
+          console.log('存在params')
+          result = await call(request.url, request.params, request.header)
+        } else {
+          //不存在params
+          console.log('不存在params')
+          result = await call(request.url, null, request.header)
+        }
+      } else if (!_.isUndefined(request.params)) {
+        //不存在header，存在params
+        console.log('不存在header，存在params')
+        result = await call(request.url, request.params)
+      } else {
+        //header于params均不存在
+        console.log('header与params均不存在')
+        result = await call(request.url)
+      }
+    } catch (err) {
+      return Promise.reject(err)
+    }
 
-  get RETURN_TYPE() {
-    return this._RETURN_TYPE
+    return Promise.resolve(result.data)
   }
-
-  get returnType() {
-    return this._returnType
-  }
-
-  set returnType(value) {
-    if (value === RETURN_TYPE.Map || value === RETURN_TYPE.Array) {
-      this._returnType = value
-    } else {
-      throw 'The value of returnType is not defined'
+   static Methods(method) {
+    switch (method) {
+      case requestMethods.GET:
+        return $axios.get
+      case requestMethods.PUT:
+        return $axios.put
+      case requestMethods.DELETE:
+        return $axios.delete
+      case requestMethods.PATCH:
+        return $axios.patch
+      case requestMethods.POST:
+        return $axios.post
     }
   }
-
-  get apply() {
-    return this._apply
-  }
-
-  get requestQueue() {
-    return this._requestQueue
-  }
-
-  set pushRequest(request) {
-    this._requestQueue.push(request)
-  }
-
-  set apply(value) {
-    this._apply = value
-  }
-
-  set requestQueue(value) {
-    this._requestQueue = value
-  }
-
-  waitSend() {
-    this.apply = false
-  }
-
-  async send() {
+/*  async send() {
     this.apply = true//将apply重置为true
     let result
     let request = _.cloneDeep(this.requestQueue)
@@ -69,18 +61,10 @@ export class Api {
       result = await proxy(request, this.returnType)
     }
     return result
-  }
-
-  judgeSend(send) {
-    if (this.apply && send) {
-      return new Promise(resolve => resolve(this.send()))
-    } else {
-      return this
-    }
-  }
+  }*/
 }
 
-async function proxy(request, returnType) {//批量请求发送
+/*async function proxy(request, returnType) {//批量请求发送
   let invokes = pack(request)//将请求打包
   return Promise.all(invokes).then(async function (results) {//将所有的请求并行执行，然后返回结果
     if (!_.isEmpty(results)) {
@@ -145,19 +129,6 @@ function pack(request) {//打包
     }))
   }
   return invokes
-}
+}*/
 
-function Methods(method) {
-  switch (method) {
-    case requestMethods.GET:
-      return $axios.get
-    case requestMethods.PUT:
-      return $axios.put
-    case requestMethods.DELETE:
-      return $axios.delete
-    case requestMethods.PATCH:
-      return $axios.patch
-    case requestMethods.POST:
-      return $axios.post
-  }
-}
+

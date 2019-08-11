@@ -6,104 +6,107 @@ const Link = '/feature'
 export class LinkApi extends Api {
 
   //转换链接
-  transfer(links, send = true) {
+  async transfer(links) {
     let url = Link + '/toshorturl'
     let params = {
       data: links,
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.transfer, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
   }
 
-  transferFree(link, isRed = false, send = true) {
+  async transferFree(link, isRed = false) {
     let url = 'free/toshorturl'
-    let l = {
+    let params = {
       longurl: link,
       isRed: isRed
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.transferFree, l)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
   }
 
-  restoreLink(shortUrl, send = true) {
+  async restoreLink(shortUrl) {
     let url = 'free/restore'
     let params = {
       shorturl: shortUrl,
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.restoreLink, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
   //修改短链
-  editLink(id, longLink, note, send = true) {
+  async editLink(id, longLink, note,groupId) {
     let url = Link + '/urls/change'
     let params = {
       id: id,
       longurl: longLink,
-      note: note
+      note: note,
+      group_id:groupId
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.editLink, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
   }
 
   //获取链接列表数据
-  getLinkList(page, num = 8, send = true) {
+  async getLinkList(page, num = 8) {
     let url = Link + '/urls'
     let params = {
       page: page,
       num: num
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.getLinkList, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
   //删除链接
-  deleteLink(linkId, send = true) {
+  async deleteLink(linkId) {
     let url = Link + '/urls/delete'
     let params = {
       id: linkId
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.deleteLink, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  getRealTimeData(links, timeStart, send = true) {
+  async getRealTimeData(links, timeStart) {
     let url = Link + '/urls/display/real_time'
     let params = {
       links: links,
       time_start: timeStart,
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.getRealTimeData, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  getJumpLink(send = true) {
+  async getJumpLink() {
     let url = Link + '/urls/display/'
-    super.pushRequest = new Request(requestMethods.POST, url, this.getJumpLink)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url))
+
   }
 
-  getUserAllLinks() {
+  async getUserAllLinks() {
     return this.getLinkList(1, Number.MAX_SAFE_INTEGER)
   }
 
-  getLinkMonthData(links, send = true) {
+  async getLinkMonthData(links) {
     let url = Link + '/urls/display/month'
     let params = {
       links: links
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.getLinkMonthData, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-
-  getQRcode(link, send = true) {
+  async getQRcode(link) {
     let url = Link + "/urls/qrcode"
     let params = {
       url: link
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.getQRcode, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
+  }
+
+  async getGroups() {
+    console.log('getGroups ')
+    let url = Link + "/urls/group/"
+    return await this.send(new Request(requestMethods.GET, url))
 
   }
 }

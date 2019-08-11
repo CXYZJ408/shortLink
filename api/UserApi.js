@@ -7,17 +7,16 @@ let _ = require("lodash")
 
 export class UserApi extends Api {
   //用户登录
-  login(userName, password, send = true) {
+  async login(userName, password) {
     let url = User + '/login'
     let params = {
       username: userName,
       password: password
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.login, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
   }
 
-  forget(username, phone, email, newPassword, send = true) {
+  async forget(username, phone, email, newPassword) {
     let url = User + '/forget'
     let params = {
       username: username,
@@ -25,22 +24,21 @@ export class UserApi extends Api {
       phone: phone,
       email: email
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.forget, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  async loginAgain(session, send = true) {
+  async loginAgain(session) {
     let url = User + '/loginAgain'
     let header = {
       cookie: "session=" + session
     }
     console.log('loginAgain')
-    super.pushRequest = new Request(requestMethods.POST, url, this.loginAgain, undefined, header)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, undefined,header))
   }
 
   //用户注册
-  register(userName, password, email, phone, invite, send = true) {
+  async register(userName, password, email, phone, invite) {
     let url = User + '/register'
     let params = {
       username: userName,
@@ -51,56 +49,56 @@ export class UserApi extends Api {
     if (!_.isUndefined(invite)) {
       params.invite = invite
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.register, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
   //用户退出
-  logout(send = true) {
+  async logout() {
     let url = User + '/logout'
-    super.pushRequest = new Request(requestMethods.GET, url, this.logout)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.GET, url))
+
   }
 
   //用户重置密码
-  resetPassword(oldPassword, newPassword, send = true) {
+  async  resetPassword(oldPassword, newPassword) {
     let url = User + '/reset'
     let params = {
       oldPassword: oldPassword,
       newPassword: newPassword
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.resetPassword, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  getCost(send = true) {
+  async getCost() {
     let url = "/pay/cost"
-    super.pushRequest = new Request(requestMethods.GET, url, this.getCost)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.GET, url))
+
   }
 
-  pay(id, send = true) {
+  async  pay(id) {
     let url = "/pay/"
     let params = {
       id: id
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.pay, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  queryPay(orderId, send = true) {
+  async queryPay(orderId) {
     let url = "/pay/query"
     let params = {
       order_id: orderId
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.queryPay, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  inviteList(send = true) {
+  async inviteList() {
     let url = User + "/invitees"
-    super.pushRequest = new Request(requestMethods.POST, url, this.inviteList)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url))
+
 
   }
 }

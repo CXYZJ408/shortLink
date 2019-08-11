@@ -182,7 +182,6 @@
       $userApi = new UserApi()
       $strength = require('zxcvbn')
       $md5 = require('js-md5')
-      this.$store.commit("setTitle", "用户中心")
     },
     mounted() {
       $otherApi.getCost().then(res => {

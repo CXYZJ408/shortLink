@@ -1,57 +1,44 @@
 export class Request {
-  get header () {
+  get header() {
     return this._header
   }
 
-  set header (value) {
+  set header(value) {
     this._header = value
   }
 
-  constructor (requestMethod, url, func, params = undefined, header = undefined) {
+  constructor(requestMethod, url, params = undefined, header = undefined) {
     this._requestMethod = requestMethod
     this._url = url
     this._params = params
-    this._name = getFuncName(func)
     this._header = header
+    console.log(this,"request")
   }
 
-  set requestMethod (value) {
+  set requestMethod(value) {
     this._requestMethod = value
   }
 
-  set url (value) {
+  set url(value) {
     this._url = value
   }
 
-  set params (value) {
+  set params(value) {
     this._params = value
   }
 
-  set name (value) {
-    this._name = value
-  }
-
-  get requestMethod () {
+  get requestMethod() {
     return this._requestMethod
   }
 
-  get url () {
+  get url() {
     return this._url
   }
 
-  get params () {
+  get params() {
     return this._params
   }
 
-  get name () {
-    return this._name
-  }
-}
-
-function getFuncName (func) {
-  let funString = func.toString()
-  funString = funString.substr('function '.length)
-  return funString.substr(0, funString.indexOf('('))
 }
 
 export const requestMethods = {

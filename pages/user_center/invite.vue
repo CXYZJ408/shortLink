@@ -95,7 +95,6 @@
       $UserApi = new UserApi()
     },
     mounted() {
-      this.$store.commit("setTitle", "好友邀请")
       $UserApi.inviteList().then(res => {
         if (res.code === this.$code.SUCCESS) {
           this.people = res.data.length
