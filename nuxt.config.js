@@ -1,7 +1,7 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
   server: {
     port: 3000
   },
@@ -22,7 +22,7 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
-      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'},
+      // {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'},
 
       {rel: 'stylesheet', href: 'https://at.alicdn.com/t/font_1113745_bqp4ro4flck.css'},//阿里icon设置
     ]
@@ -40,7 +40,8 @@ export default {
     '~/assets/style/app.styl',
     '~/assets/style/transition.css',
     'element-ui/lib/theme-chalk/index.css',
-    '~/assets/style/comment.css'
+    '~/assets/style/comment.css',
+    '~/assets/style/google.css'
   ],
 
   /*
