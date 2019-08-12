@@ -24,7 +24,8 @@
     </div>
     <v-layout style="height: 100vh">
       <v-flex>
-        <sidebar :now="nowPath"></sidebar>
+<!--        <sidebar :now="nowPath"></sidebar>-->
+        <drawer></drawer>
       </v-flex>
       <v-flex md11>
         <toolbar></toolbar>
@@ -42,17 +43,11 @@
 </template>
 
 <script>
-  import sidebar from '../components/PC/layout/Sidebar.vue'
   import toolbar from '../components/PC/layout/Toolbar.vue'
   import {OtherApi} from "../api/Other";
+  import drawer from "../components/PC/layout/drawer/drawer";
 
   export default {
-
-    watch: {
-      '$route': function (from, to) {
-        this.nowPath = this.$route.path
-      }
-    },
     data: function () {
       return {
         nowPath: this.$route.path,
@@ -81,7 +76,7 @@
       }, 0)
     },
     methods: {},
-    components: {sidebar, toolbar}
+    components: {toolbar,drawer}
   }
 </script>
 <style scoped>

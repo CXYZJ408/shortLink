@@ -1,7 +1,10 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-layout row wrap mt-2 justify-center id="index">
-    <linkEdit :show="showEdit" :link="editLink" @cancel="showEdit=false" @editShortLink="editShortLink"></linkEdit>
-    <input type="text" v-model="path" id="urlPath">
+  <div id="index" class="div-wrap">
+    <linkEdit :show="showEditNew" :linkMode="linkMode" :editNewLink="editNewLink" @cancel="showEditNew=false"
+              @editShortLink="editShortLink" @modifyNewLink="modify"
+              @add="addLink"></linkEdit>
+    <input type="text" v-model="path" id="urlPath" class="pass">
+    <input type="file" multiple="multiple" id="file" class="pass" @change="uploadHandle">
     <v-dialog
       v-model="showDeleteLink"
       max-width="400">
@@ -52,158 +55,141 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!--链接输入框-->
-    <v-flex md8 xl9>
-      <v-layout mt-3>
-        <v-flex md8 xl9>
-          <el-input placeholder="请输入要转换的链接" v-model="url" :clearable="true">
-            <template slot="prepend">http(s)://</template>
-          </el-input>
-        </v-flex>
-        <v-flex md4 xl3 class="text-md-center ">
-          <v-btn v-if="modifyMode" class="ma-0" round depressed color="#2ECC71" dark @click="modify">
-            <v-icon size="15">iconfont icon-bianji</v-icon>
-            <span class="font ml-1">修改</span>
-          </v-btn>
-          <v-btn v-else depressed round class="ma-0" color="#2ECC71" dark @click="addLink">
-            <v-icon size="24">iconfont icon-jiashang</v-icon>
-            <span class="font ml-1">添加</span>
-          </v-btn>
-          &nbsp;
-          <v-btn depressed round class="ma-0" color="red" dark @click="handleClean">
-            <v-icon size="20">iconfont icon-shanchu</v-icon>
-            <span class="font ml-1">清空链接</span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <!--链接转换框-->
-    <v-flex md8 xl9 class="mt-4">
-      <v-layout align-center justify-center>
-        <!--待转换链接-->
-        <v-flex md5 xl5>
-          <v-card class="card" flat>
-            <div class="top-title" style="background-color: #2ECC71;">
-              <div>待转换的链接</div>
-            </div>
-            <div class="links-card-green links-card">
-              <v-list v-if="links.length>0" class="link-theme">
-                <div v-for="(link,index) in links">
-                  <v-list-tile @click="">
-                    <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
-                    <v-list-tile-title class="ml-2" @click="changeLink(index)">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link.url}}</div>
-                        </template>
-                        <span>{{link.url}}</span>
-                      </v-tooltip>
-                    </v-list-tile-title>
-                    <v-list-tile-content>
-                      <v-text-field
-                        v-model="link.note"
-                        placeholder="添加备注"
-                      ></v-text-field>
-                    </v-list-tile-content>
-                    <v-list-tile-action class="pr-3">
-                      <v-btn class="my-btn" icon depressed color="red" small outline @click="deleteLink(index)">
-                        <v-icon size="20" color="red">remove</v-icon>
-                      </v-btn>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                  <v-divider class="divider"></v-divider>
-                </div>
-              </v-list>
-              <div v-else class="empty">
-                请添加链接
-              </div>
-            </div>
-          </v-card>
-        </v-flex>
-        <v-flex md1 class="text-md-center mx-4 ">
-          <v-icon size="40" color="grey">iconfont icon-zhuanhuan</v-icon>
-        </v-flex>
-        <!--已转换链接-->
-        <v-flex md5 xl5>
-          <v-card class="card">
-            <div class="top-title" style="background-color: #40A1FA;">
-              <div>转换后的链接</div>
-            </div>
-            <div class="links-card-blue links-card">
-              <v-list v-if="shortLinks.length>0" class="link-theme">
-                <div v-for="(link,index) in shortLinks">
-                  <v-list-tile @click="">
-                    <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
-                    <v-list-tile-title class="ml-2" style="width: 70%" @click="edit(index)">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <div class="link" v-on="on">{{link.shortLink}}</div>
-                        </template>
-                        <span>{{link.shortLink}}</span>
-                      </v-tooltip>
-                    </v-list-tile-title>
-                    <v-list-tile-content @click="edit(index)">
-                      <v-text-field
-                        disabled
-                        v-model="link.note"
-                        placeholder="备注"
-                      ></v-text-field>
-                    </v-list-tile-content>
-                    <v-list-tile-action class="pr-3">
-                      <v-btn small icon depressed color="grey" flat @click="copy(index)">
-                        <v-icon size="15" color="gery">iconfont icon-copy</v-icon>
-                      </v-btn>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                  <v-divider class="divider"></v-divider>
-                </div>
-              </v-list>
-              <div v-else class="empty">
-                请转换链接
-              </div>
-            </div>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <!--操作区-->
-    <v-flex md8 xl9 class="mt-4">
-      <v-layout row wrap>
-        <v-flex md12 class="text-md-right">
-          <no-ssr>
-            <el-upload
-              class="d-inline-block"
-              action="#"
-              :show-file-list="false"
-              :before-upload="beforeUpload"
-              :http-request="handleUpload"
-              :multiple="false">
-              <v-btn depressed round color="#40A1FA" class="ma-0" dark>
-                <v-icon size="18">iconfont icon-wenjian</v-icon>
-                <span class="font ml-2">批量导入</span>
-              </v-btn>
-            </el-upload>
+    <div class="action-wrap">
+      <div class="dial">
+        <v-speed-dial
+          v-model="fab"
+          left
+          direction="right"
+          open-on-hover
+          transition="slide-y-reverse-transition"
+          lazy
+        >
+          <template v-slot:activator>
+            <v-btn
+              v-model="fab"
+              color="blue darken-2"
+              dark
+              fab
+            >
+              <v-icon>iconfont icon-menu</v-icon>
+              <v-icon size="30">close</v-icon>
+            </v-btn>
+          </template>
 
-          </no-ssr>
-          &nbsp;
-          <v-btn depressed round color="#F5B041" class="ma-0" dark @click="transfer">
-            <v-icon size="18">iconfont icon-shuaxin</v-icon>
-            <span class="font ml-2">一键转换</span>
+          <v-btn icon color="#16C2C2" dark @click="handleAddLink">
+            <v-icon size="20" color="white">iconfont icon-add1</v-icon>
           </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
+
+          <v-btn color="#F5B041" icon dark @click="transfer">
+            <v-icon size="18">iconfont icon-shuaxin</v-icon>
+          </v-btn>
+          <v-btn icon color="#FF0000" dark @click="handleClean">
+            <v-icon size="20" color="white">iconfont icon-el-icon-delete2</v-icon>
+          </v-btn>
+          <v-btn icon color="#40A1FA" dark @click="openFileSelect">
+            <v-icon size="18">iconfont icon-wenjian</v-icon>
+          </v-btn>
+        </v-speed-dial>
+      </div>
+    </div>
+    <div class="card-wrap">
+      <div class="card-wrap-out">
+        <v-card flat>
+          <div class="top-title" style="background-color: #2ECC71;">
+            <div>待转换的链接</div>
+          </div>
+          <div class="links-card-green links-card">
+            <v-list v-if="links.length>0" class="link-theme">
+              <div v-for="(link,index) in links">
+                <v-list-tile @click="">
+                  <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
+                  <v-list-tile-title class="ml-2" @click="changeLink(index)">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <div class="link" v-on="on">{{link.url}}</div>
+                      </template>
+                      <span>{{link.url}}</span>
+                    </v-tooltip>
+                  </v-list-tile-title>
+                  <v-list-tile-content>
+                    <v-text-field
+                      v-model="link.note"
+                      placeholder="添加备注"
+                    ></v-text-field>
+                  </v-list-tile-content>
+                  <v-list-tile-action class="pr-3">
+                    <v-btn class="my-btn" icon depressed color="red" small outline @click="deleteLink(index)">
+                      <v-icon size="20" color="red">remove</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider class="divider"></v-divider>
+              </div>
+            </v-list>
+            <div v-else class="empty">
+              请添加链接
+            </div>
+          </div>
+        </v-card>
+      </div>
+      <div class="my-inline-div switch-icon">
+        <v-icon size="40" color="grey">iconfont icon-zhuanhuan</v-icon>
+      </div>
+      <div class="card-wrap-out">
+        <v-card class="card">
+          <div class="top-title" style="background-color: #40A1FA;">
+            <div>转换后的链接</div>
+          </div>
+          <div class="links-card-blue links-card">
+            <v-list v-if="shortLinks.length>0" class="link-theme">
+              <div v-for="(link,index) in shortLinks">
+                <v-list-tile @click="">
+                  <span style="color: #3D3D60;font-size: 20px">{{index+1}}.</span>
+                  <v-list-tile-title class="ml-2" style="width: 70%" @click="edit(index)">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <div class="link" v-on="on">{{link.shortLink}}</div>
+                      </template>
+                      <span>{{link.shortLink}}</span>
+                    </v-tooltip>
+                  </v-list-tile-title>
+                  <v-list-tile-content @click="edit(index)">
+                    <v-text-field
+                      disabled
+                      v-model="link.note"
+                      placeholder="备注"
+                    ></v-text-field>
+                  </v-list-tile-content>
+                  <v-list-tile-action class="pr-3">
+                    <v-btn small icon depressed color="grey" flat @click="copy(index)">
+                      <v-icon size="15" color="gery">iconfont icon-copy</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider class="divider"></v-divider>
+              </div>
+            </v-list>
+            <div v-else class="empty">
+              请转换链接
+            </div>
+          </div>
+        </v-card>
+      </div>
+    </div>
     <div class="grey--text ps">注：文件导入仅支持txt格式，在导入的时候请注意链接格式，不同链接请使用“;”隔开</div>
-  </v-layout>
+  </div>
 </template>
 
 <script>
   import {LinkApi} from "../../api/LinkApi";
-  import linkEdit from '../../components/Mobile/index/linkEeditDialog.vue'
+  import linkEdit from '../../components/PC/userCenter/linkEeditDialog.vue'
+  //todo 等待API完善
   //todo 清空链接的dialog重写
   let _ = require('lodash')
   let $linkApi
   export default {
+
     name: "index",
     components: {
       linkEdit
@@ -221,44 +207,58 @@
     },
     data: function () {
       return {
+        fab: false,
         path: "",
-        modifyMode: false,//是否编辑已添加的长链接
-        url: "",//输入框的url链接
         //已添加的长链接
         links: [],
         //所有的短连接
+        linkMode: 0,
         shortLinks: [],
         modifyIndex: 0,
         showDeleteLink: false,
         showCleanLink: false,
-        showEdit: false,
-        editLink: {id: "", longLink: "", shortLink: "", note: ""},
+        showEditNew: false,
+        editNewLink: {},
         editIndex: 0
       }
     },
     created() {
       $linkApi = new LinkApi()
-      this.$store.commit("setTitle", "短链生成")
     },
     head: {
       title: "JumpLinker - 短链生成"
     },
     methods: {
-      modify() {
-        if (this.url.length === 0) {
-          //如果在修改模式下，清空了文本框，则询问是否删除该链接
-          this.showDeleteLink = true
+      handleAddLink() {
+        this.editNewLink = {id: "", longLink: "", shortLink: "", note: "", groupId: 0}
+        this.linkMode = 0 //将mode切换至创建模式
+        this.showEditNew = true
+      },
+      openFileSelect() {
+        let file = document.getElementById('file')
+        file.click()
+      },
+      uploadHandle() {
+        let file = document.getElementById('file').files[0]
+        console.log(file)
+        if (this.beforeUpload(file)) {
+          this.handleUpload(file)
+        }
+      },
+      modify(modifiedNewLink) {
+        let url = this.addHttp(modifiedNewLink.longLink)
+        if (this.checkURL(url)) {
+          this.$set(this.links, this.modifyIndex,
+            {
+              url: url,
+              note: modifiedNewLink.note,
+              groupId: modifiedNewLink.groupId,
+              longLink: url
+            })
+          this.$message.success("修改成功！")
+          this.showEditNew = false
         } else {
-          //将修改后的值保存
-          let url = this.addHttp()
-          if (this.checkURL(url)) {
-            this.links[this.modifyIndex].url = url
-            this.url = ""
-            this.$message.success("修改成功！")
-            this.modifyMode = false
-          } else {
-            this.$message.warning("您输入的地址有误！")
-          }
+          this.$message.warning("您输入的地址有误！")
         }
       },
       checkURL(URL) {
@@ -270,41 +270,34 @@
       },
       changeLink(index) {
         //修改长链接
-        this.modifyMode = true
         this.modifyIndex = index
+        this.linkMode = 1
         let indexOf = 7
         if (this.links[index].url.indexOf("http://") === -1) {
           //不是以http://开头
           indexOf = 8
         }
-        this.url = this.links[index].url.substring(indexOf)
+        this.editNewLink = this.links[index]
+        this.showEditNew = true
       },
-      addHttp() {
-        let url
-        if (this.url.indexOf("http://") === -1 && this.url.indexOf("https://") === -1) {
+      addHttp(url) {
+        if (url.indexOf("http://") === -1 && url.indexOf("https://") === -1) {
           //没有http前缀则加上
-          url = `http://${this.url}`
-        } else {
-          //否则不加
-          url = this.url
+          url = `http://${url}`
         }
         return url
       },
-      addLink() {
+      addLink(link) {
         //添加长链接
-        let url = this.addHttp()
-        if (this.url.indexOf("http://") === -1 && this.url.indexOf("https://") === -1) {
-          //没有http前缀则加上
-          url = `http://${this.url}`
-        } else {
-          //否则不加
-          url = this.url
-        }
+        console.log(link)
+        let url = this.addHttp(link.longLink)
+
         if (this.checkURL(url)) {
-          let newLink = {url: url, note: ""}
+          let newLink = {url: url, note: link.note, group_id: link.groupId, longLink: url}
           this.links.push(newLink)
-          this.url = ""
           this.$message.success("添加成功！")
+          this.showEditNew = false
+
         } else {
           this.$message.warning("您输入的地址有误！")
         }
@@ -332,14 +325,13 @@
         //将所有配置置为初始配置
         this.links = []
         this.modifyIndex = 0
-        this.modifyMode = false
       },
       cleanLinks() {
         //清空链接
         try {
+          this.initOption()
           this.$message.success("删除成功！")
           this.showCleanLink = false
-          this.initOption()
         } catch (e) {
           this.$message.error("抱歉，出错啦！")
           this.showCleanLink = false
@@ -352,12 +344,11 @@
           this.$message.error(`只能上传TXT格式的文件！`)
           return false
         } else {
-          return Promise.resolve(true)
+          return true
         }
       },
-      handleUpload(option) {
+      handleUpload(file) {
         //处理上传的文件
-        let file = option.file//获取上传的文件
         let fileRead = new FileReader()
         fileRead.readAsText(file)//将数据作为text类型读取
         let failure = 0//失败数
@@ -395,10 +386,12 @@
         if (this.links.length > 0) {
           $linkApi.transfer(this.links).then(res => {
             let links = []
+            console.log(res)
             if (res.code === this.$code.SUCCESS) {
               _.forEach(res.data, (item => {
                 links.push({
                   id: item.id,
+                  groupId: 0,
                   longLink: item.longurl,
                   shortLink: item.shorturl,
                   note: item.note
@@ -428,26 +421,33 @@
         }, 100)
       },
       edit(index) {
-        this.editLink = this.shortLinks[index]
+        this.editNewLink = this.shortLinks[index]
         this.editIndex = index
-        this.showEdit = true
+        this.showEditNew = true
+        this.linkMode = 2
       },
       editShortLink(newLink) {
         this.$set(this.shortLinks, this.editIndex, {
           id: newLink.id,
           longLink: newLink.longurl,
           shortLink: newLink.shorturl,
-          note: newLink.note
+          note: newLink.note,
+          groupId: 0,
         })
-        this.showEdit = false
+        this.showEditNew = false
       }
     }
+    //todo 修改groupId为返回数据的id
   }
 </script>
 
 <style scoped>
+  .dial {
+    position: absolute;
+    left: 0;
+  }
 
-  #urlPath {
+  .pass {
     opacity: 0;
     position: absolute;
     top: -100px;
@@ -456,6 +456,13 @@
   .font {
     font-size: 16px;
     font-family: 微软雅黑, serif;
+  }
+
+  .action-wrap {
+    width: 100%;
+    height: 50px;
+    /*padding-right: 20px;*/
+    margin-top: 5px;
   }
 
   .top-title {
@@ -473,6 +480,13 @@
     margin-right: auto;
     padding-top: 1.3vh;
 
+  }
+
+  .switch-icon {
+    height: 100%;
+    line-height: 55vh;
+    margin-right: 5vh;
+    margin-left: 5vh;
   }
 
   .link {
@@ -503,7 +517,6 @@
     width: 100%;
   }
 
-
   /* 滚动条滑块 */
   .links-card-green::-webkit-scrollbar-thumb {
     border-radius: 10px;
@@ -514,6 +527,7 @@
     border-radius: 10px;
     background: rgba(64, 161, 250, 0.15);
   }
+
 
   .ps {
     position: absolute;
@@ -531,6 +545,21 @@
     font-family: 微软雅黑, serif;
     height: 50px;
     margin-top: 30%;
+  }
+
+  .card-wrap {
+    width: 100%;
+    height: 55vh;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .card-wrap-out {
+    width: 45%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 450px;
   }
 </style>
 <style>

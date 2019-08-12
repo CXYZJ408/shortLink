@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'KaiTi';
+  src: url('../font/FZKTJW.TTF') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+
+@font-face {
+  font-family: 'SongTi';
+  src: url('../font/ST.otf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {
+  font-family: 'PingFang';
+  src: url('../font/pingfang.ttf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {
+  font-family: 'PingFang-thin';
+  src: url('../font/pingfang-thin.ttf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {
+  font-family: 'HeiTi';
+  src: url('../font/heiti.otf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {
+  font-family: 'HeiTi2';
+  src: url('../font/heiti2.otf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+.web-font-kaiti {
+  font-family: "KaiTi", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.web-font-songti {
+  font-family: "SongTi", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.web-font-heiti {
+  font-family: "HeiTi", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.web-font-heiti2 {
+  font-family: "HeiTi2", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.web-font-pingfang {
+  font-family: "PingFang", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.web-font-pingfang-thin {
+  font-family: "PingFang-thin", serif !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

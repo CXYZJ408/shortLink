@@ -102,3 +102,7 @@ body {
   display: inline-block;
   vertical-align: top;
 }
+.div-wrap {
+  width: 100%;
+  height: 100%;
+}

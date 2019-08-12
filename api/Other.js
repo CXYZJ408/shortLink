@@ -6,43 +6,40 @@ let _ = require("lodash")
 
 export class OtherApi extends Api {
 
-  getCost(send = true) {
+  async getCost() {
     let url = "/pay/cost"
-    super.pushRequest = new Request(requestMethods.GET, url, this.getCost)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.GET, url))
   }
 
-  pay(id, send = true) {
+  async pay(id) {
     let url = "/pay/"
     let params = {
       id: id
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.pay, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
   }
 
-  queryPay(orderId, send = true) {
+  async queryPay(orderId) {
     let url = "/pay/query"
     let params = {
       order_id: orderId
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.queryPay, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
+
   }
 
-  getNotice(send = true) {
+  async getNotice() {
     let url = "/announcement/"
-    super.pushRequest = new Request(requestMethods.GET, url, this.getNotice)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.GET, url))
+
   }
 
-  payByActiveCode(activeCode, send = true) {
+  async payByActiveCode(activeCode) {
     let url = "/pay/card"
     let params = {
       card: activeCode
     }
-    super.pushRequest = new Request(requestMethods.POST, url, this.payByActiveCode, params)
-    return super.judgeSend(send)
+    return await this.send(new Request(requestMethods.POST, url, params))
 
   }
 }
