@@ -72,13 +72,12 @@
       </div>
     </v-card>
 
-    <v-card flat class="index-card hidden-sm-and-down ">
-      <v-toolbar color="white" fixed flat height="55" style="z-index: 999">
-        <nuxt-link to="/" style="text-decoration: none">
-          <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
-          <span class="toolbar-title">JumpLinker</span>
-        </nuxt-link>
-        <v-spacer></v-spacer>
+    <div class="toolbar hidden-sm-and-down">
+      <nuxt-link to="/" class="toolbar-icon">
+        <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
+        <span class="toolbar-title">JumpLinker</span>
+      </nuxt-link>
+      <div class="right toolbar-action">
         <v-btn flat round color="#AEB6BF" nuxt to="/">
           <span class="toolbar-action">首页</span>
         </v-btn>
@@ -93,24 +92,58 @@
         <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
           <span class="toolbar-action">二维码生成</span>
         </v-btn>
-        <v-btn  flat round nuxt to="/DNSRed">
+        <v-btn flat round nuxt color="#AEB6BF" to="/DNSRed">
           <span class="toolbar-action">域名防红</span>
         </v-btn>
-        <v-btn target="_blank" flat round href="https://pay.jumplinker.com/">
+        <v-btn target="_blank" color="#AEB6BF" flat round href="https://pay.jumplinker.com/">
           <span class="toolbar-action">三码合一</span>
         </v-btn>
         <v-btn v-if="$store.state.isLogin" style="text-transform:none"
                :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
           <span class="headline">{{$store.state.user.username}}</span>
         </v-btn>
-        <v-btn v-else dark depressed round large color="#ffa018" nuxt to="/login">
+        <v-btn v-else dark depressed round  color="#ffa018" nuxt to="/login">
           <span class="login-register-btn">登录/注册</span>
         </v-btn>
-      </v-toolbar>
-      <div style="height: 100vh;overflow: auto">
-        <nuxt-child></nuxt-child>
       </div>
-    </v-card>
+    </div>
+    <!--       <v-toolbar color="white" fixed flat height="55" style="z-index: 999">
+             <nuxt-link to="/" style="text-decoration: none">
+               <v-icon size="30" color="#FF9800">iconfont icon-link</v-icon>
+               <span class="toolbar-title">JumpLinker</span>
+             </nuxt-link>
+             <v-spacer></v-spacer>
+             <v-btn flat round color="#AEB6BF" nuxt to="/">
+               <span class="toolbar-action">首页</span>
+             </v-btn>
+             <v-btn flat round color="#AEB6BF" nuxt to="/transfer">
+               <span class="toolbar-action">短链生成</span>
+             </v-btn>
+
+             <v-btn flat round color="#AEB6BF" nuxt to="/recovery">
+               <span class="toolbar-action">短链还原</span>
+             </v-btn>
+
+             <v-btn flat round color="#AEB6BF" nuxt to="/generateQRcode">
+               <span class="toolbar-action">二维码生成</span>
+             </v-btn>
+             <v-btn  flat round nuxt to="/DNSRed">
+               <span class="toolbar-action">域名防红</span>
+             </v-btn>
+             <v-btn target="_blank" flat round href="https://pay.jumplinker.com/">
+               <span class="toolbar-action">三码合一</span>
+             </v-btn>
+             <v-btn v-if="$store.state.isLogin" style="text-transform:none"
+                    :color="$store.state.user.isVip?'red':'grey'" nuxt to="/user_center" depressed flat>
+               <span class="headline">{{$store.state.user.username}}</span>
+             </v-btn>
+             <v-btn v-else dark depressed round large color="#ffa018" nuxt to="/login">
+               <span class="login-register-btn">登录/注册</span>
+             </v-btn>
+           </v-toolbar>-->
+    <div style="height: 100vh;overflow: auto" class="hidden-sm-and-down">
+      <nuxt-child></nuxt-child>
+    </div>
   </div>
 
 </template>
@@ -160,6 +193,16 @@
     margin-left: 8px;
   }
 
+  .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 55px;
+    line-height: 55px;
+    width: 100%;
+    background: white;
+    z-index: 99999;
+  }
 
   .toolbar-action {
     font-family: "黑体", serif;
@@ -179,6 +222,12 @@
     color: white;
   }
 
+  .toolbar-icon{
+    text-decoration: none;
+    height: 55px;
+    margin-left: 20px;
+    /*margin-top: 10px;*/
+  }
   .empty {
     text-align: center;
     width: 100%;
