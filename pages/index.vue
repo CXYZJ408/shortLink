@@ -201,7 +201,7 @@
     line-height: 55px;
     width: 100%;
     background: white;
-    z-index: 99999;
+    z-index: 200;
   }
 
   .toolbar-action {
